@@ -60,6 +60,10 @@ approve_implementation() {
   [[ -n "$project" ]] || { printf 'Gunakan: uwf approve implementation --project "Nama Web"\n' >&2; exit 1; }
   [[ -f FOUNDATION_MANIFEST.yaml ]] || { printf 'Jalankan perintah ini dari root workspace UWF.\n' >&2; exit 1; }
   [[ -d Project-Implementasi ]] || { printf 'Project-Implementasi tidak ditemukan; mungkin sudah diaktifkan.\n' >&2; exit 1; }
+  "$UWF_HOME/scripts/validate-foundation.sh" "$PWD" --gate || {
+    printf 'Implementation approval blocked. Complete the Foundation issues above first.\n' >&2
+    exit 1
+  }
   local stamp
   stamp="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
   sed -i 's/implementation_gate: .*/implementation_gate: APPROVED/' FOUNDATION_MANIFEST.yaml

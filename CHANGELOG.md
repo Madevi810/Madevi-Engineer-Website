@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.3.0 - Unreleased
+
+- Added a status-based Foundation validation engine.
+- Added gate validation for developer level, guidance mode, project mode, primary objective, Foundation readiness, and critical risks.
+- Prevented implementation activation when the implementation gate is blocked.
+
 ## 0.2.0 - Unreleased
 
 - Added a progressive Question Bank for beginner, intermediate, and professional developer journeys.
