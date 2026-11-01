@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.5.0 - Unreleased
+
+- Added machine-readable stack profiles and compatibility rules.
+- Added provider-class decision guidance and stack decision template.
+- Added CLI stack list and stack advise commands.
+
 ## 0.4.0 - Unreleased
 
 - Added CLI diagnostics, version, next-step, stage-review, and update-capability commands.

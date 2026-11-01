@@ -84,6 +84,12 @@ check_update() {
   fi
 }
 
+stack_command() {
+  local action="list"
+  [[ $# -eq 0 ]] || action="$1"
+  "$UWF_HOME/scripts/stack-advisor.sh" "$action"
+}
+
 approve_implementation() {
   local project=""
   while [[ $# -gt 0 ]]; do
@@ -120,6 +126,7 @@ Usage:
   uwf next                    Show the active Foundation step
   uwf validate                Validate the current Foundation workspace
   uwf review stage-N          Validate and review a Foundation stage
+  uwf stack [list|advise]     Show stack profiles or decision guidance
   uwf approve implementation --project "Nama Web"
                               Approve and create Project-Nama-Web
   uwf version                 Show UWF version
@@ -151,6 +158,7 @@ case "${1:-}" in
   next) show_next ;;
   validate) "$UWF_HOME/scripts/validate-foundation.sh" "$PWD" ;;
   review) shift; review_stage "$@" ;;
+  stack) shift; stack_command "$@" ;;
   approve)
     shift
     [[ "${1:-}" == "implementation" ]] || { show_help; exit 1; }
