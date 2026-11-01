@@ -1,0 +1,54 @@
+schema_version: 1
+uwf_version: 0.1.0
+
+project:
+  name: Unnamed Web Project
+  slug: unnamed-web-project
+  description: ""
+  mode: unset # prototype_local | prototype_online | beta | production_online
+  lifecycle_status: discovery
+
+developer:
+  experience_level: unset # beginner | intermediate | professional
+  guidance_mode: unset # full_agent_recommendation | recommendation_with_custom_choice
+
+foundation:
+  current_stage: 1
+  current_stage_name: developer_profile_and_objectives
+  status: DRAFT
+  implementation_gate: BLOCKED # BLOCKED | READY | APPROVED
+  implementation_status: DEFERRED
+
+objectives:
+  primary: []
+  secondary: []
+  success_metrics: []
+
+modules:
+  active: []
+  planned: []
+  archived: []
+
+technology:
+  stack_status: DEFERRED
+  selected: []
+  custom_choices: []
+
+operations:
+  deployment_status: DEFERRED
+  provider: unset
+  budget_class: unset # free_or_local | economical | moderate | professional
+
+automation:
+  enabled: false
+  mode: manual # manual | semi_automatic | controlled_autonomous | policy_bound_autonomous
+  runner: unset
+  timezone: unset
+  budget_limit: unset
+  kill_switch: true
+
+controls:
+  open_critical_risks: 0
+  open_questions: 0
+  last_developer_approval: null
+  last_updated: null

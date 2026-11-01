@@ -1,0 +1,10 @@
+# Universal Web Foundation
+
+Start with AGENTS.md and FOUNDATION_MANIFEST.yaml. UWF is a Foundation-first planning and governance workspace for web projects. Application code is prohibited until the relevant implementation gate is approved.
+
+Documentation:
+- README.md — human installation and overview
+- Foundation/README.md — Foundation stage map
+- Foundation/00-Control — questions, decisions, risks, and change records
+- templates/ — reusable specifications and review formats
+- docs/ — beginner, professional, automation, and migration guides
