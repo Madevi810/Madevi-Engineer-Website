@@ -51,18 +51,181 @@ init_project() {
 show_status() {
   local manifest="$PWD/FOUNDATION_MANIFEST.yaml"
   [[ -f "$manifest" ]] || { printf 'FOUNDATION_MANIFEST.yaml tidak ditemukan di folder ini.\n' >&2; exit 1; }
+  if [[ "${1:-}" == "--json" ]]; then
+    show_status_json "$manifest"
+    return
+  fi
   printf 'UWF status for %s\n\n' "$PWD"
-  grep -E '^(  (name|mode|lifecycle_status|experience_level|guidance_mode|current_stage|current_stage_name|status|implementation_gate|implementation_status|enabled|runner|budget_limit):)' "$manifest" || true
+  printf '  name: %s\n' "$(section_value project name "$manifest")"
+  printf '  mode: %s\n' "$(section_value project mode "$manifest")"
+  printf '  lifecycle_status: %s\n' "$(section_value project lifecycle_status "$manifest")"
+  printf '  experience_level: %s\n' "$(section_value developer experience_level "$manifest")"
+  printf '  guidance_mode: %s\n' "$(section_value developer guidance_mode "$manifest")"
+  printf '  current_stage: %s\n' "$(section_value foundation current_stage "$manifest")"
+  printf '  current_stage_name: %s\n' "$(section_value foundation current_stage_name "$manifest")"
+  printf '  foundation_status: %s\n' "$(section_value foundation status "$manifest")"
+  printf '  implementation_gate: %s\n' "$(section_value foundation implementation_gate "$manifest")"
+  printf '  implementation_status: %s\n' "$(section_value foundation implementation_status "$manifest")"
+  printf '  change_status: %s\n' "$(section_value change_management change_status "$manifest")"
+  printf '  simulation_status: %s\n' "$(section_value ui_ux simulation_status "$manifest")"
+  printf '  history_status: %s\n' "$(section_value implementation_history status "$manifest")"
+  printf '  automation_enabled: %s\n' "$(section_value automation enabled "$manifest")"
+}
+
+section_value() {
+  local section="$1" key="$2" manifest="$3"
+  awk -v section="$section" -v key="$key" '
+    $0 == section ":" { active=1; next }
+    active && /^[^[:space:]]/ { exit }
+    active && $0 ~ "^  " key ":" {
+      sub("^  " key ":[[:space:]]*", "")
+      sub("[[:space:]]*#.*$", "")
+      print
+      exit
+    }
+  ' "$manifest"
+}
+
+json_escape() {
+  printf '%s' "$1" | sed 's/\\/\\\\/g; s/"/\\"/g'
+}
+
+show_status_json() {
+  local manifest="$1"
+  printf '{"schema":"uwf-status/v1","workspace":"%s","project":{"name":"%s","slug":"%s","mode":"%s","lifecycle_status":"%s"},"developer":{"experience_level":"%s","guidance_mode":"%s"},"foundation":{"current_stage":"%s","current_stage_name":"%s","status":"%s","implementation_gate":"%s","implementation_status":"%s"},"change_management":{"active_request":"%s","status":"%s","last_impact_level":"%s"},"ui_ux":{"creative_brief_status":"%s","simulation_status":"%s","preferred_simulation":"%s"},"implementation_history":{"status":"%s","current_release":"%s"},"automation":{"enabled":"%s"}}\n' \
+    "$(json_escape "$PWD")" \
+    "$(json_escape "$(section_value project name "$manifest")")" \
+    "$(json_escape "$(section_value project slug "$manifest")")" \
+    "$(json_escape "$(section_value project mode "$manifest")")" \
+    "$(json_escape "$(section_value project lifecycle_status "$manifest")")" \
+    "$(json_escape "$(section_value developer experience_level "$manifest")")" \
+    "$(json_escape "$(section_value developer guidance_mode "$manifest")")" \
+    "$(json_escape "$(section_value foundation current_stage "$manifest")")" \
+    "$(json_escape "$(section_value foundation current_stage_name "$manifest")")" \
+    "$(json_escape "$(section_value foundation status "$manifest")")" \
+    "$(json_escape "$(section_value foundation implementation_gate "$manifest")")" \
+    "$(json_escape "$(section_value foundation implementation_status "$manifest")")" \
+    "$(json_escape "$(section_value change_management active_request "$manifest")")" \
+    "$(json_escape "$(section_value change_management change_status "$manifest")")" \
+    "$(json_escape "$(section_value change_management last_impact_level "$manifest")")" \
+    "$(json_escape "$(section_value ui_ux creative_brief_status "$manifest")")" \
+    "$(json_escape "$(section_value ui_ux simulation_status "$manifest")")" \
+    "$(json_escape "$(section_value ui_ux preferred_simulation "$manifest")")" \
+    "$(json_escape "$(section_value implementation_history status "$manifest")")" \
+    "$(json_escape "$(section_value implementation_history current_release "$manifest")")" \
+    "$(json_escape "$(section_value automation enabled "$manifest")")"
 }
 
 show_next() {
   local manifest="$PWD/FOUNDATION_MANIFEST.yaml"
   [[ -f "$manifest" ]] || { printf 'FOUNDATION_MANIFEST.yaml tidak ditemukan di folder ini.\n' >&2; exit 1; }
   local stage
-  stage="$(grep -E '^  current_stage_name:' "$manifest" | sed -E 's/^  current_stage_name:[[:space:]]*//')"
+  stage="$(section_value foundation current_stage_name "$manifest")"
   [[ -n "$stage" ]] || stage="belum dipilih"
+  if [[ "${1:-}" == "--json" ]]; then
+    printf '{"schema":"uwf-next/v1","current_stage":"%s","next_action":"read_question_bank_answer_active_stage_then_validate"}\n' "$(json_escape "$stage")"
+    return
+  fi
   printf 'Tahap aktif: %s\n' "$stage"
   printf 'Langkah berikutnya: baca Foundation/13-Question-Bank, jawab pertanyaan tahap aktif, lalu jalankan uwf validate.\n'
+}
+
+show_context() {
+  [[ -f FOUNDATION_MANIFEST.yaml ]] || { printf 'Jalankan dari root workspace UWF.\n' >&2; exit 1; }
+  if [[ "${1:-}" == "--json" ]]; then
+    printf '{"schema":"uwf-agent-context/v1","read_order":["FOUNDATION_MANIFEST.yaml","Foundation/00-Control/Open-Questions.md","Foundation/00-Control/Decision-Log.md","active Foundation stage","current status report"],"commands":{"status":"uwf status --json","next":"uwf next --json","validate":"uwf validate --json"},"guardrail":"Do not implement application code until the developer explicitly approves the implementation gate."}\n'
+    return
+  fi
+  printf '%s\n' 'UWF agent context'
+  printf '%s\n' '1. Read FOUNDATION_MANIFEST.yaml.'
+  printf '%s\n' '2. Read Foundation/00-Control/Open-Questions.md.'
+  printf '%s\n' '3. Read Foundation/00-Control/Decision-Log.md.'
+  printf '%s\n' '4. Read the active Foundation stage and current status report.'
+  printf '%s\n' '5. Run: uwf status --json; uwf next --json; uwf validate --json.'
+  printf '%s\n' 'Guardrail: never write application code before explicit developer approval.'
+}
+
+workspace_manifest() {
+  [[ -f FOUNDATION_MANIFEST.yaml ]] || { printf 'Jalankan dari root workspace UWF.\n' >&2; exit 1; }
+}
+
+ensure_extension_artifacts() {
+  local relative
+  for relative in \
+    Foundation/05-Features-Requirements/Feature-Gap-Audit.md \
+    Foundation/06-UX-UI/Creative-Brief.md \
+    Foundation/06-UX-UI/Responsive-Accessibility-Review.md \
+    Foundation/06-UX-UI/Simulation-Plan.md \
+    Foundation/14-Change-Management/README.md \
+    Foundation/14-Change-Management/Backlog.md \
+    Foundation/14-Change-Management/Revision-History.md; do
+    if [[ ! -f "$relative" ]]; then
+      mkdir -p "$(dirname "$relative")"
+      cp "$UWF_HOME/$relative" "$relative"
+    fi
+  done
+  mkdir -p Foundation/14-Change-Management/Requests
+}
+
+change_command() {
+  local action="${1:-}"
+  shift || true
+  workspace_manifest
+  ensure_extension_artifacts
+  case "$action" in
+    new)
+      local title="${1:-}" stamp id request escaped_title
+      [[ -n "$title" ]] || { printf 'Gunakan: uwf change new "Judul perubahan"\n' >&2; exit 1; }
+      [[ "$title" != *$'\n'* ]] || { printf 'Judul perubahan harus satu baris.\n' >&2; exit 1; }
+      stamp="$(date -u +%Y%m%dT%H%M%SZ)"
+      id="CR-$stamp"
+      request="Foundation/14-Change-Management/Requests/$id.md"
+      cp "$UWF_HOME/templates/change-request.md" "$request"
+      escaped_title="$(printf '%s' "$title" | sed 's/[&|]/\\&/g')"
+      sed -i "s|{{ID}}|$id|g; s|{{TITLE}}|$escaped_title|g" "$request"
+      sed -i "s|^  active_request:.*|  active_request: $id|; s|^  change_status:.*|  change_status: NEEDS_REVIEW|" FOUNDATION_MANIFEST.yaml
+      printf 'Change Request dibuat: %s\nAnalisis dampak dulu; jangan mengubah implementasi sebelum developer memutuskan.\n' "$request"
+      ;;
+    assess)
+      local id="${1:-}" request
+      [[ -n "$id" ]] || { printf 'Gunakan: uwf change assess CR-id\n' >&2; exit 1; }
+      [[ "$id" =~ ^CR-[0-9]{8}T[0-9]{6}Z$ ]] || { printf 'Format Change Request tidak valid: %s\n' "$id" >&2; exit 1; }
+      request="Foundation/14-Change-Management/Requests/$id.md"
+      [[ -f "$request" ]] || { printf 'Change Request tidak ditemukan: %s\n' "$id" >&2; exit 1; }
+      printf 'Lengkapi impact analysis pada %s\n' "$request"
+      printf '%s\n' 'Nilai dampak pada tujuan, UX, data, arsitektur, keamanan, biaya, test, rollback, dan migrasi. Developer memilih approve, revisi Foundation, defer, atau reject.'
+      ;;
+    list)
+      find Foundation/14-Change-Management/Requests -maxdepth 1 -type f -name 'CR-*.md' -printf '%f\n' | sort
+      ;;
+    *) printf 'Gunakan: uwf change [new|assess|list]\n' >&2; exit 1 ;;
+  esac
+}
+
+feature_gap_command() {
+  [[ "${1:-}" == "audit" && $# -eq 1 ]] || { printf 'Gunakan: uwf feature-gap audit\n' >&2; exit 1; }
+  workspace_manifest
+  ensure_extension_artifacts
+  local stamp report
+  stamp="$(date -u +%Y%m%dT%H%M%SZ)"
+  report="Foundation/05-Features-Requirements/Feature-Gap-Audit-$stamp.md"
+  cp Foundation/05-Features-Requirements/Feature-Gap-Audit.md "$report"
+  printf 'Feature-gap audit draft dibuat: %s\nTinjau bersama developer; buat Change Request untuk setiap penambahan yang disetujui.\n' "$report"
+}
+
+ui_command() {
+  local action="${1:-}"
+  workspace_manifest
+  ensure_extension_artifacts
+  case "$action" in
+    brief)
+      printf '%s\n' 'Isi Foundation/06-UX-UI/Creative-Brief.md. Jika kosong, agent wajib memberi rekomendasi aman berdasarkan tujuan; jika terisi, rekomendasi harus mengikuti visi developer.'
+      ;;
+    review)
+      printf '%s\n' 'Selesaikan Foundation/06-UX-UI/Responsive-Accessibility-Review.md sebelum memilih simulasi di Simulation-Plan.md. Review mobile, tablet, desktop, contrast, keyboard, reduced motion, dan performance.'
+      ;;
+    *) printf 'Gunakan: uwf ui [brief|review]\n' >&2; exit 1 ;;
+  esac
 }
 
 review_stage() {
@@ -163,9 +326,17 @@ Usage:
   uwf init [nama-web]         Create a new UWF workspace
   uwf doctor                  Check command and PATH requirements
   uwf status                  Show current workspace status
+  uwf status --json           Show machine-readable workspace status
   uwf next                    Show the active Foundation step
+  uwf next --json             Show machine-readable active-stage guidance
   uwf validate                Validate the current Foundation workspace
+  uwf validate --json         Validate with machine-readable result
+  uwf context [--json]        Show mandatory context for terminal AI agents
   uwf review stage-N          Validate and review a Foundation stage
+  uwf change [new|assess|list]
+                              Record or inspect a reviewable scope change
+  uwf feature-gap audit       Create a missing-requirements audit draft
+  uwf ui [brief|review]       Guide the UI/UX creative-brief and review flow
   uwf stack [list|advise]     Show stack profiles or decision guidance
   uwf upgrade online --prepare
                               Create a draft online migration plan and archive snapshot
@@ -204,9 +375,10 @@ case "${1:-}" in
   "") interactive ;;
   init) shift; init_project "${1:-}" ;;
   doctor) "$UWF_HOME/scripts/doctor.sh" ;;
-  status) show_status ;;
-  next) show_next ;;
-  validate) "$UWF_HOME/scripts/validate-foundation.sh" "$PWD" ;;
+  status) shift; show_status "$@" ;;
+  next) shift; show_next "$@" ;;
+  validate) shift; "$UWF_HOME/scripts/validate-foundation.sh" "$PWD" "$@" ;;
+  context) shift; show_context "$@" ;;
   review) shift; review_stage "$@" ;;
   stack) shift; stack_command "$@" ;;
   upgrade)
@@ -217,6 +389,9 @@ case "${1:-}" in
     ;;
   plugin) shift; plugin_command "$@" ;;
   automation) shift; automation_command "$@" ;;
+  change) shift; change_command "$@" ;;
+  feature-gap) shift; feature_gap_command "$@" ;;
+  ui) shift; ui_command "$@" ;;
   approve)
     shift
     [[ "${1:-}" == "implementation" ]] || { show_help; exit 1; }

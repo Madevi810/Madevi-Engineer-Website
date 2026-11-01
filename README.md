@@ -15,6 +15,9 @@ UWF is for websites, web applications, dashboards, SaaS, commerce, content platf
 - Supports prototype-local, prototype-online, beta, and production-online modes.
 - Plans a controlled migration from prototype to online production while retaining the archived prototype foundation.
 - Supports optional automation with explicit scope, budgets, quality gates, logs, rollback, and a kill switch.
+- Records change requests and impact analysis when forgotten features or new objectives appear during or after implementation.
+- Provides an optional UI/UX creative brief, responsive review, and controlled image/HTML simulation planning.
+- Includes machine-readable CLI context, status, next-step, and validation output for terminal AI agents.
 
 ## Quick start
 
@@ -31,6 +34,15 @@ uwf init nama-web
 ```
 
 Open the generated workspace in an AI coding environment and ask the agent to read `AGENTS.md` and `FOUNDATION_MANIFEST.yaml` first.
+
+For terminal AI agents, use:
+
+```bash
+uwf context --json
+uwf status --json
+uwf next --json
+uwf validate --json
+```
 
 ## Workspace lifecycle
 

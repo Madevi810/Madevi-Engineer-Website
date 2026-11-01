@@ -12,3 +12,5 @@ Write a feature specification before implementation. Include:
 - stage priority.
 
 Use `templates/feature-spec.md`.
+
+Run `Feature-Gap-Audit.md` at major stage boundaries, before implementation approval, before release, and after a material change. It turns likely missing requirements into reviewable suggestions; it does not silently add scope.

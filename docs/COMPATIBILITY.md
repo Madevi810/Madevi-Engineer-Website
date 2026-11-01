@@ -1,6 +1,6 @@
 # Compatibility Policy
 
-UWF 1.0 guarantees that schema version 1 workspaces can be read by UWF 1.x releases.
+UWF 1.x guarantees that schema version 1 workspaces can be read by UWF 1.x releases.
 
 Plugins are optional and must declare their own compatibility. A plugin that requires a newer UWF version must remain disabled until the developer upgrades.
 

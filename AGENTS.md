@@ -89,3 +89,15 @@ Do not produce generic filler, unreviewed placeholders, misleading claims, or de
 ## Change discipline
 
 Record material decisions, assumptions, changes, risks, and approvals. Before changing a previously approved decision, perform impact analysis and retain a versioned archive. Keep Foundation and implementation handover status synchronized.
+
+Every newly remembered feature, objective, integration, or UX request is a `Change Request` first, even when implementation is already in progress or complete. Record it in `Foundation/14-Change-Management`, assess product, UX, data, architecture, security, cost, schedule, test, and migration impact, then let the developer choose: approve now, revise the Foundation, defer to a release backlog, or reject. Do not silently expand scope or rewrite an approved implementation.
+
+At the end of each major Foundation stage, before implementation approval, before a release, and after a material objective change, run a feature-gap audit. Offer likely missing requirements as suggestions; never present guesses as developer decisions.
+
+## UX/UI discovery and simulation
+
+Before recommending visual options, offer the developer an optional `Creative Brief` in `Foundation/06-UX-UI/Creative-Brief.md`. If it is provided, derive recommendations from it. If it is not provided, give safe, objective-based options and a custom-answer path.
+
+Confirm layout, information hierarchy, colors, typography, visual density, interaction effects, animation/motion, and responsive priorities before producing a simulation. Analyze mobile, tablet, and desktop states; accessibility, contrast, reduced motion, and performance are mandatory review topics.
+
+Only after this analysis may the agent offer an image mockup, a responsive HTML prototype, or both. Mark every simulation as `DRAFT` until the developer approves it. Simulation artifacts are planning references, not production implementation, and must not add AI-watermarks, generic AI labels, or unapproved brand claims to the product.

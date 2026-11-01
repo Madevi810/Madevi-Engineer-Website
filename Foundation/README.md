@@ -18,6 +18,7 @@ The Foundation is the planning and control layer. It contains no application imp
 | `11-Autonomous-Operations` | Optional scheduled/automated work policies |
 | `12-Handover` | Approved implementation package and implementation feedback |
 | `13-Question-Bank` | Progressive question packs by developer level, project mode, and module |
+| `14-Change-Management` | Change requests, impact analysis, backlog, revision history, and traceability |
 | `Archive` | Immutable snapshots of replaced/previous Foundation versions |
 
 Complete the stages progressively. The developer may implement an approved stage or continue answering the next Foundation stage.

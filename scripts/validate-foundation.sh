@@ -2,7 +2,16 @@
 set -euo pipefail
 
 root="${1:-.}"
-mode="${2:-standard}"
+shift || true
+mode="standard"
+json=false
+for argument in "$@"; do
+  case "$argument" in
+    --gate) mode="--gate" ;;
+    --json) json=true ;;
+    *) printf 'Unknown validation option: %s\n' "$argument" >&2; exit 1 ;;
+  esac
+done
 root="$(cd "$root" && pwd)"
 manifest="$root/FOUNDATION_MANIFEST.yaml"
 errors=0
@@ -10,12 +19,12 @@ warnings=0
 critical=0
 
 error() {
-  printf 'ERROR: %s\n' "$1" >&2
+  if [[ "$json" != true ]]; then printf 'ERROR: %s\n' "$1" >&2; fi
   errors=$((errors + 1))
 }
 
 warning() {
-  printf 'WARNING: %s\n' "$1"
+  if [[ "$json" != true ]]; then printf 'WARNING: %s\n' "$1"; fi
   warnings=$((warnings + 1))
 }
 
@@ -90,13 +99,24 @@ if [[ "$mode" == "--gate" ]]; then
   [[ "$critical" -eq 0 ]] || error "implementation gate cannot pass with CRITICAL risk"
 fi
 
+result="READY"
 if [[ "$errors" -gt 0 ]]; then
-  printf 'Validation result: BLOCKED (%s error(s), %s warning(s))\n' "$errors" "$warnings" >&2
-  exit 1
+  result="BLOCKED"
+elif [[ "$warnings" -gt 0 ]]; then
+  result="NEED_INFO"
 fi
 
-if [[ "$warnings" -gt 0 ]]; then
+if [[ "$json" == true ]]; then
+  printf '{"schema":"uwf-validation/v1","result":"%s","errors":%s,"warnings":%s,"gate_check":%s}\n' \
+    "$result" "$errors" "$warnings" "$([[ "$mode" == "--gate" ]] && printf true || printf false)"
+elif [[ "$errors" -gt 0 ]]; then
+  printf 'Validation result: BLOCKED (%s error(s), %s warning(s))\n' "$errors" "$warnings" >&2
+elif [[ "$warnings" -gt 0 ]]; then
   printf 'Validation result: NEED_INFO (0 errors, %s warning(s))\n' "$warnings"
 else
   printf 'Validation result: READY\n'
+fi
+
+if [[ "$errors" -gt 0 ]]; then
+  exit 1
 fi

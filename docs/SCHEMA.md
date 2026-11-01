@@ -1,6 +1,6 @@
 # Foundation Manifest Schema
 
-UWF 1.0 supports manifest schema version 1.
+UWF 1.x supports manifest schema version 1.
 
 The manifest is the current machine-readable source of truth for:
 
@@ -10,6 +10,7 @@ The manifest is the current machine-readable source of truth for:
 - objectives and modules;
 - technology and operation decisions;
 - automation controls.
+- change-management, UI/UX simulation, and implementation-history state.
 
 Rules:
 

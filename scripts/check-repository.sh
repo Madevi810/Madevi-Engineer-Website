@@ -12,6 +12,22 @@ for file in README.md AGENTS.md FOUNDATION_MANIFEST.yaml VERSION LICENSE CHANGEL
   need "$file"
 done
 
+for file in \
+  Foundation/05-Features-Requirements/Feature-Gap-Audit.md \
+  Foundation/06-UX-UI/Creative-Brief.md \
+  Foundation/06-UX-UI/Responsive-Accessibility-Review.md \
+  Foundation/06-UX-UI/Simulation-Plan.md \
+  Foundation/14-Change-Management/README.md \
+  Foundation/14-Change-Management/Backlog.md \
+  Foundation/14-Change-Management/Revision-History.md \
+  templates/change-request.md \
+  templates/implementation/CHANGELOG.md \
+  templates/implementation/IMPLEMENTATION-HISTORY.md \
+  templates/implementation/DECISIONS.md \
+  templates/implementation/TRACEABILITY.md; do
+  need "$file"
+done
+
 if ! grep -Eq '^[0-9]+\.[0-9]+\.[0-9]+$' "$root/VERSION"; then
   printf 'VERSION must use semantic version format.\n' >&2
   failed=1

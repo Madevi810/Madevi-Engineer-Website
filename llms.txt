@@ -6,5 +6,9 @@ Documentation:
 - README.md — human installation and overview
 - Foundation/README.md — Foundation stage map
 - Foundation/00-Control — questions, decisions, risks, and change records
+- Foundation/14-Change-Management — reviewable scope changes, impact analysis, and release backlog
+- Foundation/06-UX-UI — optional creative brief, responsive/accessibility review, and simulation plan
 - templates/ — reusable specifications and review formats
 - docs/ — beginner, professional, automation, and migration guides
+
+Terminal-agent workflow: read AGENTS.md and FOUNDATION_MANIFEST.yaml, then use `uwf context --json`, `uwf status --json`, `uwf next --json`, and `uwf validate --json`. Never implement application code before the developer approves the implementation gate.

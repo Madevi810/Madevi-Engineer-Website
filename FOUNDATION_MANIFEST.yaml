@@ -1,5 +1,5 @@
 schema_version: 1
-uwf_version: 0.1.0
+uwf_version: 1.1.0
 
 project:
   name: Unnamed Web Project
@@ -18,6 +18,20 @@ foundation:
   status: DRAFT
   implementation_gate: BLOCKED # BLOCKED | READY | APPROVED
   implementation_status: DEFERRED
+
+change_management:
+  active_request: unset
+  change_status: CLEAR # CLEAR | NEEDS_REVIEW | ANALYZED | APPROVED | DEFERRED
+  last_impact_level: unset # low | medium | high | critical
+
+ui_ux:
+  creative_brief_status: OPTIONAL # OPTIONAL | PROVIDED | ANALYZED | APPROVED
+  simulation_status: DEFERRED # DEFERRED | PLANNED | DRAFT | REVIEW | APPROVED
+  preferred_simulation: unset # image_mockup | html_prototype | both | none
+
+implementation_history:
+  status: DEFERRED # DEFERRED | ACTIVE | ARCHIVED
+  current_release: unset
 
 objectives:
   primary: []

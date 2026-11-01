@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.1.0 - 2026-11-02
+
+- Added change-request, impact-analysis, backlog, and revision-history Foundation workflow for forgotten or late features.
+- Added implementation-history, decision, traceability, and changelog templates to activated project workspaces.
+- Added feature-gap audit and optional UI/UX creative-brief, responsive/accessibility, and simulation planning artifacts.
+- Added agent-safe `context`, `status --json`, `next --json`, and `validate --json` CLI output.
+
 ## 1.0.2 - 2026-11-01
 
 - Fixed CLI root resolution when the uwf command is invoked through its installed symlink.
