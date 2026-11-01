@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-UWF_REPO_URL="${UWF_REPO_URL:-https://github.com/Madevi810/universal-web-foundation.git}"
+UWF_REPO_URL="${UWF_REPO_URL:-https://github.com/Madevi810/Universal-Web-Foundation.git}"
 UWF_INSTALL_DIR="${UWF_INSTALL_DIR:-$HOME/.local/share/uwf}"
 UWF_BIN_DIR="${UWF_BIN_DIR:-$HOME/.local/bin}"
 UWF_VERSION="main"
