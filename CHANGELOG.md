@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.9.0 - Unreleased
+
+- Added repository hardening checks, issue templates, code of conduct, and release policy.
+- Added version-selectable installer behavior.
+- Added CI checks for repository structure, semantic versioning, and common secret patterns.
+
 ## 0.8.0 - Unreleased
 
 - Added automation safety rules, policy preparation, status, and kill switch commands.
