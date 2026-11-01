@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.8.0 - Unreleased
+
+- Added automation safety rules, policy preparation, status, and kill switch commands.
+- Added validation for enabled automation without a policy.
+- Kept scheduling, publishing, and external provider execution outside the default CLI.
+
 ## 0.7.0 - Unreleased
 
 - Added project-scoped plugin listing, enable, and disable commands.

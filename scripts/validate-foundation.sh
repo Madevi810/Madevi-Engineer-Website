@@ -69,6 +69,18 @@ if [[ -d "$root/Project-Implementasi" ]]; then
   [[ -z "$unexpected" ]] || warning "implementation area contains a file before activation: $unexpected"
 fi
 
+automation_enabled="$(grep -E '^  enabled:' "$manifest" | tail -n 1 | sed -E 's/^  enabled:[[:space:]]*//')"
+if [[ "$automation_enabled" == "true" ]]; then
+  policy="$root/Foundation/11-Autonomous-Operations/AUTONOMY_POLICY.md"
+  if [[ ! -f "$policy" ]]; then
+    error "automation is enabled but AUTONOMY_POLICY.md is missing"
+  elif ! grep -q '^## Approval' "$policy"; then
+    error "automation policy has no approval section"
+  else
+    warning "automation is enabled; verify budget, runner, quality gate, rollback, and kill switch before execution"
+  fi
+fi
+
 if [[ "$mode" == "--gate" ]]; then
   [[ "$project_mode" != "unset" ]] || error "implementation gate requires a project mode"
   [[ "$experience" != "unset" ]] || error "implementation gate requires a developer level"
