@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.1 - 2026-11-01
+
+- Changed new installation to resolve the newest stable semantic-version tag by default.
+- Added patch-safe update behavior; minor, major, and edge updates now require explicit choices.
+- Added atomic install validation, backup of prior CLI installation, and update safety checks.
+
 ## 1.0.0 - 2026-11-01
 
 - Declared manifest schema version 1 and UWF 1.x compatibility policy.

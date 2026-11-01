@@ -170,7 +170,8 @@ Usage:
   uwf approve implementation --project "Nama Web"
                               Approve and create Project-Nama-Web
   uwf version                 Show UWF version
-  uwf update --check          Check installation update capability
+  uwf update [--check|--minor|--major|--edge]
+                              Update stable patch by default; broader channels are explicit
   uwf manifest check          Check Foundation manifest compatibility
   uwf package [directory]     Build local source archive and checksum
   uwf uninstall --yes         Remove only the standard CLI installation
@@ -218,8 +219,8 @@ case "${1:-}" in
     ;;
   version) show_version ;;
   update)
-    [[ $# -eq 2 && "$2" == "--check" ]] || { printf 'Gunakan: uwf update --check\n' >&2; exit 1; }
-    check_update
+    shift
+    "$UWF_HOME/scripts/update.sh" "$@"
     ;;
   manifest) shift; manifest_command "$@" ;;
   package) shift; package_command "$@" ;;

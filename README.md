@@ -62,7 +62,7 @@ less install-uwf.sh
 bash install-uwf.sh
 ```
 
-The installer uses no root access and installs `uwf` into `~/.local/bin`. It needs `bash`, `curl`, and `git`.
+The installer uses no root access and installs the newest stable release into `~/.local/bin`. It needs `bash`, `curl`, and `git`. Use `--edge` only when intentionally testing the moving main branch.
 
 ## Open-source scope
 
