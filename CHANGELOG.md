@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.6.0 - Unreleased
+
+- Added draft prototype-to-online migration workflow.
+- Added automatic Foundation snapshot, online upgrade questions, migration plan, and blocked implementation gate.
+
 ## 0.5.0 - Unreleased
 
 - Added machine-readable stack profiles and compatibility rules.

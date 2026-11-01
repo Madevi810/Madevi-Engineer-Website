@@ -90,6 +90,14 @@ stack_command() {
   "$UWF_HOME/scripts/stack-advisor.sh" "$action"
 }
 
+upgrade_online() {
+  [[ $# -eq 1 && "$1" == "--prepare" ]] || {
+    printf 'Gunakan: uwf upgrade online --prepare\n' >&2
+    exit 1
+  }
+  "$UWF_HOME/scripts/upgrade-online.sh" "$PWD"
+}
+
 approve_implementation() {
   local project=""
   while [[ $# -gt 0 ]]; do
@@ -127,6 +135,8 @@ Usage:
   uwf validate                Validate the current Foundation workspace
   uwf review stage-N          Validate and review a Foundation stage
   uwf stack [list|advise]     Show stack profiles or decision guidance
+  uwf upgrade online --prepare
+                              Create a draft online migration plan and archive snapshot
   uwf approve implementation --project "Nama Web"
                               Approve and create Project-Nama-Web
   uwf version                 Show UWF version
@@ -159,6 +169,12 @@ case "${1:-}" in
   validate) "$UWF_HOME/scripts/validate-foundation.sh" "$PWD" ;;
   review) shift; review_stage "$@" ;;
   stack) shift; stack_command "$@" ;;
+  upgrade)
+    shift
+    [[ $# -gt 0 && "$1" == "online" ]] || { printf 'Gunakan: uwf upgrade online --prepare\n' >&2; exit 1; }
+    shift
+    upgrade_online "$@"
+    ;;
   approve)
     shift
     [[ "${1:-}" == "implementation" ]] || { show_help; exit 1; }
