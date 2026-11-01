@@ -98,6 +98,14 @@ upgrade_online() {
   "$UWF_HOME/scripts/upgrade-online.sh" "$PWD"
 }
 
+plugin_command() {
+  [[ $# -gt 0 ]] || { printf 'Gunakan: uwf plugin [list|enable|disable] [plugin-id]\n' >&2; exit 1; }
+  (
+    cd "$PWD"
+    "$UWF_HOME/scripts/plugin-manager.sh" "$@"
+  )
+}
+
 approve_implementation() {
   local project=""
   while [[ $# -gt 0 ]]; do
@@ -137,6 +145,8 @@ Usage:
   uwf stack [list|advise]     Show stack profiles or decision guidance
   uwf upgrade online --prepare
                               Create a draft online migration plan and archive snapshot
+  uwf plugin [list|enable|disable] [id]
+                              Manage approved workspace plugin decisions
   uwf approve implementation --project "Nama Web"
                               Approve and create Project-Nama-Web
   uwf version                 Show UWF version
@@ -175,6 +185,7 @@ case "${1:-}" in
     shift
     upgrade_online "$@"
     ;;
+  plugin) shift; plugin_command "$@" ;;
   approve)
     shift
     [[ "${1:-}" == "implementation" ]] || { show_help; exit 1; }

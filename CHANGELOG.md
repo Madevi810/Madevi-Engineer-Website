@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.7.0 - Unreleased
+
+- Added project-scoped plugin listing, enable, and disable commands.
+- Added plugin policy and explicit plugin approval template.
+- Kept external credentials and provider actions outside plugin activation.
+
 ## 0.6.0 - Unreleased
 
 - Added draft prototype-to-online migration workflow.
