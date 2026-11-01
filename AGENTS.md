@@ -24,6 +24,7 @@ Ask only these two questions first:
 2. Guidance mode: **Full agent recommendation** or **Agent recommendation with complete list/custom choice**.
 
 Then gather the Foundation progressively, from objectives to complex operations. Do not present every question at once.
+Use the applicable pack under Foundation/13-Question-Bank and record each unanswered item in Open-Questions.
 
 ## Recommendation format
 
