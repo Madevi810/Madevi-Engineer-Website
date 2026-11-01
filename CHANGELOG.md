@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.4.0 - Unreleased
+
+- Added CLI diagnostics, version, next-step, stage-review, and update-capability commands.
+- Added clear CLI documentation and non-destructive update behavior.
+
 ## 0.3.0 - Unreleased
 
 - Added a status-based Foundation validation engine.

@@ -49,6 +49,41 @@ show_status() {
   grep -E '^(  (name|mode|lifecycle_status|experience_level|guidance_mode|current_stage|current_stage_name|status|implementation_gate|implementation_status|enabled|runner|budget_limit):)' "$manifest" || true
 }
 
+show_next() {
+  local manifest="$PWD/FOUNDATION_MANIFEST.yaml"
+  [[ -f "$manifest" ]] || { printf 'FOUNDATION_MANIFEST.yaml tidak ditemukan di folder ini.\n' >&2; exit 1; }
+  local stage
+  stage="$(grep -E '^  current_stage_name:' "$manifest" | sed -E 's/^  current_stage_name:[[:space:]]*//')"
+  [[ -n "$stage" ]] || stage="belum dipilih"
+  printf 'Tahap aktif: %s\n' "$stage"
+  printf 'Langkah berikutnya: baca Foundation/13-Question-Bank, jawab pertanyaan tahap aktif, lalu jalankan uwf validate.\n'
+}
+
+review_stage() {
+  local stage=""
+  [[ $# -eq 0 ]] || stage="$1"
+  [[ "$stage" =~ ^stage-[0-9]+$ ]] || { printf 'Gunakan: uwf review stage-N\n' >&2; exit 1; }
+  "$UWF_HOME/scripts/validate-foundation.sh" "$PWD"
+  printf 'Gunakan templates/stage-review.md untuk mencatat review.\n'
+}
+
+show_version() {
+  if [[ -f "$UWF_HOME/VERSION" ]]; then
+    printf 'UWF %s\n' "$(tr -d '\n' < "$UWF_HOME/VERSION")"
+  else
+    printf 'UWF version unknown\n'
+  fi
+}
+
+check_update() {
+  if [[ -d "$UWF_HOME/.git" ]]; then
+    printf 'UWF source is a Git checkout at %s\n' "$UWF_HOME"
+    printf 'Run git fetch --tags in that directory to inspect releases.\n'
+  else
+    printf 'UWF source is a copied workspace. Re-run the versioned installer to update the shared CLI.\n'
+  fi
+}
+
 approve_implementation() {
   local project=""
   while [[ $# -gt 0 ]]; do
@@ -80,10 +115,15 @@ Universal Web Foundation
 Usage:
   uwf                         Start the interactive menu
   uwf init [nama-web]         Create a new UWF workspace
+  uwf doctor                  Check command and PATH requirements
   uwf status                  Show current workspace status
+  uwf next                    Show the active Foundation step
   uwf validate                Validate the current Foundation workspace
+  uwf review stage-N          Validate and review a Foundation stage
   uwf approve implementation --project "Nama Web"
                               Approve and create Project-Nama-Web
+  uwf version                 Show UWF version
+  uwf update --check          Check installation update capability
 EOF
 }
 
@@ -106,13 +146,21 @@ interactive() {
 case "${1:-}" in
   "") interactive ;;
   init) shift; init_project "${1:-}" ;;
+  doctor) "$UWF_HOME/scripts/doctor.sh" ;;
   status) show_status ;;
+  next) show_next ;;
   validate) "$UWF_HOME/scripts/validate-foundation.sh" "$PWD" ;;
+  review) shift; review_stage "$@" ;;
   approve)
     shift
     [[ "${1:-}" == "implementation" ]] || { show_help; exit 1; }
     shift
     approve_implementation "$@"
+    ;;
+  version) show_version ;;
+  update)
+    [[ $# -eq 2 && "$2" == "--check" ]] || { printf 'Gunakan: uwf update --check\n' >&2; exit 1; }
+    check_update
     ;;
   help|-h|--help) show_help ;;
   *) show_help; exit 1 ;;
