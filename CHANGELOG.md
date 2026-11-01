@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.2 - 2026-11-01
+
+- Fixed CLI root resolution when the uwf command is invoked through its installed symlink.
+
 ## 1.0.1 - 2026-11-01
 
 - Changed new installation to resolve the newest stable semantic-version tag by default.
