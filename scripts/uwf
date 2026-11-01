@@ -84,6 +84,19 @@ check_update() {
   fi
 }
 
+manifest_command() {
+  [[ $# -eq 1 && "$1" == "check" ]] || { printf 'Gunakan: uwf manifest check\n' >&2; exit 1; }
+  "$UWF_HOME/scripts/manifest-migrate.sh" "$PWD"
+}
+
+package_command() {
+  "$UWF_HOME/scripts/package-release.sh" "$@"
+}
+
+uninstall_command() {
+  "$UWF_HOME/scripts/uninstall.sh" "$@"
+}
+
 stack_command() {
   local action="list"
   [[ $# -eq 0 ]] || action="$1"
@@ -158,6 +171,9 @@ Usage:
                               Approve and create Project-Nama-Web
   uwf version                 Show UWF version
   uwf update --check          Check installation update capability
+  uwf manifest check          Check Foundation manifest compatibility
+  uwf package [directory]     Build local source archive and checksum
+  uwf uninstall --yes         Remove only the standard CLI installation
 EOF
 }
 
@@ -205,6 +221,9 @@ case "${1:-}" in
     [[ $# -eq 2 && "$2" == "--check" ]] || { printf 'Gunakan: uwf update --check\n' >&2; exit 1; }
     check_update
     ;;
+  manifest) shift; manifest_command "$@" ;;
+  package) shift; package_command "$@" ;;
+  uninstall) shift; uninstall_command "$@" ;;
   help|-h|--help) show_help ;;
   *) show_help; exit 1 ;;
 esac

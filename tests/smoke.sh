@@ -10,10 +10,14 @@ bash -n "$root/scripts/upgrade-online.sh"
 bash -n "$root/scripts/plugin-manager.sh"
 bash -n "$root/scripts/automation-policy.sh"
 bash -n "$root/scripts/check-repository.sh"
+bash -n "$root/scripts/manifest-migrate.sh"
+bash -n "$root/scripts/package-release.sh"
+bash -n "$root/scripts/uninstall.sh"
 bash -n "$root/scripts/create-project.sh"
 bash -n "$root/scripts/validate-foundation.sh"
 "$root/scripts/validate-foundation.sh" "$root"
 "$root/scripts/uwf" version
 "$root/scripts/uwf" stack list
 "$root/scripts/check-repository.sh"
+"$root/scripts/manifest-migrate.sh" "$root"
 printf 'Smoke tests passed.\n'

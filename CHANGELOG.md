@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.0 - Unreleased
+
+- Declared manifest schema version 1 and UWF 1.x compatibility policy.
+- Added manifest compatibility checks, local release package/checksum creation, and guarded CLI uninstall.
+- Marked the Foundation, CLI, validation, migration, plugin, automation, and governance baseline as stable.
+
 ## 0.9.0 - Unreleased
 
 - Added repository hardening checks, issue templates, code of conduct, and release policy.
