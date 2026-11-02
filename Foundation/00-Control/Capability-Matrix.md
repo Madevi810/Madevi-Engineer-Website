@@ -18,5 +18,9 @@ This matrix describes the current UWF workflow honestly. It is not a promise tha
 | Content research and production planning | controlled | Taxonomy, source policy, scale/batch plan, rights ledger, QA, and publish queue | Actual research and generation depend on the active agent runtime and developer approval |
 | Controlled content automation | controlled | Separate plan, draft, implementation, and publishing gates | Publishing stays disabled until a scoped policy is approved |
 | Agent runtime disclosure | stable | A capability profile that states available tools and limits before research or writes | An unavailable tool must be reported, never simulated |
+| Foundation Orchestrator | controlled | Role routing, assumptions, question budget, status protocol, escalation rules, and decision trace | Reasoning quality depends on the chosen AI runtime and complete project evidence |
+| Tool Runtime | preview | Local tool contracts, capability report, dry-run runner, action journal, job records, and permission gate | Tools do not create external access; only local dry-runs execute by default |
+| External adapters | planned | Contracts for GitHub research, web search, deployment, and publishing | A real adapter, scope, runtime access, policy, and approval must exist before any external run |
+| Evaluation and regression | stable | Smoke checks, tool-contract validation, negative-test rules, and scenario artifacts | Scenario interpretation still requires agent and developer review |
 
 Use `DRAFT`, `REVIEW`, `PREVIEW`, `LIMITED`, `STABLE`, or `OUT_OF_SCOPE` when reporting capability status. Never use “stable” for an untested integration merely because its plan is complete.

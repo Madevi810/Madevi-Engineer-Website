@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.3.0 - 2026-11-03
+
+- Added the Agent Orchestrator architecture: autonomous Foundation composition, three-question budget, explicit assumptions, specialist routing, status protocol, and escalation rules.
+- Added a provider-neutral Tool Runtime with tool contracts, local dry-run runner, permission/action gates, job records, adapter boundaries, and action journal.
+- Added structured policies, schemas, evaluation scenarios, expected artifacts, negative tests, and regression runner.
+- Added local workspace inspection, capability reporting, manifest checks, tool-contract validation, evaluation commands, and AI-agent routing commands.
+- Rewrote the public README with beginner-friendly workflow, honest limits, safety model, tool usage, and `Name-Project` examples.
+
 ## 1.2.0 - 2026-11-02
 
 - Reworked the v1.2 Foundation architecture around engineering-material composition, external evidence, agent-runtime truthfulness, and research/content operations rather than adding isolated templates.

@@ -16,6 +16,7 @@ Read in this exact order before acting:
 6. `Foundation/15-Engineering-Materials/Composition-Manifest.md` when it exists
 7. `Foundation/16-External-Reference-Evidence/Source-Policy.md` before external research
 8. `Foundation/17-Research-Content-Operations/README.md` before content-operation work
+9. `agent/Orchestrator.md`, `agent/Question-Policy.md`, and `agent/Status-Protocol.md`
 
 When documents conflict, do not guess. Record a `CONFLICT` and request a developer decision.
 
@@ -28,6 +29,8 @@ Ask only these two questions first:
 
 Then gather the Foundation progressively, from objectives to complex operations. Do not present every question at once.
 Use the applicable pack under Foundation/13-Question-Bank and record each unanswered item in Open-Questions.
+
+Treat the Question Bank as internal reasoning material, not as a form for the developer. Make safe recorded assumptions first. Ask at most the manifest `agent_orchestration.question_budget` material questions at once. Each question must include a recommendation, reason, concise options, and a custom answer route.
 
 ## Recommendation format
 
@@ -50,7 +53,7 @@ Until the implementation gate is `APPROVED`:
 - do not put application code inside `Project-Implementasi/`;
 - do create plans, templates, decision records, acceptance criteria, architecture proposals, and reports.
 
-Implementation is allowed only for a stage that is `READY` and explicitly approved by the developer. Actual code belongs in `Project-Nama-Web/`, never in `Foundation/`.
+Implementation is allowed only for a stage that is `READY` and explicitly approved by the developer. Actual code belongs in `Project-Name-Project/`, never in `Foundation/`.
 
 ## Stage gates
 
@@ -76,6 +79,14 @@ Multiple goals are valid: for example articles, marketplace, game, and animation
 Treat UWF as an engineering-material library and decision system, not as a fixed-stack generator. Before recommending an architecture or implementation stage, create or update the Composition Manifest. It must state the developer objective as understood, module hierarchy, selected materials, rejected materials, compatibility, alternatives, source evidence, risk, cost, and unresolved decisions.
 
 "Complete" means complete coverage of relevant engineering decisions and a maintained path to verified external material. It does not mean copying every framework, repository, asset, book, or web page into the repository. Never silently substitute a material because it is fashionable or convenient.
+
+## Orchestration, tools, and action truthfulness
+
+Follow `agent/Orchestrator.md` and `agent/Routing-Rules.yaml`. The Foundation Orchestrator chooses internal specialist roles, materials, skills, and tools. Specialist roles do not independently expand scope or ask the developer duplicate questions.
+
+Before using a tool, read its contract under `tools/contracts/`. Use only declared available capabilities, obey its permission class, prefer `--dry-run`, and record every actual run in `Foundation/00-Control/Action-Journal.md`. A tool contract is not proof that an external service is connected. If a required adapter or access is absent, report the limitation and use its fallback.
+
+Local Foundation documents and dry-runs are allowed before implementation approval. Application writes, dependencies, commits, remote actions, provider access, deployment, publishing, payments, and real-user data need the relevant policy and approval.
 
 ## Agent runtime truthfulness
 

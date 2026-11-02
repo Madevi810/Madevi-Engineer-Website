@@ -23,6 +23,8 @@ for file in \
   Foundation/00-Control/Capability-Matrix.md \
   Foundation/00-Control/Decision-Graph.md \
   Foundation/00-Control/Evaluation-Lab.md \
+  Foundation/00-Control/Status-Report.md \
+  Foundation/00-Control/Action-Journal.md \
   Foundation/15-Engineering-Materials/README.md \
   Foundation/15-Engineering-Materials/Material-Catalog.md \
   Foundation/15-Engineering-Materials/Material-Lifecycle.md \
@@ -61,11 +63,47 @@ for file in \
   templates/implementation/DECISIONS.md \
   templates/implementation/TRACEABILITY.md \
   docs/images/uwf-linux-cli-preview.svg \
-  docs/images/uwf-ide-preview.svg; do
+  docs/images/uwf-ide-preview.svg \
+  agent/README.md \
+  agent/Orchestrator.md \
+  agent/Routing-Rules.yaml \
+  agent/Question-Policy.md \
+  agent/Assumption-Policy.md \
+  agent/Status-Protocol.md \
+  agent/Escalation-Rules.md \
+  tools/README.md \
+  tools/contracts/README.md \
+  tools/runners/uwf-tool.sh \
+  tools/safety/action-gate.sh \
+  tools/validators/validate-tool-contracts.sh \
+  policies/permissions/README.md \
+  policies/external-research/README.md \
+  policies/data-handling/README.md \
+  policies/publishing/README.md \
+  policies/automation/README.md \
+  policies/model-runtime/README.md \
+  schemas/manifest/README.md \
+  schemas/tool-contract/README.md \
+  schemas/job-log/README.md \
+  schemas/status-report/README.md \
+  schemas/decision-graph/README.md \
+  evaluations/README.md \
+  evaluations/regression/run.sh; do
   need "$file"
 done
 
+for contract in capability-detector workspace-inspector manifest-engine compatibility-engine taxonomy-builder content-batch-planner quality-review release-evaluator github-research web-search deployment-adapter publish-queue; do
+  need "tools/contracts/$contract.yaml"
+done
+
 for file in \
+  skills/README.md \
+  skills/foundation-orchestrator/SKILL.md \
+  skills/product-discovery/SKILL.md \
+  skills/architecture-stack/SKILL.md \
+  skills/ux-ui/SKILL.md \
+  skills/quality-security-rights/SKILL.md \
+  skills/operations-release/SKILL.md \
   skills/engineering-composer/SKILL.md \
   skills/external-reference-scout/SKILL.md \
   skills/taxonomy-architect/SKILL.md \

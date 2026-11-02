@@ -17,7 +17,7 @@ slugify() {
 copy_template() {
   local target="$1"
   mkdir -p "$target"
-  for item in AGENTS.md FOUNDATION_MANIFEST.yaml Foundation Project-Implementasi templates docs plugins skills README.md; do
+  for item in AGENTS.md FOUNDATION_MANIFEST.yaml Foundation Project-Implementasi templates docs plugins skills agent tools policies schemas evaluations README.md; do
     cp -R "$UWF_HOME/$item" "$target/"
   done
   rm -f "$target/README.md"
@@ -51,7 +51,7 @@ init_project() {
   while [[ $# -gt 0 ]]; do
     case "$1" in
       --template)
-        [[ $# -ge 2 ]] || { printf 'Gunakan: uwf init nama-web --template template-id\n' >&2; exit 1; }
+        [[ $# -ge 2 ]] || { printf 'Gunakan: uwf init Name-Project --template template-id\n' >&2; exit 1; }
         template_id="$2"
         shift 2
         ;;
@@ -62,8 +62,8 @@ init_project() {
         ;;
     esac
   done
-  if [[ -z "$name" ]]; then read -r -p "Nama web/proyek: " name; fi
-  [[ -n "$name" ]] || { printf 'Nama proyek wajib diisi.\n' >&2; exit 1; }
+  if [[ -z "$name" ]]; then read -r -p "Name-Project: " name; fi
+  [[ -n "$name" ]] || { printf 'Name-Project wajib diisi.\n' >&2; exit 1; }
   local slug target escaped
   slug="$(slugify "$name")"
   [[ -n "$slug" ]] || { printf 'Nama proyek tidak valid.\n' >&2; exit 1; }
@@ -76,7 +76,7 @@ init_project() {
   escaped="$(printf '%s' "$name" | sed 's/[&|]/\\&/g')"
   sed -i "s|name: Unnamed Web Project|name: $escaped|" "$target/FOUNDATION_MANIFEST.yaml"
   sed -i "s|slug: unnamed-web-project|slug: $slug|" "$target/FOUNDATION_MANIFEST.yaml"
-  printf '\nWorkspace dibuat: %s\nMasuk dengan: cd %q\nLalu jalankan: uwf status\n' "$target" "$slug"
+  printf '\nWorkspace Name-Project dibuat: %s\nMasuk dengan: cd %q\nLalu jalankan: uwf status\n' "$target" "$slug"
   [[ -z "$template_id" ]] || printf 'Starter pack ditambahkan: %s\n' "$template_id"
 }
 
@@ -106,6 +106,9 @@ show_status() {
   printf '  simulation_status: %s\n' "$(section_value ui_ux simulation_status "$manifest")"
   printf '  history_status: %s\n' "$(section_value implementation_history status "$manifest")"
   printf '  automation_enabled: %s\n' "$(section_value automation enabled "$manifest")"
+  printf '  orchestration_status: %s\n' "$(section_value agent_orchestration status "$manifest")"
+  printf '  orchestration_mode: %s\n' "$(section_value agent_orchestration mode "$manifest")"
+  printf '  question_budget: %s\n' "$(section_value agent_orchestration question_budget "$manifest")"
   printf '  runtime_profile_status: %s\n' "$(section_value agent_runtime profile_status "$manifest")"
   printf '  composition_status: %s\n' "$(section_value composition status "$manifest")"
   printf '  evidence_status: %s\n' "$(section_value external_evidence status "$manifest")"
@@ -152,7 +155,7 @@ json_escape() {
 
 show_status_json() {
   local manifest="$1"
-  printf '{"schema":"uwf-status/v1","workspace":"%s","project":{"name":"%s","slug":"%s","mode":"%s","lifecycle_status":"%s"},"developer":{"experience_level":"%s","guidance_mode":"%s"},"foundation":{"current_stage":"%s","current_stage_name":"%s","status":"%s","implementation_gate":"%s","implementation_status":"%s"},"change_management":{"active_request":"%s","status":"%s","last_impact_level":"%s"},"ui_ux":{"active_reference":"%s","active_reference_name":"%s","reference_analysis_file":"%s","reference_status":"%s","creative_brief_status":"%s","simulation_status":"%s","preferred_simulation":"%s"},"implementation_history":{"status":"%s","current_release":"%s"},"automation":{"enabled":"%s"},"agent_runtime":{"profile_status":"%s","web_research":"%s","github_access":"%s"},"composition":{"status":"%s"},"external_evidence":{"status":"%s","source_policy_status":"%s"},"content_operations":{"enabled":"%s","status":"%s","mode":"%s","scale_target":"%s","taxonomy_status":"%s","research_policy_status":"%s","publishing_status":"%s"}}\n' \
+  printf '{"schema":"uwf-status/v1","workspace":"%s","project":{"name":"%s","slug":"%s","mode":"%s","lifecycle_status":"%s"},"developer":{"experience_level":"%s","guidance_mode":"%s"},"foundation":{"current_stage":"%s","current_stage_name":"%s","status":"%s","implementation_gate":"%s","implementation_status":"%s"},"change_management":{"active_request":"%s","status":"%s","last_impact_level":"%s"},"ui_ux":{"active_reference":"%s","active_reference_name":"%s","reference_analysis_file":"%s","reference_status":"%s","creative_brief_status":"%s","simulation_status":"%s","preferred_simulation":"%s"},"implementation_history":{"status":"%s","current_release":"%s"},"automation":{"enabled":"%s"},"agent_runtime":{"profile_status":"%s","web_research":"%s","github_access":"%s"},"agent_orchestration":{"status":"%s","mode":"%s","question_budget":"%s"},"composition":{"status":"%s"},"external_evidence":{"status":"%s","source_policy_status":"%s"},"content_operations":{"enabled":"%s","status":"%s","mode":"%s","scale_target":"%s","taxonomy_status":"%s","research_policy_status":"%s","publishing_status":"%s"}}\n' \
     "$(json_escape "$PWD")" \
     "$(json_escape "$(section_value project name "$manifest")")" \
     "$(json_escape "$(section_value project slug "$manifest")")" \
@@ -181,6 +184,9 @@ show_status_json() {
     "$(json_escape "$(section_value agent_runtime profile_status "$manifest")")" \
     "$(json_escape "$(section_value agent_runtime web_research "$manifest")")" \
     "$(json_escape "$(section_value agent_runtime github_access "$manifest")")" \
+    "$(json_escape "$(section_value agent_orchestration status "$manifest")")" \
+    "$(json_escape "$(section_value agent_orchestration mode "$manifest")")" \
+    "$(json_escape "$(section_value agent_orchestration question_budget "$manifest")")" \
     "$(json_escape "$(section_value composition status "$manifest")")" \
     "$(json_escape "$(section_value external_evidence status "$manifest")")" \
     "$(json_escape "$(section_value external_evidence source_policy_status "$manifest")")" \
@@ -230,6 +236,8 @@ workspace_manifest() {
 ensure_extension_artifacts() {
   local relative
   for relative in \
+    Foundation/00-Control/Status-Report.md \
+    Foundation/00-Control/Action-Journal.md \
     Foundation/05-Features-Requirements/Feature-Gap-Audit.md \
     Foundation/06-UX-UI/Creative-Brief.md \
     Foundation/06-UX-UI/Responsive-Accessibility-Review.md \
@@ -268,6 +276,9 @@ prepare_workspace_extensions() {
   workspace_manifest
   "$UWF_HOME/scripts/manifest-migrate.sh" "$PWD" >/dev/null
   ensure_extension_artifacts
+  for directory in agent tools policies schemas evaluations; do
+    [[ -d "$directory" ]] || cp -R "$UWF_HOME/$directory" "$directory"
+  done
 }
 
 ensure_ui_reference_manifest_fields() {
@@ -460,7 +471,7 @@ active_implementation_project() {
   local projects=()
   local item
   while IFS= read -r item; do projects+=("$item"); done < <(find . -maxdepth 1 -mindepth 1 -type d -name 'Project-*' ! -name 'Project-Implementasi' -printf '%f\n' | sort)
-  [[ "${#projects[@]}" -eq 1 ]] || { printf 'Content operations membutuhkan tepat satu Project-Nama-Web aktif; ditemukan %s.\n' "${#projects[@]}" >&2; return 1; }
+  [[ "${#projects[@]}" -eq 1 ]] || { printf 'Content operations membutuhkan tepat satu Project-Name-Project aktif; ditemukan %s.\n' "${#projects[@]}" >&2; return 1; }
   printf '%s' "${projects[0]}"
 }
 
@@ -508,6 +519,82 @@ content_command() {
   [[ "$(section_value content_operations enabled FOUNDATION_MANIFEST.yaml)" == "true" ]] || { printf 'Jalankan uwf operations prepare setelah implementation gate disetujui.\n' >&2; exit 1; }
   set_section_value content_operations scale_target "$count"
   printf 'Target konten dicatat: %s. Lengkapi Scale-Batch-Plan.md sebelum drafting atau writes.\n' "$count"
+}
+
+tool_command() {
+  workspace_manifest
+  prepare_workspace_extensions
+  (
+    cd "$PWD"
+    "$UWF_HOME/tools/runners/uwf-tool.sh" "$UWF_HOME" "$PWD" "$@"
+  )
+}
+
+agent_command() {
+  local action="${1:-status}"
+  workspace_manifest
+  prepare_workspace_extensions
+  case "$action" in
+    status)
+      [[ $# -eq 1 ]] || { printf 'Gunakan: uwf agent [status|route]\n' >&2; exit 1; }
+      printf 'agent_orchestration.status: %s\n' "$(section_value agent_orchestration status FOUNDATION_MANIFEST.yaml)"
+      printf 'agent_orchestration.mode: %s\n' "$(section_value agent_orchestration mode FOUNDATION_MANIFEST.yaml)"
+      printf 'agent_orchestration.question_budget: %s\n' "$(section_value agent_orchestration question_budget FOUNDATION_MANIFEST.yaml)"
+      printf 'Status protocol: Foundation/00-Control/Status-Report.md\nAction journal: Foundation/00-Control/Action-Journal.md\n'
+      ;;
+    route)
+      [[ $# -eq 1 ]] || { printf 'Gunakan: uwf agent [status|route]\n' >&2; exit 1; }
+      set_section_value agent_orchestration status ROUTED
+      cat agent/Routing-Rules.yaml
+      ;;
+    *) printf 'Gunakan: uwf agent [status|route]\n' >&2; exit 1 ;;
+  esac
+}
+
+job_command() {
+  local action="${1:-list}" id="${2:-}" jobs
+  workspace_manifest
+  prepare_workspace_extensions
+  jobs="Foundation/00-Control/Jobs"
+  mkdir -p "$jobs"
+  case "$action" in
+    list)
+      [[ $# -eq 1 || $# -eq 0 ]] || { printf 'Gunakan: uwf job [list|inspect ID|cancel ID]\n' >&2; exit 1; }
+      find "$jobs" -maxdepth 1 -type f -name 'JOB-*.md' -printf '%f\n' | sed 's/\.md$//' | sort
+      ;;
+    inspect)
+      [[ $# -eq 2 && "$id" =~ ^JOB-[A-Za-z0-9._-]+$ && -f "$jobs/$id.md" ]] || { printf 'Job tidak ditemukan atau tidak valid.\n' >&2; exit 1; }
+      cat "$jobs/$id.md"
+      ;;
+    cancel)
+      [[ $# -eq 2 && "$id" =~ ^JOB-[A-Za-z0-9._-]+$ && -f "$jobs/$id.md" ]] || { printf 'Job tidak ditemukan atau tidak valid.\n' >&2; exit 1; }
+      grep -q '^Status: CANCELLED$' "$jobs/$id.md" || printf 'Status: CANCELLED\n' >>"$jobs/$id.md"
+      printf '| %s | Job Control | %s | cancel | local job record | cancelled | %s | not required |\n' "$(date -u +%Y%m%dT%H%M%SZ)" "$id" "$jobs/$id.md" >>Foundation/00-Control/Action-Journal.md
+      printf 'Job ditandai CANCELLED: %s\n' "$id"
+      ;;
+    *) printf 'Gunakan: uwf job [list|inspect ID|cancel ID]\n' >&2; exit 1 ;;
+  esac
+}
+
+evaluation_command() {
+  local action="${1:-list}" target="${2:-}"
+  workspace_manifest
+  prepare_workspace_extensions
+  case "$action" in
+    list)
+      [[ $# -eq 1 || $# -eq 0 ]] || { printf 'Gunakan: uwf evaluation [list|inspect NAME|run regression]\n' >&2; exit 1; }
+      find evaluations/scenarios -maxdepth 1 -type f -name '*.md' -printf '%f\n' | sed 's/\.md$//' | sort
+      ;;
+    inspect)
+      [[ $# -eq 2 && "$target" =~ ^[a-z0-9-]+$ && -f "evaluations/scenarios/$target.md" ]] || { printf 'Scenario tidak ditemukan atau tidak valid.\n' >&2; exit 1; }
+      cat "evaluations/scenarios/$target.md"
+      ;;
+    run)
+      [[ $# -eq 2 && "$target" == "regression" ]] || { printf 'Gunakan: uwf evaluation run regression\n' >&2; exit 1; }
+      "$UWF_HOME/evaluations/regression/run.sh"
+      ;;
+    *) printf 'Gunakan: uwf evaluation [list|inspect NAME|run regression]\n' >&2; exit 1 ;;
+  esac
 }
 
 release_check_command() {
@@ -655,7 +742,7 @@ approve_implementation() {
       *) printf 'Argumen tidak dikenal: %s\n' "$1" >&2; exit 1 ;;
     esac
   done
-  [[ -n "$project" ]] || { printf 'Gunakan: uwf approve implementation --project "Nama Web"\n' >&2; exit 1; }
+  [[ -n "$project" ]] || { printf 'Gunakan: uwf approve implementation --project "Name-Project"\n' >&2; exit 1; }
   [[ -f FOUNDATION_MANIFEST.yaml ]] || { printf 'Jalankan perintah ini dari root workspace UWF.\n' >&2; exit 1; }
   prepare_workspace_extensions
   [[ -d Project-Implementasi ]] || { printf 'Project-Implementasi tidak ditemukan; mungkin sudah diaktifkan.\n' >&2; exit 1; }
@@ -678,7 +765,7 @@ Universal Web Foundation
 
 Usage:
   uwf                         Start the interactive menu
-  uwf init [nama-web]         Create a new UWF workspace
+  uwf init [Name-Project]     Create a new UWF workspace
   uwf doctor                  Check command and PATH requirements
   uwf status                  Show current workspace status
   uwf status --json           Show machine-readable workspace status
@@ -705,6 +792,13 @@ Usage:
   uwf operations [prepare|status|validate]
                               Prepare controlled post-implementation content operations
   uwf content plan --count N  Record a content target after operations preparation
+  uwf tool [list|inspect ID|doctor|capability|run ID --dry-run]
+                              Inspect or safely dry-run a local UWF tool
+  uwf agent [status|route]    Show agent orchestration status or routing rules
+  uwf job [list|inspect ID|cancel ID]
+                              Inspect or cancel a recorded local tool job
+  uwf evaluation [list|inspect NAME|run regression]
+                              Inspect scenarios or run regression checks
   uwf capability              Show capability maturity and limitations
   uwf release check           Open the implementation release-readiness checklist
   uwf stack [list|advise]     Show stack profiles or decision guidance
@@ -714,8 +808,8 @@ Usage:
                               Manage approved workspace plugin decisions
   uwf automation [prepare|status|kill]
                               Manage automation policy and emergency stop
-  uwf approve implementation --project "Nama Web"
-                              Approve and create Project-Nama-Web
+  uwf approve implementation --project "Name-Project"
+                              Approve and create Project-Name-Project
   uwf version                 Show UWF version
   uwf update [--check|--minor|--major|--edge]
                               Update stable patch by default; broader channels are explicit
@@ -772,6 +866,10 @@ case "${1:-}" in
   taxonomy) shift; taxonomy_command "$@" ;;
   operations) shift; operations_command "$@" ;;
   content) shift; content_command "$@" ;;
+  tool) shift; tool_command "$@" ;;
+  agent) shift; agent_command "$@" ;;
+  job) shift; job_command "$@" ;;
+  evaluation) shift; evaluation_command "$@" ;;
   capability) shift; capability_command "$@" ;;
   release) shift; [[ "${1:-}" == "check" && $# -eq 1 ]] || { printf 'Gunakan: uwf release check\n' >&2; exit 1; }; release_check_command ;;
   approve)

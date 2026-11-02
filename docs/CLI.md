@@ -26,6 +26,13 @@ Run UWF without arguments for the beginner-friendly menu.
 | uwf reference [figcraft] | Show the clean-room UI/UX reference workflow; `figcraft` creates an analysis draft and marks it active |
 | uwf reference custom "name" | Create an active clean-room analysis draft for a custom reference |
 | uwf reference complete figcraft\|custom | Validate required analysis fields and mark the active reference analyzed |
+| uwf tool list | List local and external tool contracts |
+| uwf tool doctor | Validate local Tool Runtime requirements and contracts |
+| uwf tool capability | Show runtime capability declared in the manifest |
+| uwf tool run ID --dry-run | Record a safe local dry-run; external tools remain blocked |
+| uwf agent status\|route | Show orchestration state or role-routing rules |
+| uwf job list\|inspect ID\|cancel ID | Manage local dry-run job records |
+| uwf evaluation list\|inspect NAME\|run regression | Inspect scenarios or run test regression |
 | uwf runtime prepare | Create the agent-runtime capability profile; no capability is assumed |
 | uwf material list | Display the engineering-material catalog model |
 | uwf material assess | Begin a Composition Manifest review |
@@ -64,7 +71,7 @@ uwf taxonomy plan
 
 These commands create or open planning records. They do not perform hidden web searches, install dependencies, write application code, or publish content.
 
-After the developer has approved implementation and `Project-Nama-Web` exists, controlled content operations can be prepared:
+After the developer has approved implementation and `Project-Name-Project` exists, controlled content operations can be prepared:
 
 ```bash
 uwf operations prepare
@@ -73,4 +80,4 @@ uwf operations status
 uwf operations validate
 ```
 
-`uwf operations prepare` creates `Project-Nama-Web/Operations/` with a content map, production queue, rights ledger, and run history. Research, drafting, implementation writes, automation, and publishing remain separately governed.
+`uwf operations prepare` creates `Project-Name-Project/Operations/` with a content map, production queue, rights ledger, and run history. Research, drafting, implementation writes, automation, and publishing remain separately governed.

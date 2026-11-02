@@ -14,6 +14,10 @@ Documentation:
 - Foundation/15-Engineering-Materials — catalog, lifecycle, and required Composition Manifest
 - Foundation/16-External-Reference-Evidence — source policy, evidence cards, trust, and provenance
 - Foundation/17-Research-Content-Operations — taxonomy, source-led content, scale/batch, rights, and publish controls
+- agent/ — Orchestrator, routing, question budget, assumptions, status, and escalation
+- tools/ — tool contracts, local dry-run runner, validators, action gates, and adapter boundaries
+- policies/ — permissions, data, research, publishing, automation, and runtime limits
+- evaluations/ — scenarios, expected artifacts, negative tests, and regression checks
 - templates/ — reusable specifications and review formats
 - docs/ — beginner, professional, automation, and migration guides
 
@@ -22,6 +26,8 @@ Terminal-agent workflow: read AGENTS.md and FOUNDATION_MANIFEST.yaml, then use `
 Use `uwf template list` for original Foundation starter packs, `uwf reference` before using external references, `uwf capability` before promising a capability, and `uwf release check` before describing an implementation release as stable.
 
 Before web/GitHub research or external writes, prepare and complete a truthful runtime profile. Use `uwf compose plan` for material decisions. UWF's CLI creates governance artifacts; it does not itself search the web or publish content.
+
+The Foundation Orchestrator is the only agent-facing coordinator. It should make visible safe assumptions and ask no more than three high-impact questions at once. Use `uwf tool run ID --dry-run` before any tool-based recommendation and record the result in the Action Journal.
 
 When `ui_ux.active_reference` is set, read its dedicated analysis document. Do not use an `ANALYSIS_REQUIRED` reference to generate a simulation or implementation.
 

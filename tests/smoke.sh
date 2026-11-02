@@ -16,10 +16,15 @@ bash -n "$root/scripts/uninstall.sh"
 bash -n "$root/scripts/update.sh"
 bash -n "$root/scripts/create-project.sh"
 bash -n "$root/scripts/validate-foundation.sh"
+bash -n "$root/tools/runners/uwf-tool.sh"
+bash -n "$root/tools/safety/action-gate.sh"
+bash -n "$root/tools/validators/validate-tool-contracts.sh"
+bash -n "$root/evaluations/regression/run.sh"
 "$root/scripts/validate-foundation.sh" "$root"
 "$root/scripts/uwf" version
 "$root/scripts/uwf" stack list
 "$root/scripts/check-repository.sh"
+"$root/tools/validators/validate-tool-contracts.sh"
 "$root/scripts/manifest-migrate.sh" "$root"
 test -f "$root/docs/images/uwf-linux-cli-preview.svg"
 test -f "$root/docs/images/uwf-ide-preview.svg"
@@ -35,6 +40,22 @@ trial="$(mktemp -d)"
   "$root/scripts/uwf" status --json | grep -Fq 'uwf-status/v1'
   "$root/scripts/uwf" next --json | grep -Fq 'uwf-next/v1'
   "$root/scripts/uwf" validate --json | grep -Fq 'uwf-validation/v1'
+  "$root/scripts/uwf" agent status | grep -Fq 'question_budget: 3'
+  "$root/scripts/uwf" agent route | grep -Fq 'foundation-orchestrator'
+  grep -Eq '^  status: ROUTED( |$)' FOUNDATION_MANIFEST.yaml
+  "$root/scripts/uwf" tool list | grep -Fq 'workspace-inspector'
+  "$root/scripts/uwf" tool doctor | grep -Fq 'Tool contracts validated.'
+  "$root/scripts/uwf" tool capability | grep -Fq 'orchestration_mode:'
+  "$root/scripts/uwf" tool run workspace-inspector --dry-run | grep -Fq 'DRY_RUN_READY'
+  tool_job="$($root/scripts/uwf job list | tail -n 1)"
+  "$root/scripts/uwf" job inspect "$tool_job" | grep -Fq 'Tool: workspace-inspector'
+  "$root/scripts/uwf" job cancel "$tool_job" | grep -Fq 'CANCELLED'
+  if "$root/scripts/uwf" tool run github-research --dry-run >/dev/null 2>&1; then
+    printf 'Expected external tool without adapter/scope to be blocked.\n' >&2
+    exit 1
+  fi
+  "$root/scripts/uwf" evaluation list | grep -Fq 'beginner-content-portal'
+  "$root/scripts/uwf" evaluation inspect large-content-scale | grep -Fq '10,000'
   "$root/scripts/uwf" runtime prepare >/dev/null
   test -f Foundation/00-Control/Agent-Runtime-Profile.md
   "$root/scripts/uwf" material list | grep -Fq 'Material Catalog Model'
@@ -85,6 +106,8 @@ trial="$(mktemp -d)"
   sed -i 's/primary: \[\]/primary: [smoke objective]/' FOUNDATION_MANIFEST.yaml
   sed -i 's/status: DRAFT/status: READY/' FOUNDATION_MANIFEST.yaml
   sed -i 's/profile_status: DECLARED/profile_status: VERIFIED/' FOUNDATION_MANIFEST.yaml
+  sed -i 's/orchestration_status: DRAFT/orchestration_status: ROUTED/' FOUNDATION_MANIFEST.yaml
+  sed -i 's/^  status: DRAFT # DRAFT | ROUTED | NEED_INFO | READY | APPROVED/  status: ROUTED # DRAFT | ROUTED | NEED_INFO | READY | APPROVED/' FOUNDATION_MANIFEST.yaml
   sed -i 's/^  status: REVIEW # DRAFT | REVIEW | READY | APPROVED/  status: READY # DRAFT | REVIEW | READY | APPROVED/' FOUNDATION_MANIFEST.yaml
   sed -i 's/reference_status: ANALYSIS_REQUIRED/reference_status: ANALYZED/' FOUNDATION_MANIFEST.yaml
   "$root/scripts/uwf" approve implementation --project "Smoke Web" >/dev/null
@@ -129,14 +152,16 @@ custom_reference_trial="$(mktemp -d)"
 legacy_trial="$(mktemp -d)"
 mkdir -p "$legacy_trial/legacy"
 awk '
-  /^(agent_runtime|composition|external_evidence|content_operations):/ { skip=1; next }
+  /^(agent_runtime|agent_orchestration|composition|external_evidence|content_operations):/ { skip=1; next }
   skip && /^[^[:space:]]/ { skip=0 }
   !skip { print }
 ' "$root/FOUNDATION_MANIFEST.yaml" >"$legacy_trial/legacy/FOUNDATION_MANIFEST.yaml"
 "$root/scripts/manifest-migrate.sh" "$legacy_trial/legacy" >/dev/null
 grep -Fq 'agent_runtime:' "$legacy_trial/legacy/FOUNDATION_MANIFEST.yaml"
 grep -Fq 'content_operations:' "$legacy_trial/legacy/FOUNDATION_MANIFEST.yaml"
+grep -Fq 'agent_orchestration:' "$legacy_trial/legacy/FOUNDATION_MANIFEST.yaml"
 test -f "$legacy_trial/legacy/FOUNDATION_MANIFEST.yaml.pre-v1.2.bak"
+test -f "$legacy_trial/legacy/FOUNDATION_MANIFEST.yaml.pre-v1.3.bak"
 
 legacy_workspace_trial="$(mktemp -d)"
 (
@@ -146,7 +171,7 @@ legacy_workspace_trial="$(mktemp -d)"
   mkdir -p ../legacy-stash
   mv Foundation/15-Engineering-Materials Foundation/16-External-Reference-Evidence Foundation/17-Research-Content-Operations ../legacy-stash/
   awk '
-    /^(agent_runtime|composition|external_evidence|content_operations):/ { skip=1; next }
+    /^(agent_runtime|agent_orchestration|composition|external_evidence|content_operations):/ { skip=1; next }
     skip && /^[^[:space:]]/ { skip=0 }
     !skip { print }
   ' FOUNDATION_MANIFEST.yaml > FOUNDATION_MANIFEST.tmp
@@ -154,5 +179,7 @@ legacy_workspace_trial="$(mktemp -d)"
   "$root/scripts/uwf" validate --json | grep -Fq 'uwf-validation/v1'
   test -f Foundation/15-Engineering-Materials/Composition-Manifest.md
   test -f Foundation/17-Research-Content-Operations/Research-Policy.md
+  test -f agent/Orchestrator.md
+  test -f tools/contracts/workspace-inspector.yaml
 )
 printf 'Smoke tests passed.\n'

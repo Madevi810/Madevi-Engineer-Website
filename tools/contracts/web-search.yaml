@@ -1,0 +1,11 @@
+id: web-search
+mode: external_read
+purpose: Search approved public sources and record evidence, freshness, limits, and rights notes.
+requires: [web_research_access, approved_research_scope]
+permissions: [public_web_read]
+dry_run: true
+approval_required: true
+risk_level: medium
+writes: [Foundation/16-External-Reference-Evidence]
+fallback: Produce a source plan and request source material from developer.
+audit_log: required

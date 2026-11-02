@@ -8,7 +8,7 @@ manifest="$root/FOUNDATION_MANIFEST.yaml"
 
 schema="$(grep -E '^schema_version:' "$manifest" | head -n 1 | sed -E 's/^schema_version:[[:space:]]*//')"
 case "$schema" in
-  1) printf 'Manifest schema 1 is supported by UWF 1.2.\n' ;;
+  1) printf 'Manifest schema 1 is supported by UWF 1.3.\n' ;;
   *) printf 'Unsupported manifest schema: %s\n' "$schema" >&2; exit 1 ;;
 esac
 
@@ -54,4 +54,26 @@ if ! grep -q '^agent_runtime:' "$manifest"; then
   ' "$manifest" >"$temporary"
   mv "$temporary" "$manifest"
   printf 'Added UWF 1.2 runtime, composition, evidence, and content-operation fields; backup: %s\n' "$backup"
+fi
+
+if ! grep -q '^agent_orchestration:' "$manifest"; then
+  backup="${manifest}.pre-v1.3.bak"
+  [[ -e "$backup" ]] || cp "$manifest" "$backup"
+  temporary="$(mktemp "${manifest}.tmp.XXXXXX")"
+  awk '
+    { print }
+    /^  limits:/ {
+      print ""
+      print "agent_orchestration:"
+      print "  status: DRAFT # DRAFT | ROUTED | NEED_INFO | READY | APPROVED"
+      print "  mode: autonomous_foundation_composition # autonomous_foundation_composition | guided_choice"
+      print "  question_budget: 3"
+      print "  active_roles: []"
+      print "  active_tools: []"
+      print "  status_report_file: Foundation/00-Control/Status-Report.md"
+      print "  action_journal: Foundation/00-Control/Action-Journal.md"
+    }
+  ' "$manifest" >"$temporary"
+  mv "$temporary" "$manifest"
+  printf 'Added UWF 1.3 agent orchestration fields; backup: %s\n' "$backup"
 fi

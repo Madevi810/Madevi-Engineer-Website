@@ -1,113 +1,205 @@
 # Universal Web Foundation
 
-Current stable version: [1.2.0](https://github.com/Madevi810/Universal-Web-Foundation/releases/tag/v1.2.0)
+Current stable release: [v1.2.0](https://github.com/Madevi810/Universal-Web-Foundation/releases/tag/v1.2.0)
+Development on `main`: v1.3.0 candidate — Agent Orchestration & Tool Runtime
 
-Universal Web Foundation (UWF) is an open-source, AI-ready planning and governance workspace for web projects. It helps a developer and an AI agent turn an idea into an approved web implementation without forcing a fixed stack, provider, or level of experience.
+Universal Web Foundation (UWF) is an open-source engineering foundation for **web projects**. It helps an AI agent turn a developer's ordinary-language idea into a reviewed, traceable, and implementation-ready Foundation.
 
-UWF is for websites, web applications, dashboards, SaaS, commerce, content platforms, browser games, and mixed platforms. It is not a native iOS, Android, desktop, or embedded-app framework.
+UWF is not a website builder, design editor, chatbot replacement, or a collection of copied boilerplates. It is the operating system around an AI coding workflow: it gives the agent materials, rules, tools, evidence, quality gates, and an accountable way to work.
 
-## What UWF does
+It supports websites, web applications, dashboards, SaaS, marketplaces, article/media platforms, browser games, and mixed multi-module platforms. Native mobile, desktop, and embedded applications are outside the core scope.
 
-- Adapts questions and recommendations for beginner, intermediate, and professional developers.
-- Supports either full AI guidance or AI recommendations with a complete choice list and a custom-answer option.
-- Builds a Foundation in safe stages: objectives, users, project mode, modules, MVP, UX/UI, architecture, operations, and quality.
-- Prevents implementation from starting until the relevant stage is analyzed and approved.
-- Supports prototype-local, prototype-online, beta, and production-online modes.
-- Plans a controlled migration from prototype to online production while retaining the archived prototype foundation.
-- Supports optional automation with explicit scope, budgets, quality gates, logs, rollback, and a kill switch.
-- Records change requests and impact analysis when forgotten features or new objectives appear during or after implementation.
-- Provides an optional UI/UX creative brief, responsive review, and controlled image/HTML simulation planning.
-- Includes machine-readable CLI context, status, next-step, and validation output for terminal AI agents.
-- Uses an original capability matrix, starter Foundation packs, reference-analysis record, plugin disclosure, and release-readiness process.
-- Treats stacks, patterns, quality controls, content systems, and operational choices as composable engineering materials with compatibility, lifecycle, and evidence records.
-- Adds controlled external-reference research and a post-Foundation Research, Content & Production workflow for taxonomy, source-led content, quality review, and publication planning.
+## The simple idea
 
-## Quick start
+The developer should not need to become a system architect or answer a giant form.
 
-After installing the CLI, run:
-
-```bash
-uwf
+```text
+Developer explains the goal in plain language
+          ↓
+UWF Agent understands the goal and makes safe assumptions
+          ↓
+It selects materials, skills, tools, strategy, and project stages
+          ↓
+It asks only the few questions that need a human decision
+          ↓
+It shows status, risks, options, and a confirmation gate
+          ↓
+Approved work moves to implementation
 ```
 
-The interactive flow asks for a project name and creates a workspace. Advanced users may use:
+For example, a developer may say: “I want an Indonesian space article website that can later add learning products.” The agent independently prepares modules, taxonomy, stack options, rights/source policy, mobile UX, growth path, and risk notes. It then asks only material questions such as prototype versus online, language scope, or whether real payments are required.
 
-```bash
-uwf init nama-web
-```
+## What UWF provides
 
-Or start with an original Foundation pack:
+- Progressive Foundation planning for beginner, intermediate, and professional developers.
+- Full-agent recommendation mode or recommendation with a complete/custom choice path.
+- Engineering Material Library: stack, architecture, data, UX, security, testing, operations, content, and migration decisions.
+- One orchestrating agent with specialist roles for product, architecture, UX/UI, research, taxonomy, content, quality, migration, and operations.
+- Tool contracts, capability detection, permission gates, dry-run workflow, action journal, and job records.
+- Evidence Cards for GitHub, official documentation, factual sources, creative references, licenses, rights, and freshness limits.
+- Prototype-local, prototype-online, beta, and production-online paths.
+- Controlled content planning from 1 item to 10,000+ items with batch, quality, rights, capacity, and publishing controls.
+- Change Requests for forgotten features or altered goals after implementation has begun.
+- HTML/image simulation planning, responsive/accessibility review, and clean-room UI reference analysis.
+- Machine-readable status, validation, agent routing, tool, job, and evaluation output for terminal AI agents.
 
-```bash
-uwf template list
-uwf init nama-web --template content-platform
-```
+## What UWF does not promise
 
-Open the generated workspace in an AI coding environment and ask the agent to read `AGENTS.md` and `FOUNDATION_MANIFEST.yaml` first.
+UWF does not claim every AI runtime has web search, GitHub access, a browser, image generation, cloud credentials, or publishing authority. The Runtime Profile records what is actually available. An unavailable tool must be reported, never invented.
 
-For terminal AI agents, use:
+UWF also never treats a public repository, video, book, image, social post, or design reference as permission to copy it. It records licenses, limits, evidence, and original-use rules first.
 
-```bash
-uwf context --json
-uwf status --json
-uwf next --json
-uwf validate --json
+## Agent workflow
+
+The Foundation Orchestrator is the only agent that speaks for the whole system. Specialist agents are roles it selects internally; they do not send disconnected questions to the developer.
+
+| Role | Main responsibility |
+| --- | --- |
+| Foundation Orchestrator | Understands goals, routes work, controls questions, stages, and approvals |
+| Product & Discovery | Users, MVP, modules, objectives, and success measures |
+| Engineering Composer | Selects compatible materials, alternatives, costs, and risks |
+| Architecture & Stack | Frontend, backend, data, API, identity, integration, and migration |
+| UX/UI | Information hierarchy, responsive behavior, accessibility, simulation |
+| Research & Evidence | Approved external research, GitHub review, source verification, provenance |
+| Taxonomy & Content | Categories, metadata, content map, batch plan, rights, and quality queue |
+| Quality, Security & Rights | Tests, security, privacy, accessibility, licenses, and release evidence |
+| Migration & Operations | Change impact, prototype-to-online, capacity, deployment, rollback |
+| Automation Supervisor | Approved jobs, budget, audit, rollback, and kill switch |
+
+### When the agent asks a question
+
+By default it makes safe, visible assumptions. It asks at most three high-value questions at one time, only when the answer changes the objective, budget, legal/rights position, security, real-user data, provider choice, publishing, deployment, or an already-approved decision.
+
+Every meaningful stage ends with a compact report:
+
+```text
+Stage: Content Foundation
+Status: READY WITH NOTES
+Designed: taxonomy, source policy, 10-item pilot batch, mobile UX, growth path
+Assumptions: beginner audience, Indonesian-first, no account system in MVP
+Need from developer: prototype or online?
+Recommendation: online prototype with managed content storage
+Choices: approve / edit assumption / add goal / defer
 ```
 
 ## Workspace lifecycle
 
 ```text
-Discovery and Foundation
-  -> stage analysis
-  -> developer approval
-  -> implementation of an approved stage
-  -> review and change analysis
-  -> next stage, upgrade, or release
+Discovery
+→ Foundation composition
+→ stage analysis and validation
+→ developer approval
+→ Project-Name-Project implementation
+→ review, change request, migration, or release
+→ optional controlled content operations
 ```
 
-The template starts with `Project-Implementasi/` locked for application code. When the implementation gate is approved, use `uwf approve implementation --project "Nama Web"` to rename it to `Project-Nama-Web/` and create a minimal implementation skeleton.
+Application code is locked while the Foundation is being prepared. After the relevant gate is approved, `Project-Implementasi/` becomes `Project-Name-Project/`.
 
-UWF may learn from public UI/UX references, but its Foundation packs, UI guidance, assets, and code remain original. Use `uwf reference` to follow the clean-room reference-analysis workflow in Foundation/06-UX-UI.
+## Install
 
-For broader engineering or content research, UWF records the source policy and evidence before making a recommendation. The installed CLI does not pretend to be a search engine: a web-capable AI agent must declare its available access and operate only within the developer-approved scope.
+Linux requirements: `bash`, `curl`, and `git`.
 
-## See UWF in use
+```bash
+curl -fsSL https://raw.githubusercontent.com/Madevi810/Universal-Web-Foundation/main/scripts/install.sh -o install-uwf.sh
+less install-uwf.sh
+bash install-uwf.sh
+```
+
+The installer needs no root access and installs the newest stable tagged release into `~/.local/bin`. Use `--edge` only to intentionally test the moving `main` branch.
+
+## Start a project
+
+```bash
+uwf init Name-Project
+cd name-project
+uwf context --json
+uwf status --json
+```
+
+Optional Foundation packs:
+
+```bash
+uwf template list
+uwf init Name-Project --template content-platform
+```
+
+Open the generated workspace in an AI coding environment. Ask the agent to read `AGENTS.md`, `FOUNDATION_MANIFEST.yaml`, the active Foundation stage, and the current status before acting.
+
+## Tool runtime
+
+UWF tools are provider-neutral. Their contracts define capability, permission, input/output, dry-run behavior, logs, approval, rollback, and fallback.
+
+```bash
+uwf tool list
+uwf tool doctor
+uwf tool capability
+uwf tool inspect workspace-inspector
+uwf tool run workspace-inspector --dry-run
+uwf agent status
+uwf agent route
+uwf job list
+uwf evaluation run regression
+```
+
+The default local tools analyze the workspace and create traceable planning records. External tools such as GitHub research, web search, deployment, databases, and publishing require a matching available adapter and the relevant policy/approval.
+
+## Key commands
+
+| Command | Purpose |
+| --- | --- |
+| `uwf status --json` | Machine-readable Foundation state |
+| `uwf next --json` | Current stage and next safe action |
+| `uwf validate --json` | Validate Foundation readiness |
+| `uwf compose plan` | Open the engineering Composition Manifest |
+| `uwf material assess` | Begin material and compatibility review |
+| `uwf evidence add "Name"` | Record external evidence without copying it |
+| `uwf research prepare` | Prepare research policy and plan; does not search by itself |
+| `uwf taxonomy plan` | Plan hierarchy and metadata |
+| `uwf operations prepare` | Prepare controlled content operations after implementation approval |
+| `uwf change new "Title"` | Record a forgotten feature or scope change |
+| `uwf approve implementation --project "Name-Project"` | Activate `Project-Name-Project/` after gates pass |
+
+## Safety model
+
+| Action | Default behavior |
+| --- | --- |
+| Read/analyze local Foundation | Allowed |
+| Create Foundation plans and dry-runs | Allowed |
+| Use unavailable web/GitHub/browser access | Blocked and reported honestly |
+| Add dependencies | Requires compatibility, license, and security review |
+| Write application code | Requires implementation gate approval |
+| Push, deploy, publish, or use real-user data | Requires explicit developer approval and applicable policy |
+| Schedule autonomous work | Requires scope, budget, quality gate, rollback, audit log, and kill switch |
+
+## Visual workflow
 
 ### Linux terminal CLI
 
 ![Linux terminal preview](docs/images/uwf-linux-cli-preview.svg)
 
-The CLI creates and checks a Foundation workspace. It records decisions and blocks implementation when a required review has not been completed.
-
 ### AI coding workspace
 
 ![AI coding workspace preview](docs/images/uwf-ide-preview.svg)
 
-Open the generated workspace in any AI-capable coding environment. The agent reads `AGENTS.md`, `FOUNDATION_MANIFEST.yaml`, and the active Foundation stage before it recommends or implements work.
+These are original UWF illustrations, not screenshots or copies of a branded IDE, terminal, or external design tool.
 
-These previews are original UWF illustrations. They show the intended workflow and are not screenshots or copies of a branded terminal, IDE, or external design tool.
+## Important files
 
-## Important documents
+| File/folder | Purpose |
+| --- | --- |
+| `AGENTS.md` | Mandatory operating rules for AI agents |
+| `FOUNDATION_MANIFEST.yaml` | Current machine-readable project state |
+| `Foundation/` | Project decisions, materials, evidence, stages, and handover |
+| `agent/` | Orchestrator routing, assumption, question, status, and escalation rules |
+| `skills/` | Specialist role instructions and workflows |
+| `tools/` | Tool contracts, local runner, adapters, validators, and safety rules |
+| `policies/` | Permission, data, research, publishing, automation, and runtime policies |
+| `evaluations/` | Scenarios, negative tests, regression, and expected artifacts |
+| `Project-Name-Project/` | Application implementation after approval |
 
-| File | Audience | Purpose |
-| --- | --- | --- |
-| `README.md` | Humans | Installation and high-level usage |
-| `AGENTS.md` | AI agents | Mandatory operating rules |
-| `FOUNDATION_MANIFEST.yaml` | Humans and agents | Current machine-readable project state |
-| `Foundation/` | Humans and agents | Decisions, questions, analysis, reports, and handover |
+## Open source and contribution
 
-## Installation from GitHub
+UWF remains provider-neutral and open source. Git, GitHub, Docker, hosting, databases, payment providers, content automation, AI models, and cloud services are optional integrations. The core Foundation works offline after installation.
 
-```bash
-curl -fsSL https://raw.githubusercontent.com/Madevi810/universal-web-foundation/main/scripts/install.sh -o install-uwf.sh
-less install-uwf.sh
-bash install-uwf.sh
-```
-
-The installer uses no root access and installs the newest stable release into `~/.local/bin`. It needs `bash`, `curl`, and `git`. Use `--edge` only when intentionally testing the moving main branch.
-
-## Open-source scope
-
-UWF is deliberately provider-neutral. Git, GitHub, Docker, hosting providers, databases, payment services, content automation, and AI providers are optional integrations. The core Foundation works offline after installation.
-
-See [Foundation/README.md](Foundation/README.md) for the Foundation map and [docs/beginner/START-HERE.md](docs/beginner/START-HERE.md) for the beginner path.
+Read [Foundation/README.md](Foundation/README.md) for the Foundation map, [docs/beginner/START-HERE.md](docs/beginner/START-HERE.md) for the beginner path, and [CONTRIBUTING.md](CONTRIBUTING.md) to contribute safely.

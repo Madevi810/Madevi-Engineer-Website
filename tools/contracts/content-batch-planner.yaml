@@ -1,0 +1,11 @@
+id: content-batch-planner
+mode: foundation_write
+purpose: Plan reviewable content batches, capacity, stop conditions, and escalation.
+requires: [Foundation/17-Research-Content-Operations/Scale-Batch-Plan.md]
+permissions: [foundation_write]
+dry_run: true
+approval_required: false
+risk_level: medium
+writes: [Foundation/17-Research-Content-Operations, Foundation/00-Control/Action-Journal.md, Foundation/00-Control/Jobs]
+fallback: Use manual batch plan and developer review.
+audit_log: required

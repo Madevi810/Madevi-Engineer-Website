@@ -14,6 +14,7 @@ The manifest is the current machine-readable source of truth for:
 - agent runtime capability disclosure;
 - engineering-material composition and external-evidence state;
 - research/content-operation taxonomy, policy, scale, and publishing state.
+- agent orchestration mode, question budget, active roles/tools, status report, and action journal.
 
 Rules:
 

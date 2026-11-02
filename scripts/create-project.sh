@@ -22,7 +22,7 @@ cat >"$target/IMPLEMENTATION-START.md" <<EOF
 
 Project: $project_name
 
-This directory is active only because the developer approved the implementation gate.
+This Project-Name-Project directory is active only because the developer approved the implementation gate.
 Read ../Foundation/12-Handover/ before selecting a stack or writing application code.
 
 Record approved work in docs/IMPLEMENTATION-HISTORY.md, user-visible changes in CHANGELOG.md,
