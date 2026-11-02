@@ -1,6 +1,6 @@
 # Universal Web Foundation
 
-Current stable version: [1.1.0](https://github.com/Madevi810/Universal-Web-Foundation/releases/tag/v1.1.0)
+Current stable version: [1.2.0](https://github.com/Madevi810/Universal-Web-Foundation/releases/tag/v1.2.0)
 
 Universal Web Foundation (UWF) is an open-source, AI-ready planning and governance workspace for web projects. It helps a developer and an AI agent turn an idea into an approved web implementation without forcing a fixed stack, provider, or level of experience.
 
