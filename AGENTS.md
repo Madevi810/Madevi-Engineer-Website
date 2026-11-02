@@ -88,7 +88,7 @@ Do not produce generic filler, unreviewed placeholders, misleading claims, or de
 
 ## External references and clean-room work
 
-External products, repositories, screenshots, and design references may inform a problem statement or a quality principle, but they are never implementation sources by default. Record the reference and the abstracted lesson in `Foundation/06-UX-UI/Reference-Analysis.md`; create original UWF artifacts, names, layouts, code, schemas, and copy. Do not reproduce protected branding, assets, screenshots, distinctive UI composition, private APIs, file formats, or source code. Check licenses and attribution requirements before any direct dependency or code reuse.
+External products, repositories, screenshots, and design references belong primarily to UI/UX discovery unless the developer separately approves a broader analysis. Record the reference and the abstracted UX/UI lesson in `Foundation/06-UX-UI/Reference-Analysis.md` and `Design-Reference-Registry.md`; create original UWF artifacts, names, layouts, code, schemas, and copy. Do not reproduce protected branding, assets, screenshots, distinctive UI composition, private APIs, file formats, or source code. Check licenses and attribution requirements before any direct dependency or code reuse.
 
 ## Capability and release honesty
 

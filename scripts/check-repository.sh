@@ -18,6 +18,7 @@ for file in \
   Foundation/06-UX-UI/Responsive-Accessibility-Review.md \
   Foundation/06-UX-UI/Simulation-Plan.md \
   Foundation/06-UX-UI/Reference-Analysis.md \
+  Foundation/06-UX-UI/Design-Reference-Registry.md \
   Foundation/00-Control/Capability-Matrix.md \
   Foundation/12-Handover/Release-Readiness.md \
   Foundation/14-Change-Management/README.md \

@@ -5,6 +5,7 @@
 - Added an original capability-maturity matrix, starter Foundation packs, clean-room reference-analysis workflow, and release-readiness checklist.
 - Added plugin inspection with declared permissions, data scope, write effects, risk level, and fallback.
 - Added CLI commands for templates, references, capability status, and release readiness.
+- Scoped external-reference work to UI/UX Foundation by default, with FigCraft recorded only as a review-required UI/UX reference.
 
 ## 1.1.0 - 2026-11-02
 

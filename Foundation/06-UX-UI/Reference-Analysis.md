@@ -1,6 +1,6 @@
-# External Reference Analysis — Clean Room
+# UI/UX Reference Analysis — Clean Room
 
-Use this only to learn an abstract principle from a public product, repository, or design reference. It is not permission to copy its code, branding, visual composition, assets, APIs, or file format.
+Use this only to learn an abstract UI/UX principle from a public product, repository, or design reference. It is not permission to copy its code, branding, visual composition, assets, APIs, or file format. Broader architecture or implementation analysis requires a separate developer decision.
 
 ## Reference record
 
@@ -13,7 +13,7 @@ Use this only to learn an abstract principle from a public product, repository, 
 
 - Problem the reference solves:
 - General principle worth considering:
-- Why it fits this project's users and objective:
+- Why it fits this project's users, interface, and objective:
 
 ## Original UWF response
 

@@ -65,7 +65,7 @@ Discovery and Foundation
 
 The template starts with `Project-Implementasi/` locked for application code. When the implementation gate is approved, use `uwf approve implementation --project "Nama Web"` to rename it to `Project-Nama-Web/` and create a minimal implementation skeleton.
 
-UWF may learn from public references, but its Foundation packs, UI guidance, assets, and code remain original. Use `uwf reference` to follow the clean-room reference-analysis workflow.
+UWF may learn from public UI/UX references, but its Foundation packs, UI guidance, assets, and code remain original. Use `uwf reference` to follow the clean-room reference-analysis workflow in Foundation/06-UX-UI.
 
 ## Important documents
 

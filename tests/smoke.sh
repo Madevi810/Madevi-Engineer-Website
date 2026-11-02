@@ -41,6 +41,7 @@ trial="$(mktemp -d)"
   "$root/scripts/uwf" template apply dashboard >/dev/null
   test -f Foundation/04-Product-Modules/Starter-Pack-dashboard.md
   "$root/scripts/uwf" reference >/dev/null
+  test -f Foundation/06-UX-UI/Design-Reference-Registry.md
   "$root/scripts/uwf" capability | grep -Fq 'Capability Matrix'
   "$root/scripts/uwf" release check >/dev/null
   test -f Foundation/12-Handover/Release-Readiness.md
