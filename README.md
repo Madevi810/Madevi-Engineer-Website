@@ -1,7 +1,7 @@
 # Universal Web Foundation
 
-Current stable release: [v1.2.0](https://github.com/Madevi810/Universal-Web-Foundation/releases/tag/v1.2.0)
-Development on `main`: v1.3.0 candidate — Agent Orchestration & Tool Runtime
+Current stable release: [v1.3.0](https://github.com/Madevi810/Universal-Web-Foundation/releases/tag/v1.3.0)
+Development on `main`: post-v1.3.0 maintenance and future improvements
 
 Universal Web Foundation (UWF) is an open-source engineering foundation for **web projects**. It helps an AI agent turn a developer's ordinary-language idea into a reviewed, traceable, and implementation-ready Foundation.
 
@@ -203,3 +203,4 @@ These are original UWF illustrations, not screenshots or copies of a branded IDE
 UWF remains provider-neutral and open source. Git, GitHub, Docker, hosting, databases, payment providers, content automation, AI models, and cloud services are optional integrations. The core Foundation works offline after installation.
 
 Read [Foundation/README.md](Foundation/README.md) for the Foundation map, [docs/beginner/START-HERE.md](docs/beginner/START-HERE.md) for the beginner path, and [CONTRIBUTING.md](CONTRIBUTING.md) to contribute safely.
+035f8e1de472d40ca87c61878f128908e92c9d9f
