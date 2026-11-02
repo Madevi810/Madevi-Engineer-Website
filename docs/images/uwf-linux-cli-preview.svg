@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="860" viewBox="0 0 1440 860" role="img" aria-labelledby="title desc">
+  <title id="title">Universal Web Foundation on a Linux terminal</title>
+  <desc id="desc">A Linux terminal showing a UWF workspace being created, a FigCraft UI UX reference recorded, and Foundation status displayed.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#101923"/>
+      <stop offset="1" stop-color="#0a1017"/>
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="22" stdDeviation="24" flood-color="#000" flood-opacity=".32"/>
+    </filter>
+  </defs>
+  <rect width="1440" height="860" fill="#eaf0f3"/>
+  <rect x="74" y="56" width="1292" height="748" rx="20" fill="url(#bg)" filter="url(#shadow)"/>
+  <path d="M94 76h1252a0 0 0 0 1 0 0v58H94a0 0 0 0 1 0 0V76a0 0 0 0 1 0 0z" fill="#172531"/>
+  <circle cx="120" cy="105" r="8" fill="#f2746a"/>
+  <circle cx="146" cy="105" r="8" fill="#eec56a"/>
+  <circle cx="172" cy="105" r="8" fill="#75c987"/>
+  <text x="720" y="111" fill="#b9c9d4" font-family="Arial, sans-serif" font-size="18" text-anchor="middle">madevi@linux — Universal Web Foundation</text>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="20">
+    <text x="120" y="184" fill="#83d7b2">madevi@linux</text><text x="275" y="184" fill="#dbe7ef">:</text><text x="290" y="184" fill="#79bde8">~/work</text><text x="365" y="184" fill="#dbe7ef">$</text><text x="391" y="184" fill="#f2f6f9"> uwf init "Portal Artikel" --template content-platform</text>
+    <text x="120" y="224" fill="#adc0cc">Workspace dibuat: /home/madevi/work/portal-artikel</text>
+    <text x="120" y="254" fill="#adc0cc">Starter pack ditambahkan: content-platform</text>
+    <text x="120" y="302" fill="#83d7b2">madevi@linux</text><text x="275" y="302" fill="#dbe7ef">:</text><text x="290" y="302" fill="#79bde8">~/work</text><text x="365" y="302" fill="#dbe7ef">$</text><text x="391" y="302" fill="#f2f6f9"> cd portal-artikel</text>
+    <text x="120" y="350" fill="#83d7b2">madevi@linux</text><text x="275" y="350" fill="#dbe7ef">:</text><text x="290" y="350" fill="#79bde8">~/work/portal-artikel</text><text x="550" y="350" fill="#dbe7ef">$</text><text x="576" y="350" fill="#f2f6f9"> uwf reference figcraft</text>
+    <text x="120" y="390" fill="#b3c3cd">Katalog FigCraft: Foundation/06-UX-UI/FigCraft-Reference-Catalog.md</text>
+    <text x="120" y="420" fill="#b3c3cd">Analisis aktif dibuat: Reference-Analysis-FigCraft.md</text>
+    <text x="120" y="450" fill="#efbd75">reference_status: ANALYSIS_REQUIRED</text>
+    <text x="120" y="498" fill="#83d7b2">madevi@linux</text><text x="275" y="498" fill="#dbe7ef">:</text><text x="290" y="498" fill="#79bde8">~/work/portal-artikel</text><text x="550" y="498" fill="#dbe7ef">$</text><text x="576" y="498" fill="#f2f6f9"> uwf status --json</text>
+  </g>
+  <rect x="116" y="528" width="1208" height="164" rx="10" fill="#0c141c" stroke="#2c414f"/>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="17">
+    <text x="142" y="566" fill="#d8e6ee">{</text>
+    <text x="168" y="596" fill="#aebfc9">"current_stage_name": </text><text x="404" y="596" fill="#93d5ee">"developer_profile_and_objectives"</text><text x="710" y="596" fill="#aebfc9">,</text>
+    <text x="168" y="626" fill="#aebfc9">"active_reference": </text><text x="404" y="626" fill="#93d5ee">"figcraft_public_repository"</text><text x="700" y="626" fill="#aebfc9">,</text>
+    <text x="168" y="656" fill="#aebfc9">"implementation_gate": </text><text x="444" y="656" fill="#ef9a9a">"BLOCKED"</text>
+    <text x="142" y="682" fill="#d8e6ee">}</text>
+  </g>
+  <g font-family="Arial, sans-serif">
+    <rect x="115" y="728" width="341" height="42" rx="21" fill="#18352f"/>
+    <text x="285" y="755" fill="#9fe1c6" font-size="17" text-anchor="middle">Foundation first · no code yet</text>
+    <text x="1280" y="755" fill="#9daeba" font-size="16" text-anchor="end">Linux CLI preview</text>
+  </g>
+</svg>

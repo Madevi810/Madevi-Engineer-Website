@@ -34,7 +34,9 @@ for file in \
   templates/implementation/CHANGELOG.md \
   templates/implementation/IMPLEMENTATION-HISTORY.md \
   templates/implementation/DECISIONS.md \
-  templates/implementation/TRACEABILITY.md; do
+  templates/implementation/TRACEABILITY.md \
+  docs/images/uwf-linux-cli-preview.svg \
+  docs/images/uwf-ide-preview.svg; do
   need "$file"
 done
 

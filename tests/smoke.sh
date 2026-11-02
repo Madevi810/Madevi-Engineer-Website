@@ -21,6 +21,10 @@ bash -n "$root/scripts/validate-foundation.sh"
 "$root/scripts/uwf" stack list
 "$root/scripts/check-repository.sh"
 "$root/scripts/manifest-migrate.sh" "$root"
+test -f "$root/docs/images/uwf-linux-cli-preview.svg"
+test -f "$root/docs/images/uwf-ide-preview.svg"
+grep -Fq 'docs/images/uwf-linux-cli-preview.svg' "$root/README.md"
+grep -Fq 'docs/images/uwf-ide-preview.svg' "$root/README.md"
 
 trial="$(mktemp -d)"
 (

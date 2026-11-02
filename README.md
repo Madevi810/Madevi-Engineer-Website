@@ -67,6 +67,22 @@ The template starts with `Project-Implementasi/` locked for application code. Wh
 
 UWF may learn from public UI/UX references, but its Foundation packs, UI guidance, assets, and code remain original. Use `uwf reference` to follow the clean-room reference-analysis workflow in Foundation/06-UX-UI.
 
+## See UWF in use
+
+### Linux terminal CLI
+
+![Linux terminal preview](docs/images/uwf-linux-cli-preview.svg)
+
+The CLI creates and checks a Foundation workspace. It records decisions and blocks implementation when a required review has not been completed.
+
+### AI coding workspace
+
+![AI coding workspace preview](docs/images/uwf-ide-preview.svg)
+
+Open the generated workspace in any AI-capable coding environment. The agent reads `AGENTS.md`, `FOUNDATION_MANIFEST.yaml`, and the active Foundation stage before it recommends or implements work.
+
+These previews are original UWF illustrations. They show the intended workflow and are not screenshots or copies of a branded terminal, IDE, or external design tool.
+
 ## Important documents
 
 | File | Audience | Purpose |
