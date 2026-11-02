@@ -25,6 +25,8 @@ change_management:
   last_impact_level: unset # low | medium | high | critical
 
 ui_ux:
+  active_reference: unset # unset | figcraft_public_repository | custom
+  reference_status: OPTIONAL # OPTIONAL | ANALYSIS_REQUIRED | ANALYZED | APPROVED | REJECTED
   creative_brief_status: OPTIONAL # OPTIONAL | PROVIDED | ANALYZED | APPROVED
   simulation_status: DEFERRED # DEFERRED | PLANNED | DRAFT | REVIEW | APPROVED
   preferred_simulation: unset # image_mockup | html_prototype | both | none

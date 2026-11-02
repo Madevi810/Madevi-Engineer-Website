@@ -106,6 +106,8 @@ At the end of each major Foundation stage, before implementation approval, befor
 
 Before recommending visual options, offer the developer an optional `Creative Brief` in `Foundation/06-UX-UI/Creative-Brief.md`. If it is provided, derive recommendations from it. If it is not provided, give safe, objective-based options and a custom-answer path.
 
+If `ui_ux.active_reference` is not `unset`, read its dedicated analysis file before recommending UI/UX work. A reference with status `ANALYSIS_REQUIRED` may guide questions but may not guide simulation or implementation until the clean-room analysis is completed and the developer has reviewed it.
+
 Confirm layout, information hierarchy, colors, typography, visual density, interaction effects, animation/motion, and responsive priorities before producing a simulation. Analyze mobile, tablet, and desktop states; accessibility, contrast, reduced motion, and performance are mandatory review topics.
 
 Only after this analysis may the agent offer an image mockup, a responsive HTML prototype, or both. Mark every simulation as `DRAFT` until the developer approves it. Simulation artifacts are planning references, not production implementation, and must not add AI-watermarks, generic AI labels, or unapproved brand claims to the product.

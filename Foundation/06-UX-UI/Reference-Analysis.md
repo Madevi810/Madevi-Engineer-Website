@@ -2,6 +2,8 @@
 
 Use this only to learn an abstract UI/UX principle from a public product, repository, or design reference. It is not permission to copy its code, branding, visual composition, assets, APIs, or file format. Broader architecture or implementation analysis requires a separate developer decision.
 
+For an active reference, make a dedicated copy such as `Reference-Analysis-FigCraft.md`; retain this file as the reusable blank template.
+
 ## Reference record
 
 - Source URL or name:

@@ -17,3 +17,5 @@ Documentation:
 Terminal-agent workflow: read AGENTS.md and FOUNDATION_MANIFEST.yaml, then use `uwf context --json`, `uwf status --json`, `uwf next --json`, and `uwf validate --json`. Never implement application code before the developer approves the implementation gate.
 
 Use `uwf template list` for original Foundation starter packs, `uwf reference` before using external references, `uwf capability` before promising a capability, and `uwf release check` before describing an implementation release as stable.
+
+When `ui_ux.active_reference` is set, read its dedicated analysis document. Do not use an `ANALYSIS_REQUIRED` reference to generate a simulation or implementation.

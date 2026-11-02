@@ -4,6 +4,8 @@ This catalog maps public FigCraft feature areas into original UWF planning work.
 
 Use it as a complete menu of reference areas. For every item selected by a developer, complete `Reference-Analysis.md`, then produce an original recommendation appropriate to the web project.
 
+Run `uwf reference figcraft` to create `Reference-Analysis-FigCraft.md` and mark the reference as `ANALYSIS_REQUIRED` in the manifest. The agent must not create a simulation or implementation from this catalog until that analysis is complete.
+
 | FigCraft public feature area | What may be studied as an abstract UI/UX lesson | UWF adaptation | Classification |
 | --- | --- | --- | --- |
 | Auto layout, grid, constraints, sizing, spacing, alignment | Responsive hierarchy, reusable spacing rules, and predictable resizing | Record responsive layout rules in Creative Brief and Responsive Review; test mobile, tablet, desktop | Foundation UI/UX |

@@ -7,6 +7,7 @@
 - Added CLI commands for templates, references, capability status, and release readiness.
 - Scoped external-reference work to UI/UX Foundation by default, with FigCraft recorded only as a review-required UI/UX reference.
 - Added a full FigCraft public-feature reference catalog that maps each relevant area to original UWF planning, optional product scope, or exclusion.
+- Added active UI/UX reference status, a FigCraft analysis draft command, and a gate check for unanalyzed active references.
 
 ## 1.1.0 - 2026-11-02
 

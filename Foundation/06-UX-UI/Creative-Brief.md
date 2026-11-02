@@ -9,6 +9,14 @@ This brief is optional. Developers may describe the website in their own words, 
 - Things to avoid:
 - Brand assets, colors, typography, or legal constraints:
 
+## UI/UX reference choice (optional)
+
+- Active reference: none | FigCraft public repository | custom
+- Selected FigCraft catalog categories, if any:
+- Abstract lesson to consider; never a request to copy:
+- Dedicated analysis file:
+- Developer decision: use as inspiration | defer | reject
+
 ## Recommendation route
 
 - [ ] Use the developer vision as the primary input

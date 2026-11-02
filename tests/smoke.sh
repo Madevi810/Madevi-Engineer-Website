@@ -41,9 +41,12 @@ trial="$(mktemp -d)"
   "$root/scripts/uwf" template apply dashboard >/dev/null
   test -f Foundation/04-Product-Modules/Starter-Pack-dashboard.md
   "$root/scripts/uwf" reference >/dev/null
-  "$root/scripts/uwf" reference figcraft | grep -Fq 'FigCraft-Reference-Catalog.md'
+  "$root/scripts/uwf" reference figcraft | grep -Fq 'Reference-Analysis-FigCraft.md'
   test -f Foundation/06-UX-UI/Design-Reference-Registry.md
   test -f Foundation/06-UX-UI/FigCraft-Reference-Catalog.md
+  test -f Foundation/06-UX-UI/Reference-Analysis-FigCraft.md
+  "$root/scripts/uwf" status --json | grep -Fq 'figcraft_public_repository'
+  "$root/scripts/uwf" validate --json | grep -Fq 'NEED_INFO'
   "$root/scripts/uwf" capability | grep -Fq 'Capability Matrix'
   "$root/scripts/uwf" release check >/dev/null
   test -f Foundation/12-Handover/Release-Readiness.md
@@ -57,6 +60,7 @@ trial="$(mktemp -d)"
   sed -i 's/guidance_mode: unset # full_agent_recommendation | recommendation_with_custom_choice/guidance_mode: full_agent_recommendation # full_agent_recommendation | recommendation_with_custom_choice/' FOUNDATION_MANIFEST.yaml
   sed -i 's/primary: \[\]/primary: [smoke objective]/' FOUNDATION_MANIFEST.yaml
   sed -i 's/status: DRAFT/status: READY/' FOUNDATION_MANIFEST.yaml
+  sed -i 's/reference_status: ANALYSIS_REQUIRED/reference_status: ANALYZED/' FOUNDATION_MANIFEST.yaml
   "$root/scripts/uwf" approve implementation --project "Smoke Web" >/dev/null
   test -f Project-smoke-web/CHANGELOG.md
   test -f Project-smoke-web/docs/IMPLEMENTATION-HISTORY.md

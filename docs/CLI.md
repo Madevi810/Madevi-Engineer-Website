@@ -23,7 +23,7 @@ Run UWF without arguments for the beginner-friendly menu.
 | uwf ui review | Show the responsive, accessibility, and simulation review workflow |
 | uwf template list | List original Foundation starter packs |
 | uwf template apply id | Add a starter-pack brief to the current workspace for review |
-| uwf reference [figcraft] | Show the clean-room UI/UX reference workflow or the FigCraft reference catalog |
+| uwf reference [figcraft] | Show the clean-room UI/UX reference workflow; `figcraft` creates an analysis draft and marks it active |
 | uwf capability | Show current UWF capability maturity and limitations |
 | uwf release check | Create or open the release-readiness checklist |
 | uwf plugin inspect id | Show a plugin's permissions, scope, effects, risk, and fallback |

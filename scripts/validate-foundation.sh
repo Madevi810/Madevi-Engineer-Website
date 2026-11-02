@@ -57,12 +57,21 @@ guidance="$(value guidance_mode)"
 gate="$(value implementation_gate)"
 foundation_status="$(value status)"
 primary="$(grep -E '^  primary:' "$manifest" | head -n 1 | sed -E 's/^  primary:[[:space:]]*//')"
+active_reference="$(grep -E '^  active_reference:' "$manifest" | head -n 1 | sed -E 's/^  active_reference:[[:space:]]*//' | sed 's/[[:space:]]*#.*$//')"
+reference_status="$(grep -E '^  reference_status:' "$manifest" | head -n 1 | sed -E 's/^  reference_status:[[:space:]]*//' | sed 's/[[:space:]]*#.*$//')"
 
 [[ -n "$gate" ]] || error "manifest is missing implementation_gate"
 [[ "$project_mode" != "unset" ]] || warning "project mode is not selected"
 [[ "$experience" != "unset" ]] || warning "developer experience level is not selected"
 [[ "$guidance" != "unset" ]] || warning "guidance mode is not selected"
 [[ "$primary" != "[]" && -n "$primary" ]] || warning "primary objective is not recorded"
+
+if [[ -n "$active_reference" && "$active_reference" != "unset" ]]; then
+  if [[ ! -f "$root/Foundation/06-UX-UI/Reference-Analysis-FigCraft.md" && "$active_reference" == "figcraft_public_repository" ]]; then
+    warning "active FigCraft reference has no dedicated analysis file"
+  fi
+  [[ "$reference_status" != "ANALYSIS_REQUIRED" ]] || warning "active UI/UX reference still requires clean-room analysis"
+fi
 
 if grep -Eq '^\|[^|]*\|[[:space:]]*CRITICAL[[:space:]]*\|.*\|[[:space:]]*OPEN[[:space:]]*\|' "$root/Foundation/00-Control/Risk-Register.md"; then
   critical=1
@@ -96,6 +105,7 @@ if [[ "$mode" == "--gate" ]]; then
   [[ "$guidance" != "unset" ]] || error "implementation gate requires a guidance mode"
   [[ "$primary" != "[]" && -n "$primary" ]] || error "implementation gate requires a primary objective"
   [[ "$foundation_status" == "READY" ]] || error "implementation gate requires foundation.status to be READY"
+  [[ "$reference_status" != "ANALYSIS_REQUIRED" ]] || error "implementation gate requires active UI/UX reference analysis"
   [[ "$critical" -eq 0 ]] || error "implementation gate cannot pass with CRITICAL risk"
 fi
 
