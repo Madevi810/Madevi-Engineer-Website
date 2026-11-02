@@ -190,6 +190,7 @@ ensure_extension_artifacts() {
     Foundation/06-UX-UI/Simulation-Plan.md \
     Foundation/06-UX-UI/Reference-Analysis.md \
     Foundation/06-UX-UI/Design-Reference-Registry.md \
+    Foundation/06-UX-UI/FigCraft-Reference-Catalog.md \
     Foundation/00-Control/Capability-Matrix.md \
     Foundation/12-Handover/Release-Readiness.md \
     Foundation/14-Change-Management/README.md \
@@ -226,11 +227,15 @@ template_command() {
 }
 
 reference_command() {
+  [[ $# -eq 0 || ( $# -eq 1 && "$1" == "figcraft" ) ]] || { printf 'Gunakan: uwf reference [figcraft]\n' >&2; exit 1; }
   workspace_manifest
   ensure_extension_artifacts
   printf '%s\n' 'Gunakan Foundation/06-UX-UI/Design-Reference-Registry.md lalu Reference-Analysis.md untuk mencatat pelajaran UI/UX dari referensi eksternal.'
   printf '%s\n' 'Clean-room rule: jangan menyalin kode, merek, logo, aset, screenshot, API privat, format file, atau komposisi UI khas.'
   printf '%s\n' 'Dampak di luar UI/UX harus melalui Change Request terpisah.'
+  if [[ "${1:-}" == "figcraft" ]]; then
+    printf '%s\n' 'Katalog FigCraft: Foundation/06-UX-UI/FigCraft-Reference-Catalog.md'
+  fi
 }
 
 capability_command() {

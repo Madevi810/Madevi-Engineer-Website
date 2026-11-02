@@ -6,6 +6,7 @@ Use this only to learn an abstract UI/UX principle from a public product, reposi
 
 - Source URL or name:
 - Date reviewed:
+- Reference catalog category (if registered):
 - License / terms checked:
 - What is explicitly excluded from use: names, logos, screenshots, assets, source, APIs, layouts, or other protected material
 

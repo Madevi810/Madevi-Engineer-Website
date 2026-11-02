@@ -9,7 +9,7 @@ Documentation:
 - Foundation/14-Change-Management — reviewable scope changes, impact analysis, and release backlog
 - Foundation/06-UX-UI — optional creative brief, responsive/accessibility review, and simulation plan
 - Foundation/00-Control/Capability-Matrix.md — honest workflow maturity and known limits
-- Foundation/06-UX-UI/Design-Reference-Registry.md and Reference-Analysis.md — clean-room UI/UX reference analysis
+- Foundation/06-UX-UI/Design-Reference-Registry.md, Reference-Analysis.md, and FigCraft-Reference-Catalog.md — clean-room UI/UX reference analysis
 - Foundation/12-Handover/Release-Readiness.md — evidence before calling an implementation release stable
 - templates/ — reusable specifications and review formats
 - docs/ — beginner, professional, automation, and migration guides

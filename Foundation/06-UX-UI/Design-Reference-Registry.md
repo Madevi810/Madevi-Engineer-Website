@@ -12,3 +12,5 @@ Register an external reference before the agent analyzes it. A reference supplie
 2. Connect the lesson to this web project's users, responsive needs, accessibility, and performance constraints.
 3. Produce an original simulation only after the developer selects a direction.
 4. If the reference would affect architecture, implementation, or a third-party dependency, open a separate Change Request instead of expanding UI/UX scope silently.
+
+For FigCraft, use `FigCraft-Reference-Catalog.md`. It maps all relevant public feature areas to an original UWF Foundation action, optional product requirement, or explicit out-of-scope classification.
