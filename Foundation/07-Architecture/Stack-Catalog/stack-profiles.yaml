@@ -1,0 +1,58 @@
+schema_version: 1
+profiles:
+  - id: static-content
+    difficulty: beginner
+    use_cases: [landing_page, docs, simple_articles]
+    components: [static_frontend, static_host]
+    modes: [prototype_local, prototype_online, production_online]
+    cost_class: free_or_local
+    risks: [limited_dynamic_features]
+  - id: rapid-full-stack
+    difficulty: beginner_intermediate
+    use_cases: [mvp, dashboard, simple_saas]
+    components: [full_stack_web, managed_relational_data, managed_auth]
+    modes: [prototype_online, beta, production_online]
+    cost_class: economical
+    risks: [provider_limits, export_path]
+  - id: php-business-web
+    difficulty: intermediate
+    use_cases: [cms, commerce, internal_business_web]
+    components: [php_backend, relational_database, web_frontend]
+    modes: [prototype_local, beta, production_online]
+    cost_class: economical
+    risks: [hosting_runtime_requirements]
+  - id: javascript-service-web
+    difficulty: intermediate
+    use_cases: [api_heavy, realtime, multi_module]
+    components: [typescript_frontend, javascript_api, relational_database]
+    modes: [prototype_local, beta, production_online]
+    cost_class: moderate
+    risks: [runtime_operations, dependency_maintenance]
+  - id: python-data-ai-web
+    difficulty: intermediate_professional
+    use_cases: [data_workflow, ai_features, analytics]
+    components: [python_api, web_frontend, relational_database, worker]
+    modes: [prototype_local, beta, production_online]
+    cost_class: moderate
+    risks: [worker_scaling, ai_usage_cost]
+  - id: modular-web-platform
+    difficulty: professional
+    use_cases: [large_team, complex_platform, compliance]
+    components: [frontend, api, services, observability, managed_data]
+    modes: [beta, production_online]
+    cost_class: professional
+    risks: [overengineering, operations_cost]
+  - id: browser-game
+    difficulty: intermediate_professional
+    use_cases: [web_game, interactive_experience]
+    components: [game_framework, asset_pipeline, optional_backend]
+    modes: [prototype_local, prototype_online, production_online]
+    cost_class: moderate
+    risks: [browser_performance, asset_rights]
+  - id: media-content-platform
+    difficulty: intermediate_professional
+    use_cases: [articles, video, animation, media_library]
+    components: [content_api, object_storage, delivery_layer]
+    modes: [prototype_online, beta, production_online]
+    cost_class: moderate
+    risks: [storage_cost, encoding, copyright]

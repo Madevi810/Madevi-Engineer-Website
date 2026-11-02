@@ -1,0 +1,24 @@
+schema: uwf-agent-routing/v1
+default_role: foundation-orchestrator
+rules:
+  - trigger: objective_or_user_need
+    roles: [product-discovery, engineering-composer]
+  - trigger: technology_or_integration_decision
+    roles: [architecture-stack, dependency-vetter, quality-security-rights]
+  - trigger: visual_or_responsive_requirement
+    roles: [ux-ui, quality-security-rights]
+  - trigger: external_source_or_github_reference
+    roles: [external-research-evidence, rights-provenance]
+  - trigger: categories_content_or_large_volume
+    roles: [taxonomy-content, research-content-production]
+  - trigger: prototype_upgrade_or_late_feature
+    roles: [migration-change, engineering-composer]
+  - trigger: deployment_release_or_automation
+    roles: [operations-release, automation-supervisor, quality-security-rights]
+question_escalation:
+  - objective_conflict
+  - irreversible_cost_or_provider_choice
+  - real_user_data_or_security_boundary
+  - rights_or_license_uncertainty
+  - publish_deploy_or_external_write
+  - approved_decision_change

@@ -1,0 +1,11 @@
+id: taxonomy-builder
+mode: foundation_write
+purpose: Prepare taxonomy, hierarchy, controlled vocabulary, and content-map planning artifacts.
+requires: [Foundation/17-Research-Content-Operations/Taxonomy-Content-Map.md]
+permissions: [foundation_write]
+dry_run: true
+approval_required: false
+risk_level: low
+writes: [Foundation/17-Research-Content-Operations, Foundation/00-Control/Action-Journal.md, Foundation/00-Control/Jobs]
+fallback: Use the taxonomy template without automated suggestions.
+audit_log: required

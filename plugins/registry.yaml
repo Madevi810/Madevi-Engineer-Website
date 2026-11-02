@@ -1,0 +1,44 @@
+schema_version: 1
+plugins:
+  - id: git
+    name: Git local history
+    default_status: optional
+    purpose: Version history, branches, snapshots, and rollback.
+    permissions:
+      - local_repository_write
+    data_scope: local workspace files only
+    write_effect: creates commits, branches, or local snapshots when explicitly invoked
+    risk_level: medium
+    fallback: manual file snapshots and changelog entries
+  - id: github
+    name: GitHub integration
+    default_status: disabled
+    purpose: Remote repositories, issues, pull requests, releases, and CI.
+    requires:
+      - git
+    permissions:
+      - repository_read
+      - repository_write
+      - pull_request_create
+    data_scope: selected repository metadata and files
+    write_effect: may create remote repository changes only after explicit developer approval
+    risk_level: high
+    fallback: local Git history and manual publishing
+  - id: deployment
+    name: Deployment provider adapter
+    default_status: disabled
+    purpose: Provider-specific preview or production deployment planning.
+    permissions: []
+    data_scope: deployment plan only unless separately authorized
+    write_effect: no deployment or provider login by default
+    risk_level: high
+    fallback: local prototype or manual deployment guide
+  - id: scheduler
+    name: Automation scheduler
+    default_status: disabled
+    purpose: Run approved autonomous-operation policies.
+    permissions: []
+    data_scope: only the scope named in an approved autonomy policy
+    write_effect: no scheduled work until policy, runner, budget, and kill switch are approved
+    risk_level: high
+    fallback: manual runbook and developer-triggered execution

@@ -1,0 +1,11 @@
+id: compatibility-engine
+mode: local_read
+purpose: Evaluate selected stack materials against UWF compatibility rules.
+requires: [Foundation/07-Architecture/Compatibility-Matrix/compatibility-rules.md]
+permissions: [workspace_read]
+dry_run: true
+approval_required: false
+risk_level: medium
+writes: [Foundation/00-Control/Action-Journal.md, Foundation/00-Control/Jobs]
+fallback: Ask the stack advisor to create a documented manual review.
+audit_log: required

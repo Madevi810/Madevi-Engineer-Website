@@ -1,0 +1,11 @@
+id: publish-queue
+mode: external_write
+purpose: Publish an approved, reviewed, rights-cleared content batch to a configured destination.
+requires: [approved_publish_policy, rights_ledger, quality_review, developer_approval]
+permissions: [content_publish]
+dry_run: true
+approval_required: true
+risk_level: high
+writes: [external_destination, Project-Name-Project/Operations]
+fallback: Keep items in the draft queue for manual publishing.
+audit_log: required
