@@ -1,9 +1,7 @@
 # Madevi Engineer Website
 
-Current stable release: v1.3.0 (pre-MEW brand migration)
-Development on `main`: MEW v2.0.0 candidate — brand migration with a safe CLI compatibility path
-
-> MEW v2.0.0 is not tagged as a stable release yet. Until it is released, use `--edge` only for deliberate testing. The prior v1.3.0 release uses the former command name.
+Current stable release: [v2.0.0](https://github.com/Madevi810/Madevi-Engineer-Website/releases/tag/v2.0.0)
+Development on `main`: post-v2.0.0 maintenance and future improvements
 
 Madevi Engineer Website (MEW) is an open-source engineering foundation for **web projects**. It helps an AI agent turn a developer's ordinary-language idea into a reviewed, traceable, and implementation-ready Foundation.
 
@@ -105,10 +103,10 @@ Linux requirements: `bash`, `curl`, and `git`.
 ```bash
 curl -fsSL https://raw.githubusercontent.com/Madevi810/Madevi-Engineer-Website/main/scripts/install.sh -o install-mew.sh
 less install-mew.sh
-bash install-mew.sh --edge
+bash install-mew.sh
 ```
 
-The installer needs no root access and installs the newest stable tagged release into `~/.local/bin`. Use `--edge` only to intentionally test the moving `main` branch; it is required while MEW v2.0.0 remains a candidate.
+The installer needs no root access and installs the newest stable tagged release into `~/.local/bin`. Use `--edge` only to intentionally test the moving `main` branch.
 
 ## Start a project
 
