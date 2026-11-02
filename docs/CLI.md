@@ -1,59 +1,59 @@
-# UWF CLI
+# MEW CLI
 
-Run UWF without arguments for the beginner-friendly menu.
+Run MEW without arguments for the beginner-friendly menu.
 
 | Command | Purpose |
 | --- | --- |
-| uwf | Interactive menu |
-| uwf init name | Create a workspace |
-| uwf doctor | Check Linux command and PATH requirements |
-| uwf status | Display current manifest status |
-| uwf status --json | Display compact machine-readable workspace status |
-| uwf next | Show the active Foundation stage and recommended next action |
-| uwf next --json | Show machine-readable active-stage guidance |
-| uwf validate | Run standard Foundation validation |
-| uwf validate --json | Run validation with a machine-readable result |
-| uwf context [--json] | Show the safe read order and current AI-agent context |
-| uwf review stage-N | Validate and show the stage review template |
-| uwf change new "title" | Create a reviewable change request; it does not alter code |
-| uwf change assess CR-id | Show the required impact-analysis workflow for a request |
-| uwf change list | List recorded change requests |
-| uwf feature-gap audit | Create a dated missing-requirements audit draft |
-| uwf ui brief | Show the UI/UX creative-brief workflow |
-| uwf ui review | Show the responsive, accessibility, and simulation review workflow |
-| uwf template list | List original Foundation starter packs |
-| uwf template apply id | Add a starter-pack brief to the current workspace for review |
-| uwf reference [figcraft] | Show the clean-room UI/UX reference workflow; `figcraft` creates an analysis draft and marks it active |
-| uwf reference custom "name" | Create an active clean-room analysis draft for a custom reference |
-| uwf reference complete figcraft\|custom | Validate required analysis fields and mark the active reference analyzed |
-| uwf tool list | List local and external tool contracts |
-| uwf tool doctor | Validate local Tool Runtime requirements and contracts |
-| uwf tool capability | Show runtime capability declared in the manifest |
-| uwf tool run ID --dry-run | Record a safe local dry-run; external tools remain blocked |
-| uwf agent status\|route | Show orchestration state or role-routing rules |
-| uwf job list\|inspect ID\|cancel ID | Manage local dry-run job records |
-| uwf evaluation list\|inspect NAME\|run regression | Inspect scenarios or run test regression |
-| uwf runtime prepare | Create the agent-runtime capability profile; no capability is assumed |
-| uwf material list | Display the engineering-material catalog model |
-| uwf material assess | Begin a Composition Manifest review |
-| uwf compose plan | Open the required composition workflow |
-| uwf evidence list | List recorded external Evidence Cards |
-| uwf evidence add "name" | Create an evidence card for a reviewed source/material |
-| uwf research prepare | Create a research plan without performing a search |
-| uwf taxonomy plan | Open taxonomy and content-map planning |
-| uwf operations prepare | Prepare post-implementation content operations |
-| uwf operations status\|validate | Show or validate controlled content-operation status |
-| uwf content plan --count N | Set an approved-operation content target; does not draft/publish |
-| uwf capability | Show current UWF capability maturity and limitations |
-| uwf release check | Create or open the release-readiness checklist |
-| uwf plugin inspect id | Show a plugin's permissions, scope, effects, risk, and fallback |
-| uwf approve implementation --project name | Activate an approved implementation area |
-| uwf version | Display installed UWF version |
-| uwf update | Install the latest stable patch in the current major/minor line |
-| uwf update --check | Show the stable patch update without changing files |
-| uwf update --minor | Permit a minor update in the current major line |
-| uwf update --major | Permit the newest stable major release |
-| uwf update --edge | Explicitly use moving main for testing |
+| mew | Interactive menu |
+| mew init name | Create a workspace |
+| mew doctor | Check Linux command and PATH requirements |
+| mew status | Display current manifest status |
+| mew status --json | Display compact machine-readable workspace status |
+| mew next | Show the active Foundation stage and recommended next action |
+| mew next --json | Show machine-readable active-stage guidance |
+| mew validate | Run standard Foundation validation |
+| mew validate --json | Run validation with a machine-readable result |
+| mew context [--json] | Show the safe read order and current AI-agent context |
+| mew review stage-N | Validate and show the stage review template |
+| mew change new "title" | Create a reviewable change request; it does not alter code |
+| mew change assess CR-id | Show the required impact-analysis workflow for a request |
+| mew change list | List recorded change requests |
+| mew feature-gap audit | Create a dated missing-requirements audit draft |
+| mew ui brief | Show the UI/UX creative-brief workflow |
+| mew ui review | Show the responsive, accessibility, and simulation review workflow |
+| mew template list | List original Foundation starter packs |
+| mew template apply id | Add a starter-pack brief to the current workspace for review |
+| mew reference [figcraft] | Show the clean-room UI/UX reference workflow; `figcraft` creates an analysis draft and marks it active |
+| mew reference custom "name" | Create an active clean-room analysis draft for a custom reference |
+| mew reference complete figcraft\|custom | Validate required analysis fields and mark the active reference analyzed |
+| mew tool list | List local and external tool contracts |
+| mew tool doctor | Validate local Tool Runtime requirements and contracts |
+| mew tool capability | Show runtime capability declared in the manifest |
+| mew tool run ID --dry-run | Record a safe local dry-run; external tools remain blocked |
+| mew agent status\|route | Show orchestration state or role-routing rules |
+| mew job list\|inspect ID\|cancel ID | Manage local dry-run job records |
+| mew evaluation list\|inspect NAME\|run regression | Inspect scenarios or run test regression |
+| mew runtime prepare | Create the agent-runtime capability profile; no capability is assumed |
+| mew material list | Display the engineering-material catalog model |
+| mew material assess | Begin a Composition Manifest review |
+| mew compose plan | Open the required composition workflow |
+| mew evidence list | List recorded external Evidence Cards |
+| mew evidence add "name" | Create an evidence card for a reviewed source/material |
+| mew research prepare | Create a research plan without performing a search |
+| mew taxonomy plan | Open taxonomy and content-map planning |
+| mew operations prepare | Prepare post-implementation content operations |
+| mew operations status\|validate | Show or validate controlled content-operation status |
+| mew content plan --count N | Set an approved-operation content target; does not draft/publish |
+| mew capability | Show current MEW capability maturity and limitations |
+| mew release check | Create or open the release-readiness checklist |
+| mew plugin inspect id | Show a plugin's permissions, scope, effects, risk, and fallback |
+| mew approve implementation --project name | Activate an approved implementation area |
+| mew version | Display installed MEW version |
+| mew update | Install the latest stable patch in the current major/minor line |
+| mew update --check | Show the stable patch update without changing files |
+| mew update --minor | Permit a minor update in the current major line |
+| mew update --major | Permit the newest stable major release |
+| mew update --edge | Explicitly use moving main for testing |
 
 The CLI never stores credentials or silently updates itself. A new install uses the newest stable release tag; main is only used with the explicit edge option.
 
@@ -61,12 +61,12 @@ The CLI never stores credentials or silently updates itself. A new install uses 
 # Engineering materials, evidence, and content operations
 
 ```bash
-uwf runtime prepare
-uwf material list
-uwf compose plan
-uwf evidence add "Official documentation"
-uwf research prepare
-uwf taxonomy plan
+mew runtime prepare
+mew material list
+mew compose plan
+mew evidence add "Official documentation"
+mew research prepare
+mew taxonomy plan
 ```
 
 These commands create or open planning records. They do not perform hidden web searches, install dependencies, write application code, or publish content.
@@ -74,10 +74,10 @@ These commands create or open planning records. They do not perform hidden web s
 After the developer has approved implementation and `Project-Name-Project` exists, controlled content operations can be prepared:
 
 ```bash
-uwf operations prepare
-uwf content plan --count 200
-uwf operations status
-uwf operations validate
+mew operations prepare
+mew content plan --count 200
+mew operations status
+mew operations validate
 ```
 
-`uwf operations prepare` creates `Project-Name-Project/Operations/` with a content map, production queue, rights ledger, and run history. Research, drafting, implementation writes, automation, and publishing remain separately governed.
+`mew operations prepare` creates `Project-Name-Project/Operations/` with a content map, production queue, rights ledger, and run history. Research, drafting, implementation writes, automation, and publishing remain separately governed.

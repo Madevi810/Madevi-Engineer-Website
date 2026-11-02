@@ -1,6 +1,6 @@
 # Research, Content & Production Operations
 
-This area activates only when the developer asks UWF to plan, create, maintain, or publish project content such as articles, product catalogs, lessons, games, animation/video, media, or community material.
+This area activates only when the developer asks MEW to plan, create, maintain, or publish project content such as articles, product catalogs, lessons, games, animation/video, media, or community material.
 
 It turns plain-language intent into an original, reviewable production system:
 

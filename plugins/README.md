@@ -1,6 +1,6 @@
 # Plugin Policy
 
-Plugins extend UWF but never replace Core Foundation rules.
+Plugins extend MEW but never replace Core Foundation rules.
 
 - All plugins are disabled by default.
 - Enabling a plugin records a project decision only; it does not grant external credentials or perform provider actions.
@@ -8,4 +8,4 @@ Plugins extend UWF but never replace Core Foundation rules.
 - A plugin may be disabled at any time.
 - Production credentials are never stored in enabled.yaml.
 - Every plugin must disclose requested permissions, data scope, write effects, risk level, and fallback before it is enabled.
-- Use `uwf plugin inspect plugin-id` before enabling a plugin. Enabling remains a project decision; it never grants credentials or publishes anything.
+- Use `mew plugin inspect plugin-id` before enabling a plugin. Enabling remains a project decision; it never grants credentials or publishes anything.

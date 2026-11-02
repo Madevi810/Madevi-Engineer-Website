@@ -1,6 +1,6 @@
-# UWF Agent System
+# MEW Agent System
 
-UWF uses one Foundation Orchestrator. Specialist roles are selected internally as needed; they are not independent bots that repeatedly question the developer.
+MEW uses one Foundation Orchestrator. Specialist roles are selected internally as needed; they are not independent bots that repeatedly question the developer.
 
 Read this folder with `AGENTS.md`, the manifest, active Foundation stage, and current status report.
 

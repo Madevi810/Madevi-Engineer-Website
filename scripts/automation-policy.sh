@@ -8,7 +8,7 @@ root="$(pwd)"
 policy="$root/Foundation/11-Autonomous-Operations/AUTONOMY_POLICY.md"
 manifest="$root/FOUNDATION_MANIFEST.yaml"
 
-[[ -f "$manifest" ]] || { printf 'Run from a UWF workspace root.\n' >&2; exit 1; }
+[[ -f "$manifest" ]] || { printf 'Run from a MEW workspace root.\n' >&2; exit 1; }
 
 case "$action" in
   prepare)

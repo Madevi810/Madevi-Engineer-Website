@@ -1,6 +1,6 @@
 id: compatibility-engine
 mode: local_read
-purpose: Evaluate selected stack materials against UWF compatibility rules.
+purpose: Evaluate selected stack materials against MEW compatibility rules.
 requires: [Foundation/07-Architecture/Compatibility-Matrix/compatibility-rules.md]
 permissions: [workspace_read]
 dry_run: true

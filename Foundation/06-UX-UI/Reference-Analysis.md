@@ -18,7 +18,7 @@ For an active reference, make a dedicated copy such as `Reference-Analysis-FigCr
 - General principle worth considering:
 - Why it fits this project's users, interface, and objective:
 
-## Original UWF response
+## Original MEW response
 
 - New, original name and structure:
 - Original UI/UX direction or workflow:

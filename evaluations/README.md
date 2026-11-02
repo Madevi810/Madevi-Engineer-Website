@@ -1,6 +1,6 @@
-# UWF Evaluations
+# MEW Evaluations
 
-Evaluations prove that UWF behaves safely and consistently. They are not marketing examples.
+Evaluations prove that MEW behaves safely and consistently. They are not marketing examples.
 
 - `scenarios/` defines realistic developer situations.
 - `expected-artifacts/` lists evidence the agent must produce.

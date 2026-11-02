@@ -13,7 +13,7 @@ Status: DRAFT
 
 ## Source order
 
-1. Existing UWF materials and project records.
+1. Existing MEW materials and project records.
 2. Official documentation, primary sources, standards, or original publishers for factual/technical claims.
 3. Public GitHub repositories for engineering implementation evidence, license, maintenance, issue history, and examples.
 4. Reputable secondary sources where primary material is unavailable.
@@ -26,7 +26,7 @@ Status: DRAFT
 - Source type and trust level: primary | official | maintained_public | secondary | discovery_only.
 - License, attribution, terms, and use limitation where applicable.
 - Known limitation, disagreement, or freshness risk.
-- Original UWF/project interpretation; never copy protected content.
+- Original MEW/project interpretation; never copy protected content.
 
 ## Prohibited behavior
 

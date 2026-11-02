@@ -7,7 +7,7 @@ output="$root/dist"
 [[ $# -eq 0 ]] || output="$1"
 
 mkdir -p "$output"
-archive="$output/universal-web-foundation-$version.tar.gz"
+archive="$output/madevi-engineer-website-$version.tar.gz"
 
 tar \
   --exclude=.git \

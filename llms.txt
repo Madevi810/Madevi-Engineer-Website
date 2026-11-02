@@ -1,6 +1,6 @@
-# Universal Web Foundation
+# Madevi Engineer Website
 
-Start with AGENTS.md and FOUNDATION_MANIFEST.yaml. UWF is a Foundation-first planning and governance workspace for web projects. Application code is prohibited until the relevant implementation gate is approved.
+Start with AGENTS.md and FOUNDATION_MANIFEST.yaml. MEW is a Foundation-first planning and governance workspace for web projects. Application code is prohibited until the relevant implementation gate is approved.
 
 Documentation:
 - README.md — human installation and overview
@@ -21,14 +21,14 @@ Documentation:
 - templates/ — reusable specifications and review formats
 - docs/ — beginner, professional, automation, and migration guides
 
-Terminal-agent workflow: read AGENTS.md and FOUNDATION_MANIFEST.yaml, then use `uwf context --json`, `uwf status --json`, `uwf next --json`, and `uwf validate --json`. Never implement application code before the developer approves the implementation gate.
+Terminal-agent workflow: read AGENTS.md and FOUNDATION_MANIFEST.yaml, then use `mew context --json`, `mew status --json`, `mew next --json`, and `mew validate --json`. Never implement application code before the developer approves the implementation gate.
 
-Use `uwf template list` for original Foundation starter packs, `uwf reference` before using external references, `uwf capability` before promising a capability, and `uwf release check` before describing an implementation release as stable.
+Use `mew template list` for original Foundation starter packs, `mew reference` before using external references, `mew capability` before promising a capability, and `mew release check` before describing an implementation release as stable.
 
-Before web/GitHub research or external writes, prepare and complete a truthful runtime profile. Use `uwf compose plan` for material decisions. UWF's CLI creates governance artifacts; it does not itself search the web or publish content.
+Before web/GitHub research or external writes, prepare and complete a truthful runtime profile. Use `mew compose plan` for material decisions. MEW's CLI creates governance artifacts; it does not itself search the web or publish content.
 
-The Foundation Orchestrator is the only agent-facing coordinator. It should make visible safe assumptions and ask no more than three high-impact questions at once. Use `uwf tool run ID --dry-run` before any tool-based recommendation and record the result in the Action Journal.
+The Foundation Orchestrator is the only agent-facing coordinator. It should make visible safe assumptions and ask no more than three high-impact questions at once. Use `mew tool run ID --dry-run` before any tool-based recommendation and record the result in the Action Journal.
 
 When `ui_ux.active_reference` is set, read its dedicated analysis document. Do not use an `ANALYSIS_REQUIRED` reference to generate a simulation or implementation.
 
-Use `uwf reference complete figcraft` or `uwf reference complete custom` only after the analysis has a source, category, abstract lesson, original response, and developer decision.
+Use `mew reference complete figcraft` or `mew reference complete custom` only after the analysis has a source, category, abstract lesson, original response, and developer decision.

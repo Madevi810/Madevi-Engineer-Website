@@ -1,9 +1,9 @@
 ---
 name: Bug report
-about: Report reproducible UWF behavior
+about: Report reproducible MEW behavior
 ---
 
-## UWF version
+## MEW version
 
 ## Command or workflow
 

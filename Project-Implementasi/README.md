@@ -11,7 +11,7 @@ It can become `Project-Name-Project/` only after:
 Run:
 
 ```bash
-uwf approve implementation --project "Name-Project"
+mew approve implementation --project "Name-Project"
 ```
 
 The command creates a minimal, technology-neutral application workspace with a changelog, implementation history, technical decision record, and Foundation-to-code traceability record. Stack-specific code is created only after the approved handover identifies it.

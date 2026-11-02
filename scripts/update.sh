@@ -2,7 +2,7 @@
 set -euo pipefail
 
 root="$(cd "$(dirname "$0")/.." && pwd)"
-repo="https://github.com/Madevi810/Universal-Web-Foundation.git"
+repo="https://github.com/Madevi810/Madevi-Engineer-Website.git"
 mode="patch"
 check_only=false
 
@@ -26,7 +26,7 @@ while [[ $# -gt 0 ]]; do
 done
 
 [[ -d "$root/.git" ]] || {
-  printf 'Update requires a Git-based UWF installation. Re-run install.sh for copied workspaces.\n' >&2
+  printf 'Update requires a Git-based MEW installation. Re-run install.sh for copied workspaces.\n' >&2
   exit 1
 }
 
@@ -61,12 +61,12 @@ case "$mode" in
 esac
 
 [[ -n "$target" ]] || {
-  printf 'No compatible stable update tag is available for UWF %s.\n' "$current"
+  printf 'No compatible stable update tag is available for MEW %s.\n' "$current"
   exit 0
 }
 
 if [[ "$target" != "main" && "$target" == "$current" ]]; then
-  printf 'UWF %s is already current for the selected update channel.\n' "$current"
+  printf 'MEW %s is already current for the selected update channel.\n' "$current"
   exit 0
 fi
 
@@ -76,7 +76,7 @@ if [[ "$check_only" == true ]]; then
 fi
 
 git -C "$root" diff --quiet || {
-  printf 'Refusing update because the UWF installation has local modifications.\n' >&2
+  printf 'Refusing update because the MEW installation has local modifications.\n' >&2
   exit 1
 }
 
@@ -89,4 +89,4 @@ else
 fi
 
 "$root/scripts/check-repository.sh"
-printf 'UWF update completed.\n'
+printf 'MEW update completed.\n'

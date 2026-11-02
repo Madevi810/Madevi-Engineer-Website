@@ -1,6 +1,6 @@
 # Engineering Materials
 
-This is UWF's reusable engineering-material library. It is not a vendor list and it is not a copy of external packages. A material is a selectable engineering option, pattern, control, or operational capability with a known purpose, fit, risk, lifecycle, and evidence trail.
+This is MEW's reusable engineering-material library. It is not a vendor list and it is not a copy of external packages. A material is a selectable engineering option, pattern, control, or operational capability with a known purpose, fit, risk, lifecycle, and evidence trail.
 
 ## Required composition workflow
 

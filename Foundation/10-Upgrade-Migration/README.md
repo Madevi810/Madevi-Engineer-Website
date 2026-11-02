@@ -1,6 +1,6 @@
 # Stage 10 — Upgrade and Migration
 
-Use this stage for prototype-to-online changes, major stack shifts, and UWF schema upgrades.
+Use this stage for prototype-to-online changes, major stack shifts, and MEW schema upgrades.
 
 Required sequence:
 

@@ -1,4 +1,4 @@
-name: Validate UWF
+name: Validate MEW
 
 on:
   push:

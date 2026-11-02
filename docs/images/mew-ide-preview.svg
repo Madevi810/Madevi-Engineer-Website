@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1440" height="860" viewBox="0 0 1440 860" role="img" aria-labelledby="title desc">
-  <title id="title">Universal Web Foundation in an AI coding workspace</title>
-  <desc id="desc">An original generic coding workspace showing UWF Foundation folders, a Creative Brief document, and an AI agent conversation.</desc>
+  <title id="title">Madevi Engineer Website in an AI coding workspace</title>
+  <desc id="desc">An original generic coding workspace showing MEW Foundation folders, a Creative Brief document, and an AI agent conversation.</desc>
   <defs>
     <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
       <feDropShadow dx="0" dy="22" stdDeviation="24" flood-color="#000" flood-opacity=".24"/>
@@ -54,7 +54,7 @@
   <rect x="394" y="638" width="194" height="32" rx="16" fill="#2c5d52"/>
   <text x="491" y="659" fill="#b6ead6" font-family="Arial, sans-serif" font-size="13" text-anchor="middle">SIMULATION: DRAFT</text>
   <g font-family="Arial, sans-serif">
-    <text x="1028" y="140" fill="#b8c7d1" font-size="13">UWF AGENT</text>
+    <text x="1028" y="140" fill="#b8c7d1" font-size="13">MEW AGENT</text>
     <rect x="1026" y="165" width="330" height="104" rx="10" fill="#273a49"/>
     <text x="1044" y="193" fill="#bfe5f4" font-size="14">Saya menemukan 2 arah desain</text>
     <text x="1044" y="218" fill="#d5e1e7" font-size="14">orisinal yang cocok untuk artikel:</text>
@@ -70,5 +70,5 @@
     <text x="1044" y="745" fill="#9fb2bf" font-size="14">Tanyakan pilihan berikutnya…</text>
   </g>
   <rect x="58" y="767" width="1324" height="45" fill="#121a21"/>
-  <text x="82" y="796" fill="#8da2b0" font-family="ui-monospace, monospace" font-size="14">terminal  ·  uwf status --json  ·  Foundation gate: BLOCKED until approval</text>
+  <text x="82" y="796" fill="#8da2b0" font-family="ui-monospace, monospace" font-size="14">terminal  ·  mew status --json  ·  Foundation gate: BLOCKED until approval</text>
 </svg>

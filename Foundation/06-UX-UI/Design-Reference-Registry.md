@@ -4,7 +4,7 @@ Register an external reference before the agent analyzes it. A reference supplie
 
 | ID | Reference | UI/UX area to study | Allowed output | Explicit exclusions | Status |
 | --- | --- | --- | --- | --- | --- |
-| UXREF-001 | FigCraft public repository | Interface-design and prototyping workflow; template and design-review ideas | Original UWF layout/process recommendations | Code, brand, icons, fonts, screenshots, canvas UI, `.fig` format, plugin runtime, and distinctive visual composition | REVIEW_REQUIRED |
+| UXREF-001 | FigCraft public repository | Interface-design and prototyping workflow; template and design-review ideas | Original MEW layout/process recommendations | Code, brand, icons, fonts, screenshots, canvas UI, `.fig` format, plugin runtime, and distinctive visual composition | REVIEW_REQUIRED |
 
 ## Decision rules
 
@@ -13,4 +13,4 @@ Register an external reference before the agent analyzes it. A reference supplie
 3. Produce an original simulation only after the developer selects a direction.
 4. If the reference would affect architecture, implementation, or a third-party dependency, open a separate Change Request instead of expanding UI/UX scope silently.
 
-For FigCraft, use `FigCraft-Reference-Catalog.md`. It maps all relevant public feature areas to an original UWF Foundation action, optional product requirement, or explicit out-of-scope classification.
+For FigCraft, use `FigCraft-Reference-Catalog.md`. It maps all relevant public feature areas to an original MEW Foundation action, optional product requirement, or explicit out-of-scope classification.

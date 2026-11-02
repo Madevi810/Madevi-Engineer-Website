@@ -1,4 +1,4 @@
-schema: uwf-agent-routing/v1
+schema: mew-agent-routing/v1
 default_role: foundation-orchestrator
 rules:
   - trigger: objective_or_user_need

@@ -6,7 +6,7 @@ root="."
 root="$(cd "$root" && pwd)"
 manifest="$root/FOUNDATION_MANIFEST.yaml"
 
-[[ -f "$manifest" ]] || { printf 'Run from a UWF workspace root.\n' >&2; exit 1; }
+[[ -f "$manifest" ]] || { printf 'Run from a MEW workspace root.\n' >&2; exit 1; }
 
 stamp="$(date -u +%Y%m%dT%H%M%SZ)"
 archive="$root/Foundation/Archive/online-upgrade-$stamp"

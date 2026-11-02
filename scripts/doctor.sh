@@ -12,7 +12,7 @@ check_command() {
   fi
 }
 
-printf 'UWF environment diagnostics\n'
+printf 'MEW environment diagnostics\n'
 check_command bash
 check_command git
 check_command sed

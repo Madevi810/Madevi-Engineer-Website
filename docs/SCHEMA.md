@@ -1,6 +1,6 @@
 # Foundation Manifest Schema
 
-UWF 1.x supports manifest schema version 1.
+MEW 1.x supports manifest schema version 1.
 
 The manifest is the current machine-readable source of truth for:
 
@@ -20,5 +20,5 @@ Rules:
 
 1. New optional fields may be added in compatible minor releases.
 2. Incompatible schema changes require a major version and migration notes.
-3. A migration must preserve the old manifest state before changing it; UWF's compatible 1.2 field migration only appends default optional sections.
-4. Unknown schema versions are blocked until a compatible UWF version is installed.
+3. A migration must preserve the old manifest state before changing it; MEW's compatible 1.2 field migration only appends default optional sections.
+4. Unknown schema versions are blocked until a compatible MEW version is installed.

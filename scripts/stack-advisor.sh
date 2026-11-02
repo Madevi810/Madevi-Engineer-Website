@@ -8,7 +8,7 @@ action="list"
 
 case "$action" in
   list)
-    printf 'Available UWF stack profiles:\n'
+    printf 'Available MEW stack profiles:\n'
     grep -E '^  - id:' "$catalog" | sed -E 's/^  - id: /- /'
     ;;
   advise)

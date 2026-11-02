@@ -1,6 +1,6 @@
 # Releases
 
-UWF uses semantic versioning.
+MEW uses semantic versioning.
 
 - Patch versions fix defects without changing Foundation behavior.
 - Minor versions add backward-compatible capability.
@@ -14,4 +14,4 @@ Every release must include:
 4. Migration instructions for manifest changes.
 5. A Git tag and checksum artifacts when release automation is available.
 
-Never silently update an installed UWF copy. Developers choose when to update.
+Never silently update an installed MEW copy. Developers choose when to update.

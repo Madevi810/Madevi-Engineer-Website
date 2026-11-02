@@ -8,9 +8,16 @@ manifest="$root/FOUNDATION_MANIFEST.yaml"
 
 schema="$(grep -E '^schema_version:' "$manifest" | head -n 1 | sed -E 's/^schema_version:[[:space:]]*//')"
 case "$schema" in
-  1) printf 'Manifest schema 1 is supported by UWF 1.3.\n' ;;
+  1) printf 'Manifest schema 1 is supported by MEW.\n' ;;
   *) printf 'Unsupported manifest schema: %s\n' "$schema" >&2; exit 1 ;;
 esac
+
+if grep -q '^uwf_version:' "$manifest"; then
+  backup="${manifest}.pre-mew-brand.bak"
+  [[ -e "$backup" ]] || cp "$manifest" "$backup"
+  sed -i 's/^uwf_version:/mew_version:/' "$manifest"
+  printf 'Migrated legacy manifest branding; backup: %s\n' "$backup"
+fi
 
 if ! grep -q '^agent_runtime:' "$manifest"; then
   backup="${manifest}.pre-v1.2.bak"
@@ -53,7 +60,7 @@ if ! grep -q '^agent_runtime:' "$manifest"; then
     }
   ' "$manifest" >"$temporary"
   mv "$temporary" "$manifest"
-  printf 'Added UWF 1.2 runtime, composition, evidence, and content-operation fields; backup: %s\n' "$backup"
+  printf 'Added MEW 1.2 runtime, composition, evidence, and content-operation fields; backup: %s\n' "$backup"
 fi
 
 if ! grep -q '^agent_orchestration:' "$manifest"; then
@@ -75,5 +82,5 @@ if ! grep -q '^agent_orchestration:' "$manifest"; then
     }
   ' "$manifest" >"$temporary"
   mv "$temporary" "$manifest"
-  printf 'Added UWF 1.3 agent orchestration fields; backup: %s\n' "$backup"
+  printf 'Added MEW 1.3 agent orchestration fields; backup: %s\n' "$backup"
 fi

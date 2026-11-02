@@ -1,5 +1,5 @@
 schema_version: 1
-uwf_version: 1.3.0
+mew_version: 2.0.0
 
 project:
   name: Unnamed Web Project

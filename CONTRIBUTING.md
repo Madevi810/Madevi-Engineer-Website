@@ -1,6 +1,6 @@
-# Contributing to UWF
+# Contributing to MEW
 
-Thank you for improving Universal Web Foundation.
+Thank you for improving Madevi Engineer Website.
 
 ## Contribution principles
 

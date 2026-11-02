@@ -1,6 +1,6 @@
 # Evaluation Lab
 
-Run these scenarios when UWF changes. Record pass/fail evidence in a stage review or release-readiness record.
+Run these scenarios when MEW changes. Record pass/fail evidence in a stage review or release-readiness record.
 
 | Scenario | Expected outcome |
 | --- | --- |

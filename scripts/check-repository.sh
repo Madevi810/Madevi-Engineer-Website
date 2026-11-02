@@ -8,7 +8,7 @@ need() {
   [[ -f "$root/$1" ]] || { printf 'Missing: %s\n' "$1" >&2; failed=1; }
 }
 
-for file in README.md AGENTS.md FOUNDATION_MANIFEST.yaml VERSION LICENSE CHANGELOG.md CONTRIBUTING.md SECURITY.md CODE_OF_CONDUCT.md; do
+for file in README.md AGENTS.md FOUNDATION_MANIFEST.yaml VERSION LICENSE CHANGELOG.md CONTRIBUTING.md SECURITY.md CODE_OF_CONDUCT.md scripts/mew scripts/uwf; do
   need "$file"
 done
 
@@ -62,8 +62,8 @@ for file in \
   templates/implementation/IMPLEMENTATION-HISTORY.md \
   templates/implementation/DECISIONS.md \
   templates/implementation/TRACEABILITY.md \
-  docs/images/uwf-linux-cli-preview.svg \
-  docs/images/uwf-ide-preview.svg \
+  docs/images/mew-linux-cli-preview.svg \
+  docs/images/mew-ide-preview.svg \
   agent/README.md \
   agent/Orchestrator.md \
   agent/Routing-Rules.yaml \
@@ -73,6 +73,7 @@ for file in \
   agent/Escalation-Rules.md \
   tools/README.md \
   tools/contracts/README.md \
+  tools/runners/mew-tool.sh \
   tools/runners/uwf-tool.sh \
   tools/safety/action-gate.sh \
   tools/validators/validate-tool-contracts.sh \

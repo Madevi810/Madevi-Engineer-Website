@@ -1,10 +1,11 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-UWF_REPO_URL="${UWF_REPO_URL:-https://github.com/Madevi810/Universal-Web-Foundation.git}"
-UWF_INSTALL_DIR="${UWF_INSTALL_DIR:-$HOME/.local/share/uwf}"
-UWF_BIN_DIR="${UWF_BIN_DIR:-$HOME/.local/bin}"
-UWF_CONFIG_DIR="${UWF_CONFIG_DIR:-$HOME/.config/uwf}"
+# UWF_* variables remain accepted only to migrate a prior installation safely.
+MEW_REPO_URL="${MEW_REPO_URL:-${UWF_REPO_URL:-https://github.com/Madevi810/Madevi-Engineer-Website.git}}"
+MEW_INSTALL_DIR="${MEW_INSTALL_DIR:-${UWF_INSTALL_DIR:-$HOME/.local/share/mew}}"
+MEW_BIN_DIR="${MEW_BIN_DIR:-${UWF_BIN_DIR:-$HOME/.local/bin}}"
+MEW_CONFIG_DIR="${MEW_CONFIG_DIR:-${UWF_CONFIG_DIR:-$HOME/.config/mew}}"
 channel="stable"
 requested_version=""
 
@@ -48,7 +49,7 @@ for command in bash curl git sort mktemp; do
 done
 
 latest_tag() {
-  git ls-remote --tags --refs "$UWF_REPO_URL" \
+  git ls-remote --tags --refs "$MEW_REPO_URL" \
     | awk -F/ '{print $3}' \
     | grep -E '^v?[0-9]+\.[0-9]+\.[0-9]+$' \
     | sed 's/^v//' \
@@ -61,7 +62,7 @@ if [[ "$channel" == "edge" ]]; then
   target="main"
 elif [[ -n "$requested_version" ]]; then
   target="${requested_version#v}"
-  git ls-remote --tags --refs "$UWF_REPO_URL" "refs/tags/v$target" | grep -q . || {
+  git ls-remote --tags --refs "$MEW_REPO_URL" "refs/tags/v$target" | grep -q . || {
     printf 'Stable tag v%s was not found.\n' "$target" >&2
     exit 1
   }
@@ -69,36 +70,43 @@ elif [[ -n "$requested_version" ]]; then
 else
   stable="$(latest_tag)"
   [[ -n "$stable" ]] || {
-    printf 'No stable UWF release tag exists yet. Refusing to install moving main.\n' >&2
+    printf 'No stable MEW release tag exists yet. Refusing to install moving main.\n' >&2
     printf 'Use --edge only for testing, or install after a stable release is published.\n' >&2
     exit 1
   }
   target="v$stable"
 fi
 
-parent="$(dirname "$UWF_INSTALL_DIR")"
+parent="$(dirname "$MEW_INSTALL_DIR")"
 mkdir -p "$parent"
-temporary="$(mktemp -d "$parent/.uwf-install.XXXXXX")"
+temporary="$(mktemp -d "$parent/.mew-install.XXXXXX")"
 cleanup() { rm -rf "$temporary"; }
 trap cleanup EXIT
 
-git clone --depth 1 --branch "$target" "$UWF_REPO_URL" "$temporary/source"
+git clone --depth 1 --branch "$target" "$MEW_REPO_URL" "$temporary/source"
 "$temporary/source/scripts/check-repository.sh"
+[[ -x "$temporary/source/scripts/mew" ]] || {
+  printf 'Stable tag %s predates the MEW command migration and cannot satisfy a `mew` install.\n' "$target" >&2
+  printf 'Use --edge to test MEW v2 before its stable release is published.\n' >&2
+  exit 1
+}
 
-mkdir -p "$UWF_BIN_DIR" "$UWF_CONFIG_DIR" "$parent"
-if [[ -e "$UWF_INSTALL_DIR" ]]; then
-  backup="$UWF_INSTALL_DIR.backup.$(date -u +%Y%m%dT%H%M%SZ)"
-  mv "$UWF_INSTALL_DIR" "$backup"
+mkdir -p "$MEW_BIN_DIR" "$MEW_CONFIG_DIR" "$parent"
+if [[ -e "$MEW_INSTALL_DIR" ]]; then
+  backup="$MEW_INSTALL_DIR.backup.$(date -u +%Y%m%dT%H%M%SZ)"
+  mv "$MEW_INSTALL_DIR" "$backup"
   printf 'Previous CLI installation backed up at %s\n' "$backup"
 fi
-mv "$temporary/source" "$UWF_INSTALL_DIR"
-ln -sfn "$UWF_INSTALL_DIR/scripts/uwf" "$UWF_BIN_DIR/uwf"
+mv "$temporary/source" "$MEW_INSTALL_DIR"
+ln -sfn "$MEW_INSTALL_DIR/scripts/mew" "$MEW_BIN_DIR/mew"
+ln -sfn "$MEW_INSTALL_DIR/scripts/uwf" "$MEW_BIN_DIR/uwf"
 
-cat >"$UWF_CONFIG_DIR/install.env" <<EOF
-UWF_CHANNEL=$channel
-UWF_VERSION=$target
-UWF_REPO_URL=$UWF_REPO_URL
+cat >"$MEW_CONFIG_DIR/install.env" <<EOF
+MEW_CHANNEL=$channel
+MEW_VERSION=$target
+MEW_REPO_URL=$MEW_REPO_URL
 EOF
 
-printf 'UWF %s installed on channel %s.\n' "$target" "$channel"
-printf 'Ensure %s is in PATH, then run: uwf\n' "$UWF_BIN_DIR"
+printf 'MEW %s installed on channel %s.\n' "$target" "$channel"
+printf 'Ensure %s is in PATH, then run: mew\n' "$MEW_BIN_DIR"
+printf 'The former `uwf` command remains available as a compatibility alias.\n'

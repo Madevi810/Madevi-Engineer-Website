@@ -1,4 +1,4 @@
-# UWF Agent Operating Rules
+# MEW Agent Operating Rules
 
 ## Mission
 
@@ -76,7 +76,7 @@ Multiple goals are valid: for example articles, marketplace, game, and animation
 
 ## Engineering material composition
 
-Treat UWF as an engineering-material library and decision system, not as a fixed-stack generator. Before recommending an architecture or implementation stage, create or update the Composition Manifest. It must state the developer objective as understood, module hierarchy, selected materials, rejected materials, compatibility, alternatives, source evidence, risk, cost, and unresolved decisions.
+Treat MEW as an engineering-material library and decision system, not as a fixed-stack generator. Before recommending an architecture or implementation stage, create or update the Composition Manifest. It must state the developer objective as understood, module hierarchy, selected materials, rejected materials, compatibility, alternatives, source evidence, risk, cost, and unresolved decisions.
 
 "Complete" means complete coverage of relevant engineering decisions and a maintained path to verified external material. It does not mean copying every framework, repository, asset, book, or web page into the repository. Never silently substitute a material because it is fashionable or convenient.
 
@@ -129,7 +129,7 @@ Do not produce generic filler, unreviewed placeholders, misleading claims, or de
 
 ## External references and clean-room work
 
-External products, repositories, screenshots, and design references belong primarily to UI/UX discovery unless the developer separately approves a broader analysis. Record the reference and the abstracted UX/UI lesson in `Foundation/06-UX-UI/Reference-Analysis.md` and `Design-Reference-Registry.md`; create original UWF artifacts, names, layouts, code, schemas, and copy. Do not reproduce protected branding, assets, screenshots, distinctive UI composition, private APIs, file formats, or source code. Check licenses and attribution requirements before any direct dependency or code reuse.
+External products, repositories, screenshots, and design references belong primarily to UI/UX discovery unless the developer separately approves a broader analysis. Record the reference and the abstracted UX/UI lesson in `Foundation/06-UX-UI/Reference-Analysis.md` and `Design-Reference-Registry.md`; create original MEW artifacts, names, layouts, code, schemas, and copy. Do not reproduce protected branding, assets, screenshots, distinctive UI composition, private APIs, file formats, or source code. Check licenses and attribution requirements before any direct dependency or code reuse.
 
 ## Capability and release honesty
 

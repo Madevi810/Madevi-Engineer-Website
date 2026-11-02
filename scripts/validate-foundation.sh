@@ -177,7 +177,7 @@ elif [[ "$warnings" -gt 0 ]]; then
 fi
 
 if [[ "$json" == true ]]; then
-  printf '{"schema":"uwf-validation/v1","result":"%s","errors":%s,"warnings":%s,"gate_check":%s}\n' \
+  printf '{"schema":"mew-validation/v1","result":"%s","errors":%s,"warnings":%s,"gate_check":%s}\n' \
     "$result" "$errors" "$warnings" "$([[ "$mode" == "--gate" ]] && printf true || printf false)"
 elif [[ "$errors" -gt 0 ]]; then
   printf 'Validation result: BLOCKED (%s error(s), %s warning(s))\n' "$errors" "$warnings" >&2

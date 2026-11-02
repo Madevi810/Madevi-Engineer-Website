@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.0.0 - Unreleased
+
+- Renamed the project to Madevi Engineer Website (MEW), including documentation, workspace identity, manifests, previews, policies, and machine-readable output.
+- Added `mew` as the primary command and retained `uwf` as a legacy compatibility alias.
+- Updated installer, update, uninstall, and workspace migration paths for the new repository and command identity.
+
 ## 1.3.0 - 2026-11-03
 
 - Added the Agent Orchestrator architecture: autonomous Foundation composition, three-question budget, explicit assumptions, specialist routing, status protocol, and escalation rules.
@@ -20,9 +26,9 @@
 - Added plugin inspection with declared permissions, data scope, write effects, risk level, and fallback.
 - Added CLI commands for templates, references, capability status, and release readiness.
 - Scoped external-reference work to UI/UX Foundation by default, with FigCraft recorded only as a review-required UI/UX reference.
-- Added a full FigCraft public-feature reference catalog that maps each relevant area to original UWF planning, optional product scope, or exclusion.
+- Added a full FigCraft public-feature reference catalog that maps each relevant area to original MEW planning, optional product scope, or exclusion.
 - Added active UI/UX reference status, a FigCraft analysis draft command, and a gate check for unanalyzed active references.
-- Added validated `uwf reference complete` and generic custom-reference workflow so active UI/UX references do not require manual manifest editing.
+- Added validated `mew reference complete` and generic custom-reference workflow so active UI/UX references do not require manual manifest editing.
 
 ## 1.1.0 - 2026-11-02
 
@@ -33,7 +39,7 @@
 
 ## 1.0.2 - 2026-11-01
 
-- Fixed CLI root resolution when the uwf command is invoked through its installed symlink.
+- Fixed CLI root resolution when the mew command is invoked through its installed symlink.
 
 ## 1.0.1 - 2026-11-01
 
@@ -43,7 +49,7 @@
 
 ## 1.0.0 - 2026-11-01
 
-- Declared manifest schema version 1 and UWF 1.x compatibility policy.
+- Declared manifest schema version 1 and MEW 1.x compatibility policy.
 - Added manifest compatibility checks, local release package/checksum creation, and guarded CLI uninstall.
 - Marked the Foundation, CLI, validation, migration, plugin, automation, and governance baseline as stable.
 

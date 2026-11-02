@@ -1,6 +1,6 @@
 # Automation Safety Rules
 
-Automation is a policy-controlled capability, not a default UWF behavior.
+Automation is a policy-controlled capability, not a default MEW behavior.
 
 Before it is enabled, the Foundation must record:
 

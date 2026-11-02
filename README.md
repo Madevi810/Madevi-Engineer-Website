@@ -1,11 +1,13 @@
-# Universal Web Foundation
+# Madevi Engineer Website
 
-Current stable release: [v1.3.0](https://github.com/Madevi810/Madevi-Web-Foundation/releases/tag/v1.3.0)
-Development on `main`: post-v1.3.0 maintenance and future improvements
+Current stable release: v1.3.0 (pre-MEW brand migration)
+Development on `main`: MEW v2.0.0 candidate — brand migration with a safe CLI compatibility path
 
-Universal Web Foundation (UWF) is an open-source engineering foundation for **web projects**. It helps an AI agent turn a developer's ordinary-language idea into a reviewed, traceable, and implementation-ready Foundation.
+> MEW v2.0.0 is not tagged as a stable release yet. Until it is released, use `--edge` only for deliberate testing. The prior v1.3.0 release uses the former command name.
 
-UWF is not a website builder, design editor, chatbot replacement, or a collection of copied boilerplates. It is the operating system around an AI coding workflow: it gives the agent materials, rules, tools, evidence, quality gates, and an accountable way to work.
+Madevi Engineer Website (MEW) is an open-source engineering foundation for **web projects**. It helps an AI agent turn a developer's ordinary-language idea into a reviewed, traceable, and implementation-ready Foundation.
+
+MEW is not a website builder, design editor, chatbot replacement, or a collection of copied boilerplates. It is the operating system around an AI coding workflow: it gives the agent materials, rules, tools, evidence, quality gates, and an accountable way to work.
 
 It supports websites, web applications, dashboards, SaaS, marketplaces, article/media platforms, browser games, and mixed multi-module platforms. Native mobile, desktop, and embedded applications are outside the core scope.
 
@@ -16,7 +18,7 @@ The developer should not need to become a system architect or answer a giant for
 ```text
 Developer explains the goal in plain language
           ↓
-UWF Agent understands the goal and makes safe assumptions
+MEW Agent understands the goal and makes safe assumptions
           ↓
 It selects materials, skills, tools, strategy, and project stages
           ↓
@@ -29,7 +31,7 @@ Approved work moves to implementation
 
 For example, a developer may say: “I want an Indonesian space article website that can later add learning products.” The agent independently prepares modules, taxonomy, stack options, rights/source policy, mobile UX, growth path, and risk notes. It then asks only material questions such as prototype versus online, language scope, or whether real payments are required.
 
-## What UWF provides
+## What MEW provides
 
 - Progressive Foundation planning for beginner, intermediate, and professional developers.
 - Full-agent recommendation mode or recommendation with a complete/custom choice path.
@@ -43,11 +45,11 @@ For example, a developer may say: “I want an Indonesian space article website 
 - HTML/image simulation planning, responsive/accessibility review, and clean-room UI reference analysis.
 - Machine-readable status, validation, agent routing, tool, job, and evaluation output for terminal AI agents.
 
-## What UWF does not promise
+## What MEW does not promise
 
-UWF does not claim every AI runtime has web search, GitHub access, a browser, image generation, cloud credentials, or publishing authority. The Runtime Profile records what is actually available. An unavailable tool must be reported, never invented.
+MEW does not claim every AI runtime has web search, GitHub access, a browser, image generation, cloud credentials, or publishing authority. The Runtime Profile records what is actually available. An unavailable tool must be reported, never invented.
 
-UWF also never treats a public repository, video, book, image, social post, or design reference as permission to copy it. It records licenses, limits, evidence, and original-use rules first.
+MEW also never treats a public repository, video, book, image, social post, or design reference as permission to copy it. It records licenses, limits, evidence, and original-use rules first.
 
 ## Agent workflow
 
@@ -101,45 +103,45 @@ Application code is locked while the Foundation is being prepared. After the rel
 Linux requirements: `bash`, `curl`, and `git`.
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/Madevi810/Universal-Web-Foundation/main/scripts/install.sh -o install-uwf.sh
-less install-uwf.sh
-bash install-uwf.sh
+curl -fsSL https://raw.githubusercontent.com/Madevi810/Madevi-Engineer-Website/main/scripts/install.sh -o install-mew.sh
+less install-mew.sh
+bash install-mew.sh --edge
 ```
 
-The installer needs no root access and installs the newest stable tagged release into `~/.local/bin`. Use `--edge` only to intentionally test the moving `main` branch.
+The installer needs no root access and installs the newest stable tagged release into `~/.local/bin`. Use `--edge` only to intentionally test the moving `main` branch; it is required while MEW v2.0.0 remains a candidate.
 
 ## Start a project
 
 ```bash
-uwf init Name-Project
+mew init Name-Project
 cd name-project
-uwf context --json
-uwf status --json
+mew context --json
+mew status --json
 ```
 
 Optional Foundation packs:
 
 ```bash
-uwf template list
-uwf init Name-Project --template content-platform
+mew template list
+mew init Name-Project --template content-platform
 ```
 
 Open the generated workspace in an AI coding environment. Ask the agent to read `AGENTS.md`, `FOUNDATION_MANIFEST.yaml`, the active Foundation stage, and the current status before acting.
 
 ## Tool runtime
 
-UWF tools are provider-neutral. Their contracts define capability, permission, input/output, dry-run behavior, logs, approval, rollback, and fallback.
+MEW tools are provider-neutral. Their contracts define capability, permission, input/output, dry-run behavior, logs, approval, rollback, and fallback.
 
 ```bash
-uwf tool list
-uwf tool doctor
-uwf tool capability
-uwf tool inspect workspace-inspector
-uwf tool run workspace-inspector --dry-run
-uwf agent status
-uwf agent route
-uwf job list
-uwf evaluation run regression
+mew tool list
+mew tool doctor
+mew tool capability
+mew tool inspect workspace-inspector
+mew tool run workspace-inspector --dry-run
+mew agent status
+mew agent route
+mew job list
+mew evaluation run regression
 ```
 
 The default local tools analyze the workspace and create traceable planning records. External tools such as GitHub research, web search, deployment, databases, and publishing require a matching available adapter and the relevant policy/approval.
@@ -148,17 +150,17 @@ The default local tools analyze the workspace and create traceable planning reco
 
 | Command | Purpose |
 | --- | --- |
-| `uwf status --json` | Machine-readable Foundation state |
-| `uwf next --json` | Current stage and next safe action |
-| `uwf validate --json` | Validate Foundation readiness |
-| `uwf compose plan` | Open the engineering Composition Manifest |
-| `uwf material assess` | Begin material and compatibility review |
-| `uwf evidence add "Name"` | Record external evidence without copying it |
-| `uwf research prepare` | Prepare research policy and plan; does not search by itself |
-| `uwf taxonomy plan` | Plan hierarchy and metadata |
-| `uwf operations prepare` | Prepare controlled content operations after implementation approval |
-| `uwf change new "Title"` | Record a forgotten feature or scope change |
-| `uwf approve implementation --project "Name-Project"` | Activate `Project-Name-Project/` after gates pass |
+| `mew status --json` | Machine-readable Foundation state |
+| `mew next --json` | Current stage and next safe action |
+| `mew validate --json` | Validate Foundation readiness |
+| `mew compose plan` | Open the engineering Composition Manifest |
+| `mew material assess` | Begin material and compatibility review |
+| `mew evidence add "Name"` | Record external evidence without copying it |
+| `mew research prepare` | Prepare research policy and plan; does not search by itself |
+| `mew taxonomy plan` | Plan hierarchy and metadata |
+| `mew operations prepare` | Prepare controlled content operations after implementation approval |
+| `mew change new "Title"` | Record a forgotten feature or scope change |
+| `mew approve implementation --project "Name-Project"` | Activate `Project-Name-Project/` after gates pass |
 
 ## Safety model
 
@@ -176,13 +178,13 @@ The default local tools analyze the workspace and create traceable planning reco
 
 ### Linux terminal CLI
 
-![Linux terminal preview](docs/images/uwf-linux-cli-preview.svg)
+![Linux terminal preview](docs/images/mew-linux-cli-preview.svg)
 
 ### AI coding workspace
 
-![AI coding workspace preview](docs/images/uwf-ide-preview.svg)
+![AI coding workspace preview](docs/images/mew-ide-preview.svg)
 
-These are original UWF illustrations, not screenshots or copies of a branded IDE, terminal, or external design tool.
+These are original MEW illustrations, not screenshots or copies of a branded IDE, terminal, or external design tool.
 
 ## Important files
 
@@ -200,6 +202,6 @@ These are original UWF illustrations, not screenshots or copies of a branded IDE
 
 ## Open source and contribution
 
-UWF remains provider-neutral and open source. Git, GitHub, Docker, hosting, databases, payment providers, content automation, AI models, and cloud services are optional integrations. The core Foundation works offline after installation.
+MEW remains provider-neutral and open source. Git, GitHub, Docker, hosting, databases, payment providers, content automation, AI models, and cloud services are optional integrations. The core Foundation works offline after installation.
 
 Read [Foundation/README.md](Foundation/README.md) for the Foundation map, [docs/beginner/START-HERE.md](docs/beginner/START-HERE.md) for the beginner path, and [CONTRIBUTING.md](CONTRIBUTING.md) to contribute safely.
