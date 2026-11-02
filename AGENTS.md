@@ -86,6 +86,14 @@ Never enable production publishing, payments, destructive changes, or access to 
 
 Do not produce generic filler, unreviewed placeholders, misleading claims, or default “AI generated” labels in application output. Follow the project's brand, style, accessibility, and quality rules. Report third-party license, watermark, metadata, or platform-policy limits; do not claim that a provider's watermark or rights restrictions can be removed.
 
+## External references and clean-room work
+
+External products, repositories, screenshots, and design references may inform a problem statement or a quality principle, but they are never implementation sources by default. Record the reference and the abstracted lesson in `Foundation/06-UX-UI/Reference-Analysis.md`; create original UWF artifacts, names, layouts, code, schemas, and copy. Do not reproduce protected branding, assets, screenshots, distinctive UI composition, private APIs, file formats, or source code. Check licenses and attribution requirements before any direct dependency or code reuse.
+
+## Capability and release honesty
+
+Consult `Foundation/00-Control/Capability-Matrix.md` before promising a workflow. Describe agent-assisted, experimental, and planned capabilities truthfully. Before presenting a release as ready, complete the Foundation release-readiness checklist, preserve change and implementation history, and state any known limitations or manual steps.
+
 ## Change discipline
 
 Record material decisions, assumptions, changes, risks, and approvals. Before changing a previously approved decision, perform impact analysis and retain a versioned archive. Keep Foundation and implementation handover status synchronized.

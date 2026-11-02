@@ -18,6 +18,7 @@ UWF is for websites, web applications, dashboards, SaaS, commerce, content platf
 - Records change requests and impact analysis when forgotten features or new objectives appear during or after implementation.
 - Provides an optional UI/UX creative brief, responsive review, and controlled image/HTML simulation planning.
 - Includes machine-readable CLI context, status, next-step, and validation output for terminal AI agents.
+- Uses an original capability matrix, starter Foundation packs, reference-analysis record, plugin disclosure, and release-readiness process.
 
 ## Quick start
 
@@ -31,6 +32,13 @@ The interactive flow asks for a project name and creates a workspace. Advanced u
 
 ```bash
 uwf init nama-web
+```
+
+Or start with an original Foundation pack:
+
+```bash
+uwf template list
+uwf init nama-web --template content-platform
 ```
 
 Open the generated workspace in an AI coding environment and ask the agent to read `AGENTS.md` and `FOUNDATION_MANIFEST.yaml` first.
@@ -56,6 +64,8 @@ Discovery and Foundation
 ```
 
 The template starts with `Project-Implementasi/` locked for application code. When the implementation gate is approved, use `uwf approve implementation --project "Nama Web"` to rename it to `Project-Nama-Web/` and create a minimal implementation skeleton.
+
+UWF may learn from public references, but its Foundation packs, UI guidance, assets, and code remain original. Use `uwf reference` to follow the clean-room reference-analysis workflow.
 
 ## Important documents
 

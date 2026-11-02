@@ -8,6 +8,6 @@ manifest="$root/FOUNDATION_MANIFEST.yaml"
 
 schema="$(grep -E '^schema_version:' "$manifest" | head -n 1 | sed -E 's/^schema_version:[[:space:]]*//')"
 case "$schema" in
-  1) printf 'Manifest schema 1 is supported by UWF 1.1.\n' ;;
+  1) printf 'Manifest schema 1 is supported by UWF 1.2.\n' ;;
   *) printf 'Unsupported manifest schema: %s\n' "$schema" >&2; exit 1 ;;
 esac

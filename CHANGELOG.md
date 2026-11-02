@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.2.0 - 2026-11-02
+
+- Added an original capability-maturity matrix, starter Foundation packs, clean-room reference-analysis workflow, and release-readiness checklist.
+- Added plugin inspection with declared permissions, data scope, write effects, risk level, and fallback.
+- Added CLI commands for templates, references, capability status, and release readiness.
+
 ## 1.1.0 - 2026-11-02
 
 - Added change-request, impact-analysis, backlog, and revision-history Foundation workflow for forgotten or late features.

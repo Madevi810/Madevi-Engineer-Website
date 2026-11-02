@@ -17,10 +17,18 @@ for file in \
   Foundation/06-UX-UI/Creative-Brief.md \
   Foundation/06-UX-UI/Responsive-Accessibility-Review.md \
   Foundation/06-UX-UI/Simulation-Plan.md \
+  Foundation/06-UX-UI/Reference-Analysis.md \
+  Foundation/00-Control/Capability-Matrix.md \
+  Foundation/12-Handover/Release-Readiness.md \
   Foundation/14-Change-Management/README.md \
   Foundation/14-Change-Management/Backlog.md \
   Foundation/14-Change-Management/Revision-History.md \
   templates/change-request.md \
+  templates/release-readiness.md \
+  templates/starter-packs/content-platform.md \
+  templates/starter-packs/marketplace.md \
+  templates/starter-packs/dashboard.md \
+  templates/starter-packs/hybrid-platform.md \
   templates/implementation/CHANGELOG.md \
   templates/implementation/IMPLEMENTATION-HISTORY.md \
   templates/implementation/DECISIONS.md \

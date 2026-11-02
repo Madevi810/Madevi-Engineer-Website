@@ -37,6 +37,14 @@ trial="$(mktemp -d)"
   find Foundation/05-Features-Requirements -name 'Feature-Gap-Audit-*.md' -print -quit | grep -q .
   "$root/scripts/uwf" ui brief >/dev/null
   "$root/scripts/uwf" ui review >/dev/null
+  "$root/scripts/uwf" template list | grep -Fq 'content-platform'
+  "$root/scripts/uwf" template apply dashboard >/dev/null
+  test -f Foundation/04-Product-Modules/Starter-Pack-dashboard.md
+  "$root/scripts/uwf" reference >/dev/null
+  "$root/scripts/uwf" capability | grep -Fq 'Capability Matrix'
+  "$root/scripts/uwf" release check >/dev/null
+  test -f Foundation/12-Handover/Release-Readiness.md
+  "$root/scripts/uwf" plugin inspect git | grep -Fq 'risk_level: medium'
   if "$root/scripts/uwf" approve implementation --project "Smoke Web" >/dev/null 2>&1; then
     printf 'Expected incomplete Foundation gate to block implementation.\n' >&2
     exit 1
@@ -51,5 +59,12 @@ trial="$(mktemp -d)"
   test -f Project-smoke-web/docs/IMPLEMENTATION-HISTORY.md
   test -f Project-smoke-web/docs/DECISIONS.md
   test -f Project-smoke-web/docs/TRACEABILITY.md
+)
+
+template_trial="$(mktemp -d)"
+(
+  cd "$template_trial"
+  "$root/scripts/uwf" init "Template Web" --template content-platform >/dev/null
+  test -f template-web/Foundation/04-Product-Modules/Starter-Pack-content-platform.md
 )
 printf 'Smoke tests passed.\n'

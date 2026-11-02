@@ -32,8 +32,36 @@ This workspace was created from Universal Web Foundation.
 EOF
 }
 
+starter_pack_source() {
+  case "$1" in
+    content-platform|marketplace|dashboard|hybrid-platform) printf '%s/templates/starter-packs/%s.md\n' "$UWF_HOME" "$1" ;;
+    *) printf 'Starter pack tidak dikenal: %s\n' "$1" >&2; return 1 ;;
+  esac
+}
+
+apply_starter_pack() {
+  local target="$1" id="$2" source
+  source="$(starter_pack_source "$id")" || return 1
+  mkdir -p "$target/Foundation/04-Product-Modules"
+  cp "$source" "$target/Foundation/04-Product-Modules/Starter-Pack-$id.md"
+}
+
 init_project() {
-  local name="${1:-}"
+  local name="" template_id=""
+  while [[ $# -gt 0 ]]; do
+    case "$1" in
+      --template)
+        [[ $# -ge 2 ]] || { printf 'Gunakan: uwf init nama-web --template template-id\n' >&2; exit 1; }
+        template_id="$2"
+        shift 2
+        ;;
+      *)
+        [[ -z "$name" ]] || { printf 'Argumen tidak dikenal: %s\n' "$1" >&2; exit 1; }
+        name="$1"
+        shift
+        ;;
+    esac
+  done
   if [[ -z "$name" ]]; then read -r -p "Nama web/proyek: " name; fi
   [[ -n "$name" ]] || { printf 'Nama proyek wajib diisi.\n' >&2; exit 1; }
   local slug target escaped
@@ -42,10 +70,14 @@ init_project() {
   target="$PWD/$slug"
   [[ ! -e "$target" ]] || { printf 'Folder sudah ada: %s\n' "$target" >&2; exit 1; }
   copy_template "$target"
+  if [[ -n "$template_id" ]]; then
+    apply_starter_pack "$target" "$template_id"
+  fi
   escaped="$(printf '%s' "$name" | sed 's/[&|]/\\&/g')"
   sed -i "s|name: Unnamed Web Project|name: $escaped|" "$target/FOUNDATION_MANIFEST.yaml"
   sed -i "s|slug: unnamed-web-project|slug: $slug|" "$target/FOUNDATION_MANIFEST.yaml"
   printf '\nWorkspace dibuat: %s\nMasuk dengan: cd %q\nLalu jalankan: uwf status\n' "$target" "$slug"
+  [[ -z "$template_id" ]] || printf 'Starter pack ditambahkan: %s\n' "$template_id"
 }
 
 show_status() {
@@ -156,6 +188,9 @@ ensure_extension_artifacts() {
     Foundation/06-UX-UI/Creative-Brief.md \
     Foundation/06-UX-UI/Responsive-Accessibility-Review.md \
     Foundation/06-UX-UI/Simulation-Plan.md \
+    Foundation/06-UX-UI/Reference-Analysis.md \
+    Foundation/00-Control/Capability-Matrix.md \
+    Foundation/12-Handover/Release-Readiness.md \
     Foundation/14-Change-Management/README.md \
     Foundation/14-Change-Management/Backlog.md \
     Foundation/14-Change-Management/Revision-History.md; do
@@ -165,6 +200,51 @@ ensure_extension_artifacts() {
     fi
   done
   mkdir -p Foundation/14-Change-Management/Requests
+}
+
+template_command() {
+  local action="${1:-list}" id="${2:-}"
+  case "$action" in
+    list)
+      [[ $# -eq 1 || $# -eq 0 ]] || { printf 'Gunakan: uwf template [list|apply template-id]\n' >&2; exit 1; }
+      printf '%s\n' 'Original UWF Foundation starter packs:'
+      printf '%s\n' '- content-platform: articles, documentation, editorial, and media planning'
+      printf '%s\n' '- marketplace: catalog, buyer/seller, order, and payment planning'
+      printf '%s\n' '- dashboard: internal operations, analytics, and admin planning'
+      printf '%s\n' '- hybrid-platform: coordinated multi-module web platform planning'
+      ;;
+    apply)
+      [[ $# -eq 2 ]] || { printf 'Gunakan: uwf template apply template-id\n' >&2; exit 1; }
+      workspace_manifest
+      apply_starter_pack "$PWD" "$id"
+      printf 'Starter pack ditambahkan untuk review: Foundation/04-Product-Modules/Starter-Pack-%s.md\n' "$id"
+      printf '%s\n' 'Starter pack tidak mengubah objective, stack, atau implementation gate tanpa keputusan developer.'
+      ;;
+    *) printf 'Gunakan: uwf template [list|apply template-id]\n' >&2; exit 1 ;;
+  esac
+}
+
+reference_command() {
+  workspace_manifest
+  ensure_extension_artifacts
+  printf '%s\n' 'Gunakan Foundation/06-UX-UI/Reference-Analysis.md untuk mencatat pelajaran abstrak dari referensi eksternal.'
+  printf '%s\n' 'Clean-room rule: jangan menyalin kode, merek, logo, aset, screenshot, API privat, format file, atau komposisi UI khas.'
+}
+
+capability_command() {
+  workspace_manifest
+  ensure_extension_artifacts
+  sed -n '1,240p' Foundation/00-Control/Capability-Matrix.md
+}
+
+release_check_command() {
+  workspace_manifest
+  ensure_extension_artifacts
+  if [[ ! -f Foundation/12-Handover/Release-Readiness.md ]]; then
+    cp "$UWF_HOME/templates/release-readiness.md" Foundation/12-Handover/Release-Readiness.md
+  fi
+  printf '%s\n' 'Release-readiness checklist: Foundation/12-Handover/Release-Readiness.md'
+  printf '%s\n' 'Complete evidence and developer approval before calling an implementation release stable.'
 }
 
 change_command() {
@@ -281,7 +361,7 @@ upgrade_online() {
 }
 
 plugin_command() {
-  [[ $# -gt 0 ]] || { printf 'Gunakan: uwf plugin [list|enable|disable] [plugin-id]\n' >&2; exit 1; }
+  [[ $# -gt 0 ]] || { printf 'Gunakan: uwf plugin [list|inspect|enable|disable] [plugin-id]\n' >&2; exit 1; }
   (
     cd "$PWD"
     "$UWF_HOME/scripts/plugin-manager.sh" "$@"
@@ -337,10 +417,15 @@ Usage:
                               Record or inspect a reviewable scope change
   uwf feature-gap audit       Create a missing-requirements audit draft
   uwf ui [brief|review]       Guide the UI/UX creative-brief and review flow
+  uwf template [list|apply id]
+                              List or add an original Foundation starter pack
+  uwf reference               Show the clean-room external-reference workflow
+  uwf capability              Show capability maturity and limitations
+  uwf release check           Open the implementation release-readiness checklist
   uwf stack [list|advise]     Show stack profiles or decision guidance
   uwf upgrade online --prepare
                               Create a draft online migration plan and archive snapshot
-  uwf plugin [list|enable|disable] [id]
+  uwf plugin [list|inspect|enable|disable] [id]
                               Manage approved workspace plugin decisions
   uwf automation [prepare|status|kill]
                               Manage automation policy and emergency stop
@@ -373,7 +458,7 @@ interactive() {
 
 case "${1:-}" in
   "") interactive ;;
-  init) shift; init_project "${1:-}" ;;
+  init) shift; init_project "$@" ;;
   doctor) "$UWF_HOME/scripts/doctor.sh" ;;
   status) shift; show_status "$@" ;;
   next) shift; show_next "$@" ;;
@@ -392,6 +477,10 @@ case "${1:-}" in
   change) shift; change_command "$@" ;;
   feature-gap) shift; feature_gap_command "$@" ;;
   ui) shift; ui_command "$@" ;;
+  template) shift; template_command "$@" ;;
+  reference) shift; reference_command "$@" ;;
+  capability) shift; capability_command "$@" ;;
+  release) shift; [[ "${1:-}" == "check" && $# -eq 1 ]] || { printf 'Gunakan: uwf release check\n' >&2; exit 1; }; release_check_command ;;
   approve)
     shift
     [[ "${1:-}" == "implementation" ]] || { show_help; exit 1; }
