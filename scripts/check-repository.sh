@@ -21,11 +21,36 @@ for file in \
   Foundation/06-UX-UI/Design-Reference-Registry.md \
   Foundation/06-UX-UI/FigCraft-Reference-Catalog.md \
   Foundation/00-Control/Capability-Matrix.md \
+  Foundation/00-Control/Decision-Graph.md \
+  Foundation/00-Control/Evaluation-Lab.md \
+  Foundation/15-Engineering-Materials/README.md \
+  Foundation/15-Engineering-Materials/Material-Catalog.md \
+  Foundation/15-Engineering-Materials/Material-Lifecycle.md \
+  Foundation/15-Engineering-Materials/Composition-Manifest.md \
+  Foundation/16-External-Reference-Evidence/README.md \
+  Foundation/16-External-Reference-Evidence/Source-Policy.md \
+  Foundation/16-External-Reference-Evidence/Evidence-Registry.md \
+  Foundation/17-Research-Content-Operations/README.md \
+  Foundation/17-Research-Content-Operations/Research-Policy.md \
+  Foundation/17-Research-Content-Operations/Taxonomy-Content-Map.md \
+  Foundation/17-Research-Content-Operations/Scale-Batch-Plan.md \
+  Foundation/17-Research-Content-Operations/Publish-Controls.md \
+  Foundation/17-Research-Content-Operations/Freshness-Capacity-Plan.md \
+  Foundation/09-Deployment-Operations/Data-Lifecycle-Fallback.md \
   Foundation/12-Handover/Release-Readiness.md \
   Foundation/14-Change-Management/README.md \
   Foundation/14-Change-Management/Backlog.md \
   Foundation/14-Change-Management/Revision-History.md \
   templates/change-request.md \
+  templates/composition-manifest.md \
+  templates/evidence-card.md \
+  templates/runtime-profile.md \
+  templates/research-plan.md \
+  templates/content-map.md \
+  templates/production-queue.md \
+  templates/rights-ledger.md \
+  templates/operations-run-history.md \
+  templates/freshness-capacity-plan.md \
   templates/release-readiness.md \
   templates/starter-packs/content-platform.md \
   templates/starter-packs/marketplace.md \
@@ -37,6 +62,16 @@ for file in \
   templates/implementation/TRACEABILITY.md \
   docs/images/uwf-linux-cli-preview.svg \
   docs/images/uwf-ide-preview.svg; do
+  need "$file"
+done
+
+for file in \
+  skills/engineering-composer/SKILL.md \
+  skills/external-reference-scout/SKILL.md \
+  skills/taxonomy-architect/SKILL.md \
+  skills/content-operations/SKILL.md \
+  skills/rights-and-provenance/SKILL.md \
+  skills/dependency-vetter/SKILL.md; do
   need "$file"
 done
 

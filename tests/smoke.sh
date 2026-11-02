@@ -35,6 +35,19 @@ trial="$(mktemp -d)"
   "$root/scripts/uwf" status --json | grep -Fq 'uwf-status/v1'
   "$root/scripts/uwf" next --json | grep -Fq 'uwf-next/v1'
   "$root/scripts/uwf" validate --json | grep -Fq 'uwf-validation/v1'
+  "$root/scripts/uwf" runtime prepare >/dev/null
+  test -f Foundation/00-Control/Agent-Runtime-Profile.md
+  "$root/scripts/uwf" material list | grep -Fq 'Material Catalog Model'
+  "$root/scripts/uwf" material assess >/dev/null
+  "$root/scripts/uwf" compose plan >/dev/null
+  "$root/scripts/uwf" evidence add "Official astronomy source" >/dev/null
+  "$root/scripts/uwf" evidence list | grep -Fq 'official-astronomy-source.md'
+  "$root/scripts/uwf" research prepare >/dev/null
+  "$root/scripts/uwf" taxonomy plan >/dev/null
+  if "$root/scripts/uwf" operations prepare >/dev/null 2>&1; then
+    printf 'Expected content operations to require approved implementation.\n' >&2
+    exit 1
+  fi
   "$root/scripts/uwf" change new "Remembered bookmark feature" >/dev/null
   "$root/scripts/uwf" change list | grep -Fq 'CR-'
   "$root/scripts/uwf" feature-gap audit >/dev/null
@@ -71,12 +84,29 @@ trial="$(mktemp -d)"
   sed -i 's/guidance_mode: unset # full_agent_recommendation | recommendation_with_custom_choice/guidance_mode: full_agent_recommendation # full_agent_recommendation | recommendation_with_custom_choice/' FOUNDATION_MANIFEST.yaml
   sed -i 's/primary: \[\]/primary: [smoke objective]/' FOUNDATION_MANIFEST.yaml
   sed -i 's/status: DRAFT/status: READY/' FOUNDATION_MANIFEST.yaml
+  sed -i 's/profile_status: DECLARED/profile_status: VERIFIED/' FOUNDATION_MANIFEST.yaml
+  sed -i 's/^  status: REVIEW # DRAFT | REVIEW | READY | APPROVED/  status: READY # DRAFT | REVIEW | READY | APPROVED/' FOUNDATION_MANIFEST.yaml
   sed -i 's/reference_status: ANALYSIS_REQUIRED/reference_status: ANALYZED/' FOUNDATION_MANIFEST.yaml
   "$root/scripts/uwf" approve implementation --project "Smoke Web" >/dev/null
   test -f Project-smoke-web/CHANGELOG.md
   test -f Project-smoke-web/docs/IMPLEMENTATION-HISTORY.md
   test -f Project-smoke-web/docs/DECISIONS.md
   test -f Project-smoke-web/docs/TRACEABILITY.md
+  "$root/scripts/uwf" operations prepare >/dev/null
+  test -f Project-smoke-web/Operations/Content-Map.md
+  test -f Project-smoke-web/Operations/Production-Queue.md
+  test -f Project-smoke-web/Operations/Rights-Ledger.md
+  test -f Project-smoke-web/Operations/Run-History.md
+  test -f Project-smoke-web/Operations/Freshness-Capacity-Plan.md
+  "$root/scripts/uwf" content plan --count 200 >/dev/null
+  operations_status="$("$root/scripts/uwf" operations status)"
+  grep -Fq 'scale_target: 200' <<<"$operations_status"
+  "$root/scripts/uwf" operations validate >/dev/null
+  sed -i 's/mode: plan_only # plan_only | draft_assisted | implementation_assisted | controlled_autonomous/mode: controlled_autonomous # plan_only | draft_assisted | implementation_assisted | controlled_autonomous/' FOUNDATION_MANIFEST.yaml
+  if "$root/scripts/uwf" operations validate >/dev/null 2>&1; then
+    printf 'Expected autonomous content operations without policy to be blocked.\n' >&2
+    exit 1
+  fi
 )
 
 template_trial="$(mktemp -d)"
@@ -94,5 +124,35 @@ custom_reference_trial="$(mktemp -d)"
   "$root/scripts/uwf" reference custom "Public UI Reference" >/dev/null
   test -f Foundation/06-UX-UI/Reference-Analysis-Custom-public-ui-reference.md
   "$root/scripts/uwf" status --json | grep -Fq '"active_reference":"custom"'
+)
+
+legacy_trial="$(mktemp -d)"
+mkdir -p "$legacy_trial/legacy"
+awk '
+  /^(agent_runtime|composition|external_evidence|content_operations):/ { skip=1; next }
+  skip && /^[^[:space:]]/ { skip=0 }
+  !skip { print }
+' "$root/FOUNDATION_MANIFEST.yaml" >"$legacy_trial/legacy/FOUNDATION_MANIFEST.yaml"
+"$root/scripts/manifest-migrate.sh" "$legacy_trial/legacy" >/dev/null
+grep -Fq 'agent_runtime:' "$legacy_trial/legacy/FOUNDATION_MANIFEST.yaml"
+grep -Fq 'content_operations:' "$legacy_trial/legacy/FOUNDATION_MANIFEST.yaml"
+test -f "$legacy_trial/legacy/FOUNDATION_MANIFEST.yaml.pre-v1.2.bak"
+
+legacy_workspace_trial="$(mktemp -d)"
+(
+  cd "$legacy_workspace_trial"
+  "$root/scripts/uwf" init "Legacy Workspace" >/dev/null
+  cd legacy-workspace
+  mkdir -p ../legacy-stash
+  mv Foundation/15-Engineering-Materials Foundation/16-External-Reference-Evidence Foundation/17-Research-Content-Operations ../legacy-stash/
+  awk '
+    /^(agent_runtime|composition|external_evidence|content_operations):/ { skip=1; next }
+    skip && /^[^[:space:]]/ { skip=0 }
+    !skip { print }
+  ' FOUNDATION_MANIFEST.yaml > FOUNDATION_MANIFEST.tmp
+  mv FOUNDATION_MANIFEST.tmp FOUNDATION_MANIFEST.yaml
+  "$root/scripts/uwf" validate --json | grep -Fq 'uwf-validation/v1'
+  test -f Foundation/15-Engineering-Materials/Composition-Manifest.md
+  test -f Foundation/17-Research-Content-Operations/Research-Policy.md
 )
 printf 'Smoke tests passed.\n'

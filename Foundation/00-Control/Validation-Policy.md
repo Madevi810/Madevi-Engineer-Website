@@ -9,7 +9,11 @@ Gate validation is used before implementation approval. It requires:
 - project mode;
 - a primary objective;
 - Foundation status READY;
+- declared agent runtime capability profile;
+- Composition Manifest status READY or APPROVED;
 - no open CRITICAL risk.
+
+If content operations are enabled, standard validation also checks that the Operations workspace exists. Autonomous or publish-enabled content operation requires the approved autonomy policy and run history. Source, taxonomy, rights, and publishing reviews remain required before the relevant action; a content target alone is never permission to write or publish.
 
 Only a developer approval command can change the implementation gate to APPROVED. An agent may recommend READY but may not bypass gate validation.
 

@@ -2,6 +2,12 @@
 
 ## 1.2.0 - 2026-11-02
 
+- Reworked the v1.2 Foundation architecture around engineering-material composition, external evidence, agent-runtime truthfulness, and research/content operations rather than adding isolated templates.
+- Added structured material lifecycle, Composition Manifest, Evidence Cards, source/trust policy, rights ledger, content taxonomy, scale/batch planning, production queue, and controlled publish policy.
+- Added explicit separation between UI inspiration, engineering dependencies, factual sources, and creative-content references.
+- Added CLI preparation/status commands for materials, evidence, composition, research, taxonomy, content operations, and validation; they create planning artifacts and do not silently search or publish.
+- Added runtime capability, evidence, composition, and content-operation fields to the workspace manifest and gate checks.
+- Added evaluation scenarios and negative tests for unavailable research access, incomplete source policy, unresolved rights, and content automation without approval.
 - Added an original capability-maturity matrix, starter Foundation packs, clean-room reference-analysis workflow, and release-readiness checklist.
 - Added plugin inspection with declared permissions, data scope, write effects, risk level, and fallback.
 - Added CLI commands for templates, references, capability status, and release readiness.

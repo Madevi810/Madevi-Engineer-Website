@@ -106,6 +106,10 @@ show_status() {
   printf '  simulation_status: %s\n' "$(section_value ui_ux simulation_status "$manifest")"
   printf '  history_status: %s\n' "$(section_value implementation_history status "$manifest")"
   printf '  automation_enabled: %s\n' "$(section_value automation enabled "$manifest")"
+  printf '  runtime_profile_status: %s\n' "$(section_value agent_runtime profile_status "$manifest")"
+  printf '  composition_status: %s\n' "$(section_value composition status "$manifest")"
+  printf '  evidence_status: %s\n' "$(section_value external_evidence status "$manifest")"
+  printf '  content_operations_status: %s\n' "$(section_value content_operations status "$manifest")"
 }
 
 section_value() {
@@ -122,13 +126,33 @@ section_value() {
   ' "$manifest"
 }
 
+set_section_value() {
+  local section="$1" key="$2" new_value="$3" manifest="${4:-FOUNDATION_MANIFEST.yaml}"
+  local temporary
+  temporary="$(mktemp "${manifest}.tmp.XXXXXX")"
+  awk -v section="$section" -v key="$key" -v value="$new_value" '
+    $0 == section ":" { active=1; print; next }
+    active && /^[^[:space:]]/ { active=0 }
+    active && $0 ~ "^  " key ":" {
+      comment = ""
+      if (match($0, /[[:space:]]+#/)) comment = substr($0, RSTART)
+      print "  " key ": " value comment
+      changed=1
+      next
+    }
+    { print }
+    END { if (!changed) exit 3 }
+  ' "$manifest" >"$temporary" || { rm -f "$temporary"; printf 'Manifest field tidak ditemukan: %s.%s\n' "$section" "$key" >&2; return 1; }
+  mv "$temporary" "$manifest"
+}
+
 json_escape() {
   printf '%s' "$1" | sed 's/\\/\\\\/g; s/"/\\"/g'
 }
 
 show_status_json() {
   local manifest="$1"
-  printf '{"schema":"uwf-status/v1","workspace":"%s","project":{"name":"%s","slug":"%s","mode":"%s","lifecycle_status":"%s"},"developer":{"experience_level":"%s","guidance_mode":"%s"},"foundation":{"current_stage":"%s","current_stage_name":"%s","status":"%s","implementation_gate":"%s","implementation_status":"%s"},"change_management":{"active_request":"%s","status":"%s","last_impact_level":"%s"},"ui_ux":{"active_reference":"%s","active_reference_name":"%s","reference_analysis_file":"%s","reference_status":"%s","creative_brief_status":"%s","simulation_status":"%s","preferred_simulation":"%s"},"implementation_history":{"status":"%s","current_release":"%s"},"automation":{"enabled":"%s"}}\n' \
+  printf '{"schema":"uwf-status/v1","workspace":"%s","project":{"name":"%s","slug":"%s","mode":"%s","lifecycle_status":"%s"},"developer":{"experience_level":"%s","guidance_mode":"%s"},"foundation":{"current_stage":"%s","current_stage_name":"%s","status":"%s","implementation_gate":"%s","implementation_status":"%s"},"change_management":{"active_request":"%s","status":"%s","last_impact_level":"%s"},"ui_ux":{"active_reference":"%s","active_reference_name":"%s","reference_analysis_file":"%s","reference_status":"%s","creative_brief_status":"%s","simulation_status":"%s","preferred_simulation":"%s"},"implementation_history":{"status":"%s","current_release":"%s"},"automation":{"enabled":"%s"},"agent_runtime":{"profile_status":"%s","web_research":"%s","github_access":"%s"},"composition":{"status":"%s"},"external_evidence":{"status":"%s","source_policy_status":"%s"},"content_operations":{"enabled":"%s","status":"%s","mode":"%s","scale_target":"%s","taxonomy_status":"%s","research_policy_status":"%s","publishing_status":"%s"}}\n' \
     "$(json_escape "$PWD")" \
     "$(json_escape "$(section_value project name "$manifest")")" \
     "$(json_escape "$(section_value project slug "$manifest")")" \
@@ -153,7 +177,20 @@ show_status_json() {
     "$(json_escape "$(section_value ui_ux preferred_simulation "$manifest")")" \
     "$(json_escape "$(section_value implementation_history status "$manifest")")" \
     "$(json_escape "$(section_value implementation_history current_release "$manifest")")" \
-    "$(json_escape "$(section_value automation enabled "$manifest")")"
+    "$(json_escape "$(section_value automation enabled "$manifest")")" \
+    "$(json_escape "$(section_value agent_runtime profile_status "$manifest")")" \
+    "$(json_escape "$(section_value agent_runtime web_research "$manifest")")" \
+    "$(json_escape "$(section_value agent_runtime github_access "$manifest")")" \
+    "$(json_escape "$(section_value composition status "$manifest")")" \
+    "$(json_escape "$(section_value external_evidence status "$manifest")")" \
+    "$(json_escape "$(section_value external_evidence source_policy_status "$manifest")")" \
+    "$(json_escape "$(section_value content_operations enabled "$manifest")")" \
+    "$(json_escape "$(section_value content_operations status "$manifest")")" \
+    "$(json_escape "$(section_value content_operations mode "$manifest")")" \
+    "$(json_escape "$(section_value content_operations scale_target "$manifest")")" \
+    "$(json_escape "$(section_value content_operations taxonomy_status "$manifest")")" \
+    "$(json_escape "$(section_value content_operations research_policy_status "$manifest")")" \
+    "$(json_escape "$(section_value content_operations publishing_status "$manifest")")"
 }
 
 show_next() {
@@ -167,13 +204,13 @@ show_next() {
     return
   fi
   printf 'Tahap aktif: %s\n' "$stage"
-  printf 'Langkah berikutnya: baca Foundation/13-Question-Bank, jawab pertanyaan tahap aktif, lalu jalankan uwf validate.\n'
+  printf 'Langkah berikutnya: baca bahan tahap aktif dan Question Bank yang relevan, catat keputusan, lalu jalankan uwf validate.\n'
 }
 
 show_context() {
   [[ -f FOUNDATION_MANIFEST.yaml ]] || { printf 'Jalankan dari root workspace UWF.\n' >&2; exit 1; }
   if [[ "${1:-}" == "--json" ]]; then
-    printf '{"schema":"uwf-agent-context/v1","read_order":["FOUNDATION_MANIFEST.yaml","Foundation/00-Control/Open-Questions.md","Foundation/00-Control/Decision-Log.md","active Foundation stage","current status report"],"commands":{"status":"uwf status --json","next":"uwf next --json","validate":"uwf validate --json"},"guardrail":"Do not implement application code until the developer explicitly approves the implementation gate."}\n'
+    printf '{"schema":"uwf-agent-context/v1","read_order":["FOUNDATION_MANIFEST.yaml","Foundation/00-Control/Open-Questions.md","Foundation/00-Control/Decision-Log.md","active Foundation stage","Composition Manifest when present","current status report"],"commands":{"status":"uwf status --json","next":"uwf next --json","validate":"uwf validate --json","runtime":"uwf runtime prepare","compose":"uwf compose plan"},"guardrail":"Do not implement application code until the developer explicitly approves the implementation gate."}\n'
     return
   fi
   printf '%s\n' 'UWF agent context'
@@ -181,7 +218,8 @@ show_context() {
   printf '%s\n' '2. Read Foundation/00-Control/Open-Questions.md.'
   printf '%s\n' '3. Read Foundation/00-Control/Decision-Log.md.'
   printf '%s\n' '4. Read the active Foundation stage and current status report.'
-  printf '%s\n' '5. Run: uwf status --json; uwf next --json; uwf validate --json.'
+  printf '%s\n' '5. Read the Composition Manifest and source policy when they apply.'
+  printf '%s\n' '6. Run: uwf status --json; uwf next --json; uwf validate --json.'
   printf '%s\n' 'Guardrail: never write application code before explicit developer approval.'
 }
 
@@ -203,13 +241,33 @@ ensure_extension_artifacts() {
     Foundation/12-Handover/Release-Readiness.md \
     Foundation/14-Change-Management/README.md \
     Foundation/14-Change-Management/Backlog.md \
-    Foundation/14-Change-Management/Revision-History.md; do
+    Foundation/14-Change-Management/Revision-History.md \
+    Foundation/15-Engineering-Materials/README.md \
+    Foundation/15-Engineering-Materials/Material-Catalog.md \
+    Foundation/15-Engineering-Materials/Material-Lifecycle.md \
+    Foundation/15-Engineering-Materials/Composition-Manifest.md \
+    Foundation/16-External-Reference-Evidence/README.md \
+    Foundation/16-External-Reference-Evidence/Source-Policy.md \
+    Foundation/16-External-Reference-Evidence/Evidence-Registry.md \
+    Foundation/17-Research-Content-Operations/README.md \
+    Foundation/17-Research-Content-Operations/Research-Policy.md \
+    Foundation/17-Research-Content-Operations/Taxonomy-Content-Map.md \
+    Foundation/17-Research-Content-Operations/Scale-Batch-Plan.md \
+    Foundation/17-Research-Content-Operations/Publish-Controls.md \
+    Foundation/17-Research-Content-Operations/Freshness-Capacity-Plan.md; do
     if [[ ! -f "$relative" ]]; then
       mkdir -p "$(dirname "$relative")"
       cp "$UWF_HOME/$relative" "$relative"
     fi
   done
   mkdir -p Foundation/14-Change-Management/Requests
+  mkdir -p Foundation/16-External-Reference-Evidence/Evidence-Cards
+}
+
+prepare_workspace_extensions() {
+  workspace_manifest
+  "$UWF_HOME/scripts/manifest-migrate.sh" "$PWD" >/dev/null
+  ensure_extension_artifacts
 }
 
 ensure_ui_reference_manifest_fields() {
@@ -314,6 +372,144 @@ capability_command() {
   sed -n '1,240p' Foundation/00-Control/Capability-Matrix.md
 }
 
+runtime_command() {
+  [[ "${1:-}" == "prepare" && $# -eq 1 ]] || { printf 'Gunakan: uwf runtime prepare\n' >&2; exit 1; }
+  workspace_manifest
+  local profile="Foundation/00-Control/Agent-Runtime-Profile.md"
+  [[ -f "$profile" ]] || cp "$UWF_HOME/templates/runtime-profile.md" "$profile"
+  set_section_value agent_runtime profile_status DECLARED
+  printf 'Runtime profile dibuat: %s\n' "$profile"
+  printf '%s\n' 'Isi hanya kemampuan yang benar-benar tersedia; kemampuan tidak diketahui tetap harus dilaporkan sebagai unknown atau unavailable.'
+}
+
+material_command() {
+  local action="${1:-list}"
+  workspace_manifest
+  ensure_extension_artifacts
+  case "$action" in
+    list)
+      [[ $# -eq 1 || $# -eq 0 ]] || { printf 'Gunakan: uwf material [list|assess]\n' >&2; exit 1; }
+      sed -n '1,260p' Foundation/15-Engineering-Materials/Material-Catalog.md
+      ;;
+    assess)
+      [[ $# -eq 1 ]] || { printf 'Gunakan: uwf material assess\n' >&2; exit 1; }
+      set_section_value composition status REVIEW
+      printf '%s\n' 'Lengkapi Foundation/15-Engineering-Materials/Composition-Manifest.md dengan bahan terpilih, bahan ditolak, bukti, risiko, biaya, dan keputusan developer.'
+      ;;
+    *) printf 'Gunakan: uwf material [list|assess]\n' >&2; exit 1 ;;
+  esac
+}
+
+compose_command() {
+  [[ "${1:-}" == "plan" && $# -eq 1 ]] || { printf 'Gunakan: uwf compose plan\n' >&2; exit 1; }
+  workspace_manifest
+  ensure_extension_artifacts
+  set_section_value composition status REVIEW
+  printf '%s\n' 'Composition Manifest: Foundation/15-Engineering-Materials/Composition-Manifest.md'
+  printf '%s\n' 'Agent wajib menjelaskan tujuan, hierarchy, bahan terpilih/ditolak, kompatibilitas, bukti, risiko, biaya, dan keputusan terbuka.'
+}
+
+evidence_command() {
+  local action="${1:-}"
+  shift || true
+  workspace_manifest
+  ensure_extension_artifacts
+  case "$action" in
+    add)
+      local name="${1:-}" slug card escaped
+      [[ $# -eq 1 && -n "$name" ]] || { printf 'Gunakan: uwf evidence add "Nama sumber atau bahan"\n' >&2; exit 1; }
+      slug="$(slugify "$name")"
+      [[ -n "$slug" ]] || { printf 'Nama evidence tidak valid.\n' >&2; exit 1; }
+      card="Foundation/16-External-Reference-Evidence/Evidence-Cards/$slug.md"
+      [[ ! -e "$card" ]] || { printf 'Evidence Card sudah ada: %s\n' "$card" >&2; exit 1; }
+      cp "$UWF_HOME/templates/evidence-card.md" "$card"
+      escaped="$(printf '%s' "$slug" | sed 's/[&|]/\\&/g')"
+      sed -i "s|{{ID}}|EV-$escaped|" "$card"
+      set_section_value external_evidence status PLANNED
+      printf 'Evidence Card dibuat: %s\n' "$card"
+      ;;
+    list)
+      [[ $# -eq 0 ]] || { printf 'Gunakan: uwf evidence [list|add "Nama"]\n' >&2; exit 1; }
+      find Foundation/16-External-Reference-Evidence/Evidence-Cards -maxdepth 1 -type f -name '*.md' -printf '%f\n' | sort
+      ;;
+    *) printf 'Gunakan: uwf evidence [list|add "Nama"]\n' >&2; exit 1 ;;
+  esac
+}
+
+research_command() {
+  [[ "${1:-}" == "prepare" && $# -eq 1 ]] || { printf 'Gunakan: uwf research prepare\n' >&2; exit 1; }
+  workspace_manifest
+  ensure_extension_artifacts
+  local plan="Foundation/17-Research-Content-Operations/Research-Plan.md"
+  [[ -f "$plan" ]] || cp "$UWF_HOME/templates/research-plan.md" "$plan"
+  set_section_value external_evidence status PLANNED
+  set_section_value content_operations research_policy_status DRAFT
+  printf 'Research plan dibuat: %s\n' "$plan"
+  printf '%s\n' 'Ini hanya rencana. UWF tidak melakukan web search atau publishing otomatis.'
+}
+
+taxonomy_command() {
+  [[ "${1:-}" == "plan" && $# -eq 1 ]] || { printf 'Gunakan: uwf taxonomy plan\n' >&2; exit 1; }
+  workspace_manifest
+  ensure_extension_artifacts
+  set_section_value content_operations taxonomy_status DRAFT
+  printf '%s\n' 'Taxonomy & Content Map: Foundation/17-Research-Content-Operations/Taxonomy-Content-Map.md'
+}
+
+active_implementation_project() {
+  local projects=()
+  local item
+  while IFS= read -r item; do projects+=("$item"); done < <(find . -maxdepth 1 -mindepth 1 -type d -name 'Project-*' ! -name 'Project-Implementasi' -printf '%f\n' | sort)
+  [[ "${#projects[@]}" -eq 1 ]] || { printf 'Content operations membutuhkan tepat satu Project-Nama-Web aktif; ditemukan %s.\n' "${#projects[@]}" >&2; return 1; }
+  printf '%s' "${projects[0]}"
+}
+
+operations_command() {
+  local action="${1:-status}"
+  workspace_manifest
+  ensure_extension_artifacts
+  case "$action" in
+    prepare)
+      [[ $# -eq 1 ]] || { printf 'Gunakan: uwf operations [prepare|status|validate]\n' >&2; exit 1; }
+      grep -q '^  implementation_gate: APPROVED' FOUNDATION_MANIFEST.yaml || { printf 'Content operations hanya dapat diaktifkan setelah implementation gate disetujui.\n' >&2; exit 1; }
+      local project operations
+      project="$(active_implementation_project)" || exit 1
+      operations="$project/Operations"
+      mkdir -p "$operations"
+      for pair in "Content-Map.md:content-map.md" "Production-Queue.md:production-queue.md" "Rights-Ledger.md:rights-ledger.md" "Run-History.md:operations-run-history.md" "Freshness-Capacity-Plan.md:freshness-capacity-plan.md"; do
+        local target="${pair%%:*}" source="${pair##*:}"
+        [[ -f "$operations/$target" ]] || cp "$UWF_HOME/templates/$source" "$operations/$target"
+      done
+      set_section_value content_operations enabled true
+      set_section_value content_operations status PLANNED
+      set_section_value content_operations operations_root "$operations"
+      printf 'Content operations disiapkan: %s\n' "$operations"
+      ;;
+    status)
+      [[ $# -eq 1 ]] || { printf 'Gunakan: uwf operations [prepare|status|validate]\n' >&2; exit 1; }
+      printf '%s\n' "content_operations.enabled: $(section_value content_operations enabled FOUNDATION_MANIFEST.yaml)
+content_operations.status: $(section_value content_operations status FOUNDATION_MANIFEST.yaml)
+content_operations.mode: $(section_value content_operations mode FOUNDATION_MANIFEST.yaml)
+content_operations.scale_target: $(section_value content_operations scale_target FOUNDATION_MANIFEST.yaml)
+content_operations.publishing_status: $(section_value content_operations publishing_status FOUNDATION_MANIFEST.yaml)"
+      ;;
+    validate)
+      [[ $# -eq 1 ]] || { printf 'Gunakan: uwf operations [prepare|status|validate]\n' >&2; exit 1; }
+      "$UWF_HOME/scripts/validate-foundation.sh" "$PWD"
+      ;;
+    *) printf 'Gunakan: uwf operations [prepare|status|validate]\n' >&2; exit 1 ;;
+  esac
+}
+
+content_command() {
+  [[ "${1:-}" == "plan" && "${2:-}" == "--count" && $# -eq 3 && "${3:-}" =~ ^[1-9][0-9]*$ ]] || { printf 'Gunakan: uwf content plan --count JUMLAH\n' >&2; exit 1; }
+  workspace_manifest
+  local count="$3"
+  [[ "$(section_value content_operations enabled FOUNDATION_MANIFEST.yaml)" == "true" ]] || { printf 'Jalankan uwf operations prepare setelah implementation gate disetujui.\n' >&2; exit 1; }
+  set_section_value content_operations scale_target "$count"
+  printf 'Target konten dicatat: %s. Lengkapi Scale-Batch-Plan.md sebelum drafting atau writes.\n' "$count"
+}
+
 release_check_command() {
   workspace_manifest
   ensure_extension_artifacts
@@ -389,6 +585,7 @@ review_stage() {
   local stage=""
   [[ $# -eq 0 ]] || stage="$1"
   [[ "$stage" =~ ^stage-[0-9]+$ ]] || { printf 'Gunakan: uwf review stage-N\n' >&2; exit 1; }
+  prepare_workspace_extensions
   "$UWF_HOME/scripts/validate-foundation.sh" "$PWD"
   printf 'Gunakan templates/stage-review.md untuk mencatat review.\n'
 }
@@ -460,6 +657,7 @@ approve_implementation() {
   done
   [[ -n "$project" ]] || { printf 'Gunakan: uwf approve implementation --project "Nama Web"\n' >&2; exit 1; }
   [[ -f FOUNDATION_MANIFEST.yaml ]] || { printf 'Jalankan perintah ini dari root workspace UWF.\n' >&2; exit 1; }
+  prepare_workspace_extensions
   [[ -d Project-Implementasi ]] || { printf 'Project-Implementasi tidak ditemukan; mungkin sudah diaktifkan.\n' >&2; exit 1; }
   "$UWF_HOME/scripts/validate-foundation.sh" "$PWD" --gate || {
     printf 'Implementation approval blocked. Complete the Foundation issues above first.\n' >&2
@@ -497,6 +695,16 @@ Usage:
   uwf template [list|apply id]
                               List or add an original Foundation starter pack
   uwf reference               Show the clean-room external-reference workflow
+  uwf runtime prepare         Create a truthful agent runtime-capability profile
+  uwf material [list|assess]  View material model or begin an assessment
+  uwf compose plan            Open the required engineering Composition Manifest
+  uwf evidence [list|add "Name"]
+                              Record a reviewed external evidence card
+  uwf research prepare        Create a research plan; does not run web search
+  uwf taxonomy plan           Open taxonomy and content-map planning
+  uwf operations [prepare|status|validate]
+                              Prepare controlled post-implementation content operations
+  uwf content plan --count N  Record a content target after operations preparation
   uwf capability              Show capability maturity and limitations
   uwf release check           Open the implementation release-readiness checklist
   uwf stack [list|advise]     Show stack profiles or decision guidance
@@ -539,7 +747,7 @@ case "${1:-}" in
   doctor) "$UWF_HOME/scripts/doctor.sh" ;;
   status) shift; show_status "$@" ;;
   next) shift; show_next "$@" ;;
-  validate) shift; "$UWF_HOME/scripts/validate-foundation.sh" "$PWD" "$@" ;;
+  validate) shift; prepare_workspace_extensions; "$UWF_HOME/scripts/validate-foundation.sh" "$PWD" "$@" ;;
   context) shift; show_context "$@" ;;
   review) shift; review_stage "$@" ;;
   stack) shift; stack_command "$@" ;;
@@ -556,6 +764,14 @@ case "${1:-}" in
   ui) shift; ui_command "$@" ;;
   template) shift; template_command "$@" ;;
   reference) shift; reference_command "$@" ;;
+  runtime) shift; runtime_command "$@" ;;
+  material) shift; material_command "$@" ;;
+  compose) shift; compose_command "$@" ;;
+  evidence) shift; evidence_command "$@" ;;
+  research) shift; research_command "$@" ;;
+  taxonomy) shift; taxonomy_command "$@" ;;
+  operations) shift; operations_command "$@" ;;
+  content) shift; content_command "$@" ;;
   capability) shift; capability_command "$@" ;;
   release) shift; [[ "${1:-}" == "check" && $# -eq 1 ]] || { printf 'Gunakan: uwf release check\n' >&2; exit 1; }; release_check_command ;;
   approve)

@@ -19,6 +19,13 @@ The Foundation is the planning and control layer. It contains no application imp
 | `12-Handover` | Approved implementation package and implementation feedback |
 | `13-Question-Bank` | Progressive question packs by developer level, project mode, and module |
 | `14-Change-Management` | Change requests, impact analysis, backlog, revision history, and traceability |
+| `15-Engineering-Materials` | Material catalog, composition manifest, lifecycle, compatibility, and decision evidence |
+| `16-External-Reference-Evidence` | GitHub/official/public-source research protocol, evidence cards, trust, and provenance |
+| `17-Research-Content-Operations` | Taxonomy, content research, production batches, rights review, and publishing controls |
 | `Archive` | Immutable snapshots of replaced/previous Foundation versions |
 
 Complete the stages progressively. The developer may implement an approved stage or continue answering the next Foundation stage.
+
+`13-Question-Bank` is an agent resource, not a mandatory developer stage. The agent selects only the questions that fit the active decision.
+
+The new areas do not contain application code or bundled copies of third-party libraries. They hold the decision model, source evidence, selection rules, and reusable planning materials needed to compose an original implementation safely.

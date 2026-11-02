@@ -19,6 +19,8 @@ UWF is for websites, web applications, dashboards, SaaS, commerce, content platf
 - Provides an optional UI/UX creative brief, responsive review, and controlled image/HTML simulation planning.
 - Includes machine-readable CLI context, status, next-step, and validation output for terminal AI agents.
 - Uses an original capability matrix, starter Foundation packs, reference-analysis record, plugin disclosure, and release-readiness process.
+- Treats stacks, patterns, quality controls, content systems, and operational choices as composable engineering materials with compatibility, lifecycle, and evidence records.
+- Adds controlled external-reference research and a post-Foundation Research, Content & Production workflow for taxonomy, source-led content, quality review, and publication planning.
 
 ## Quick start
 
@@ -66,6 +68,8 @@ Discovery and Foundation
 The template starts with `Project-Implementasi/` locked for application code. When the implementation gate is approved, use `uwf approve implementation --project "Nama Web"` to rename it to `Project-Nama-Web/` and create a minimal implementation skeleton.
 
 UWF may learn from public UI/UX references, but its Foundation packs, UI guidance, assets, and code remain original. Use `uwf reference` to follow the clean-room reference-analysis workflow in Foundation/06-UX-UI.
+
+For broader engineering or content research, UWF records the source policy and evidence before making a recommendation. The installed CLI does not pretend to be a search engine: a web-capable AI agent must declare its available access and operate only within the developer-approved scope.
 
 ## See UWF in use
 

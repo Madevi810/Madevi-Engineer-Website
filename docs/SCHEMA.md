@@ -10,11 +10,14 @@ The manifest is the current machine-readable source of truth for:
 - objectives and modules;
 - technology and operation decisions;
 - automation controls.
-- change-management, UI/UX simulation, and implementation-history state.
+- change-management, UI/UX simulation, and implementation-history state;
+- agent runtime capability disclosure;
+- engineering-material composition and external-evidence state;
+- research/content-operation taxonomy, policy, scale, and publishing state.
 
 Rules:
 
 1. New optional fields may be added in compatible minor releases.
 2. Incompatible schema changes require a major version and migration notes.
-3. A migration must snapshot the old manifest before changing it.
+3. A migration must preserve the old manifest state before changing it; UWF's compatible 1.2 field migration only appends default optional sections.
 4. Unknown schema versions are blocked until a compatible UWF version is installed.

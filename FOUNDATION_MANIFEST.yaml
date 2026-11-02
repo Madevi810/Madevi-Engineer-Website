@@ -19,6 +19,25 @@ foundation:
   implementation_gate: BLOCKED # BLOCKED | READY | APPROVED
   implementation_status: DEFERRED
 
+agent_runtime:
+  profile_status: DRAFT # DRAFT | DECLARED | VERIFIED | LIMITED
+  web_research: unknown # unknown | unavailable | available_with_approval
+  github_access: unknown # unknown | unavailable | available_with_approval
+  filesystem_write: unknown # unknown | unavailable | available_with_approval
+  publication_access: unavailable # unavailable | available_with_approval
+  limits: []
+
+composition:
+  status: DRAFT # DRAFT | REVIEW | READY | APPROVED
+  manifest_file: Foundation/15-Engineering-Materials/Composition-Manifest.md
+  selected_materials: []
+  rejected_materials: []
+
+external_evidence:
+  status: OPTIONAL # OPTIONAL | PLANNED | REVIEW | VERIFIED | LIMITED
+  registry_file: Foundation/16-External-Reference-Evidence/Evidence-Registry.md
+  source_policy_status: DRAFT # DRAFT | READY | APPROVED
+
 change_management:
   active_request: unset
   change_status: CLEAR # CLEAR | NEEDS_REVIEW | ANALYZED | APPROVED | DEFERRED
@@ -64,6 +83,16 @@ automation:
   timezone: unset
   budget_limit: unset
   kill_switch: true
+
+content_operations:
+  enabled: false
+  status: DEFERRED # DEFERRED | PLANNED | READY | ACTIVE | PAUSED | ARCHIVED
+  mode: plan_only # plan_only | draft_assisted | implementation_assisted | controlled_autonomous
+  scale_target: 0
+  taxonomy_status: DEFERRED # DEFERRED | DRAFT | REVIEW | READY | APPROVED
+  research_policy_status: DEFERRED # DEFERRED | DRAFT | READY | APPROVED
+  publishing_status: DISABLED # DISABLED | REVIEW_REQUIRED | APPROVED_LIMITED
+  operations_root: unset
 
 controls:
   open_critical_risks: 0

@@ -13,5 +13,10 @@ This matrix describes the current UWF workflow honestly. It is not a promise tha
 | Plugins and integrations | controlled | Disabled-by-default registry and permission disclosure | External credentials and actions need separate approval |
 | Autonomous work | controlled | Policy, budget, rollback, audit, and kill-switch planning | Scheduling/publishing is never enabled by default |
 | Collaborative live editing | out of scope | Can be planned as a project feature | UWF itself is not a multiplayer design editor |
+| Engineering material composition | stable | Structured material categories, composition manifest, lifecycle states, and compatibility review | The agent must still verify version-specific implementation details |
+| External technical research | controlled | Research policy, evidence cards, source ranking, and GitHub/official-source review workflow | UWF does not itself provide a web-search account or bypass site rules |
+| Content research and production planning | controlled | Taxonomy, source policy, scale/batch plan, rights ledger, QA, and publish queue | Actual research and generation depend on the active agent runtime and developer approval |
+| Controlled content automation | controlled | Separate plan, draft, implementation, and publishing gates | Publishing stays disabled until a scoped policy is approved |
+| Agent runtime disclosure | stable | A capability profile that states available tools and limits before research or writes | An unavailable tool must be reported, never simulated |
 
 Use `DRAFT`, `REVIEW`, `PREVIEW`, `LIMITED`, `STABLE`, or `OUT_OF_SCOPE` when reporting capability status. Never use “stable” for an untested integration merely because its plan is complete.

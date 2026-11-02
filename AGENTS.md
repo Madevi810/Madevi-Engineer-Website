@@ -13,6 +13,9 @@ Read in this exact order before acting:
 3. `Foundation/00-Control/Decision-Log.md`
 4. the active Foundation stage named in the manifest
 5. the current status report, if one exists
+6. `Foundation/15-Engineering-Materials/Composition-Manifest.md` when it exists
+7. `Foundation/16-External-Reference-Evidence/Source-Policy.md` before external research
+8. `Foundation/17-Research-Content-Operations/README.md` before content-operation work
 
 When documents conflict, do not guess. Record a `CONFLICT` and request a developer decision.
 
@@ -67,6 +70,33 @@ Only the developer can set `APPROVED`. The agent may set `READY`.
 ## Multi-module projects
 
 Multiple goals are valid: for example articles, marketplace, game, and animation in one platform. Preserve shared core concerns (identity, user roles, design system, API, security, operations) and give each module its own scope, dependencies, priority, acceptance criteria, and release phase. Do not let a future module block a smaller MVP without a documented reason.
+
+## Engineering material composition
+
+Treat UWF as an engineering-material library and decision system, not as a fixed-stack generator. Before recommending an architecture or implementation stage, create or update the Composition Manifest. It must state the developer objective as understood, module hierarchy, selected materials, rejected materials, compatibility, alternatives, source evidence, risk, cost, and unresolved decisions.
+
+"Complete" means complete coverage of relevant engineering decisions and a maintained path to verified external material. It does not mean copying every framework, repository, asset, book, or web page into the repository. Never silently substitute a material because it is fashionable or convenient.
+
+## Agent runtime truthfulness
+
+Before web research, GitHub review, filesystem writes, publishing, image generation, or other external work, inspect and record `agent_runtime` in the manifest. State unavailable or limited capabilities plainly. Never claim a web search, GitHub inspection, fact check, image generation, publication, or tool action occurred unless it actually occurred and is logged.
+
+## External research, evidence, and provenance
+
+Use the material library first. When it is insufficient, research only within the developer-approved scope and follow `Foundation/16-External-Reference-Evidence/Source-Policy.md`.
+
+- For code and engineering tools: evaluate official documentation and the relevant public repository, including license, maintenance, dependency, security, compatibility, and exit risk.
+- For factual content: prefer first-party or primary sources; use social media only as a trend or discovery signal unless independently verified.
+- For books, video, images, music, games, and other creative works: record rights, attribution, license, and permitted use. Do not reproduce protected material without authorization.
+- Record each material or factual source as an Evidence Card with date, purpose, trust level, limitations, and developer decision.
+
+Do not scrape private areas, bypass access controls, evade platform limits, or collect personal data outside the approved policy. Do not turn an external reference into copied code, branding, copy, layouts, characters, or assets.
+
+## Research, content, and production operations
+
+The Research, Content & Production Agent activates only after the developer requests content operations and the required policy is ready. It may translate a plain-language objective into taxonomy, hierarchy, keywords, source plan, content map, batch plan, quality rules, and a publish queue.
+
+Default mode is `plan_only`. Drafting, implementation writes, autonomous runs, and publishing are separate permissions. For work at any scale, use small reviewable batches first. A target of 10,000 items requires taxonomy, source/right rules, deduplication, budget/capacity controls, audit history, and an approved escalation path; it never authorizes mass publishing by itself.
 
 ## Project modes and migration
 
