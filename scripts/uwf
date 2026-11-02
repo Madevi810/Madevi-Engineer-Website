@@ -100,6 +100,8 @@ show_status() {
   printf '  implementation_status: %s\n' "$(section_value foundation implementation_status "$manifest")"
   printf '  change_status: %s\n' "$(section_value change_management change_status "$manifest")"
   printf '  active_reference: %s\n' "$(section_value ui_ux active_reference "$manifest")"
+  printf '  active_reference_name: %s\n' "$(section_value ui_ux active_reference_name "$manifest")"
+  printf '  reference_analysis_file: %s\n' "$(section_value ui_ux reference_analysis_file "$manifest")"
   printf '  reference_status: %s\n' "$(section_value ui_ux reference_status "$manifest")"
   printf '  simulation_status: %s\n' "$(section_value ui_ux simulation_status "$manifest")"
   printf '  history_status: %s\n' "$(section_value implementation_history status "$manifest")"
@@ -126,7 +128,7 @@ json_escape() {
 
 show_status_json() {
   local manifest="$1"
-  printf '{"schema":"uwf-status/v1","workspace":"%s","project":{"name":"%s","slug":"%s","mode":"%s","lifecycle_status":"%s"},"developer":{"experience_level":"%s","guidance_mode":"%s"},"foundation":{"current_stage":"%s","current_stage_name":"%s","status":"%s","implementation_gate":"%s","implementation_status":"%s"},"change_management":{"active_request":"%s","status":"%s","last_impact_level":"%s"},"ui_ux":{"active_reference":"%s","reference_status":"%s","creative_brief_status":"%s","simulation_status":"%s","preferred_simulation":"%s"},"implementation_history":{"status":"%s","current_release":"%s"},"automation":{"enabled":"%s"}}\n' \
+  printf '{"schema":"uwf-status/v1","workspace":"%s","project":{"name":"%s","slug":"%s","mode":"%s","lifecycle_status":"%s"},"developer":{"experience_level":"%s","guidance_mode":"%s"},"foundation":{"current_stage":"%s","current_stage_name":"%s","status":"%s","implementation_gate":"%s","implementation_status":"%s"},"change_management":{"active_request":"%s","status":"%s","last_impact_level":"%s"},"ui_ux":{"active_reference":"%s","active_reference_name":"%s","reference_analysis_file":"%s","reference_status":"%s","creative_brief_status":"%s","simulation_status":"%s","preferred_simulation":"%s"},"implementation_history":{"status":"%s","current_release":"%s"},"automation":{"enabled":"%s"}}\n' \
     "$(json_escape "$PWD")" \
     "$(json_escape "$(section_value project name "$manifest")")" \
     "$(json_escape "$(section_value project slug "$manifest")")" \
@@ -143,6 +145,8 @@ show_status_json() {
     "$(json_escape "$(section_value change_management change_status "$manifest")")" \
     "$(json_escape "$(section_value change_management last_impact_level "$manifest")")" \
     "$(json_escape "$(section_value ui_ux active_reference "$manifest")")" \
+    "$(json_escape "$(section_value ui_ux active_reference_name "$manifest")")" \
+    "$(json_escape "$(section_value ui_ux reference_analysis_file "$manifest")")" \
     "$(json_escape "$(section_value ui_ux reference_status "$manifest")")" \
     "$(json_escape "$(section_value ui_ux creative_brief_status "$manifest")")" \
     "$(json_escape "$(section_value ui_ux simulation_status "$manifest")")" \
@@ -210,8 +214,37 @@ ensure_extension_artifacts() {
 
 ensure_ui_reference_manifest_fields() {
   if ! grep -q '^  active_reference:' FOUNDATION_MANIFEST.yaml; then
-    sed -i '/^ui_ux:/a\  active_reference: unset # unset | figcraft_public_repository | custom\n  reference_status: OPTIONAL # OPTIONAL | ANALYSIS_REQUIRED | ANALYZED | APPROVED | REJECTED' FOUNDATION_MANIFEST.yaml
+    sed -i '/^ui_ux:/a\  active_reference: unset # unset | figcraft_public_repository | custom\n  active_reference_name: unset\n  reference_analysis_file: unset\n  reference_status: OPTIONAL # OPTIONAL | ANALYSIS_REQUIRED | ANALYZED | APPROVED | REJECTED' FOUNDATION_MANIFEST.yaml
   fi
+}
+
+analysis_field_filled() {
+  local file="$1" label="$2"
+  awk -v label="$label" '
+    index($0, "- " label ":") == 1 {
+      value = substr($0, length(label) + 4)
+      gsub(/^[[:space:]]+|[[:space:]]+$/, "", value)
+      if (length(value) > 0) found = 1
+    }
+    END { exit found ? 0 : 1 }
+  ' "$file"
+}
+
+complete_active_reference() {
+  local expected="$1" active analysis
+  active="$(section_value ui_ux active_reference FOUNDATION_MANIFEST.yaml)"
+  analysis="$(section_value ui_ux reference_analysis_file FOUNDATION_MANIFEST.yaml)"
+  case "$expected" in
+    figcraft) [[ "$active" == "figcraft_public_repository" ]] || { printf 'FigCraft bukan referensi aktif. Jalankan: uwf reference figcraft\n' >&2; exit 1; } ;;
+    custom) [[ "$active" == "custom" ]] || { printf 'Referensi custom bukan referensi aktif. Jalankan: uwf reference custom "Nama"\n' >&2; exit 1; } ;;
+  esac
+  [[ -n "$analysis" && "$analysis" != "unset" && -f "$analysis" ]] || { printf 'File analisis aktif tidak ditemukan.\n' >&2; exit 1; }
+  for label in "Source URL or name" "Reference catalog category (if registered)" "General principle worth considering" "New, original name and structure" "Developer decision"; do
+    analysis_field_filled "$analysis" "$label" || { printf 'Lengkapi field analisis: %s\n' "$label" >&2; exit 1; }
+  done
+  sed -i 's|^  reference_status:.*|  reference_status: ANALYZED|' FOUNDATION_MANIFEST.yaml
+  printf 'Analisis referensi selesai dicatat: %s\n' "$analysis"
+  printf '%s\n' 'Status menjadi ANALYZED. Simulasi tetap DRAFT sampai developer menyetujuinya.'
 }
 
 template_command() {
@@ -237,21 +270,42 @@ template_command() {
 }
 
 reference_command() {
-  [[ $# -eq 0 || ( $# -eq 1 && "$1" == "figcraft" ) ]] || { printf 'Gunakan: uwf reference [figcraft]\n' >&2; exit 1; }
   workspace_manifest
   ensure_extension_artifacts
   ensure_ui_reference_manifest_fields
-  printf '%s\n' 'Gunakan Foundation/06-UX-UI/Design-Reference-Registry.md lalu Reference-Analysis.md untuk mencatat pelajaran UI/UX dari referensi eksternal.'
-  printf '%s\n' 'Clean-room rule: jangan menyalin kode, merek, logo, aset, screenshot, API privat, format file, atau komposisi UI khas.'
-  printf '%s\n' 'Dampak di luar UI/UX harus melalui Change Request terpisah.'
-  if [[ "${1:-}" == "figcraft" ]]; then
-    local analysis="Foundation/06-UX-UI/Reference-Analysis-FigCraft.md"
-    [[ -f "$analysis" ]] || cp Foundation/06-UX-UI/Reference-Analysis.md "$analysis"
-    sed -i 's|^  active_reference:.*|  active_reference: figcraft_public_repository|; s|^  reference_status:.*|  reference_status: ANALYSIS_REQUIRED|' FOUNDATION_MANIFEST.yaml
-    printf '%s\n' 'Katalog FigCraft: Foundation/06-UX-UI/FigCraft-Reference-Catalog.md'
-    printf 'Analisis aktif dibuat: %s\n' "$analysis"
-    printf '%s\n' 'Selesaikan analisis clean-room dan minta review developer sebelum membuat simulasi atau implementasi.'
-  fi
+  case "${1:-}" in
+    "")
+      printf '%s\n' 'Gunakan Foundation/06-UX-UI/Design-Reference-Registry.md lalu Reference-Analysis.md untuk mencatat pelajaran UI/UX dari referensi eksternal.'
+      printf '%s\n' 'Clean-room rule: jangan menyalin kode, merek, logo, aset, screenshot, API privat, format file, atau komposisi UI khas.'
+      printf '%s\n' 'Dampak di luar UI/UX harus melalui Change Request terpisah.'
+      ;;
+    figcraft)
+      [[ $# -eq 1 ]] || { printf 'Gunakan: uwf reference figcraft\n' >&2; exit 1; }
+      local analysis="Foundation/06-UX-UI/Reference-Analysis-FigCraft.md"
+      [[ -f "$analysis" ]] || cp Foundation/06-UX-UI/Reference-Analysis.md "$analysis"
+      sed -i 's|^  active_reference:.*|  active_reference: figcraft_public_repository|; s|^  active_reference_name:.*|  active_reference_name: FigCraft public repository|; s|^  reference_analysis_file:.*|  reference_analysis_file: Foundation/06-UX-UI/Reference-Analysis-FigCraft.md|; s|^  reference_status:.*|  reference_status: ANALYSIS_REQUIRED|' FOUNDATION_MANIFEST.yaml
+      printf '%s\n' 'Katalog FigCraft: Foundation/06-UX-UI/FigCraft-Reference-Catalog.md'
+      printf 'Analisis aktif dibuat: %s\n' "$analysis"
+      printf '%s\n' 'Selesaikan analisis clean-room dan jalankan: uwf reference complete figcraft'
+      ;;
+    custom)
+      [[ $# -eq 2 && -n "${2:-}" ]] || { printf 'Gunakan: uwf reference custom "Nama referensi"\n' >&2; exit 1; }
+      local custom_name="$2" custom_slug custom_analysis escaped_name
+      custom_slug="$(slugify "$custom_name")"
+      [[ -n "$custom_slug" ]] || { printf 'Nama referensi custom tidak valid.\n' >&2; exit 1; }
+      custom_analysis="Foundation/06-UX-UI/Reference-Analysis-Custom-$custom_slug.md"
+      [[ -f "$custom_analysis" ]] || cp Foundation/06-UX-UI/Reference-Analysis.md "$custom_analysis"
+      escaped_name="$(printf '%s' "$custom_name" | sed 's/[&|]/\\&/g')"
+      sed -i "s|^  active_reference:.*|  active_reference: custom|; s|^  active_reference_name:.*|  active_reference_name: $escaped_name|; s|^  reference_analysis_file:.*|  reference_analysis_file: $custom_analysis|; s|^  reference_status:.*|  reference_status: ANALYSIS_REQUIRED|" FOUNDATION_MANIFEST.yaml
+      printf 'Analisis referensi custom dibuat: %s\n' "$custom_analysis"
+      printf '%s\n' 'Selesaikan analisis clean-room dan jalankan: uwf reference complete custom'
+      ;;
+    complete)
+      [[ $# -eq 2 ]] || { printf 'Gunakan: uwf reference complete [figcraft|custom]\n' >&2; exit 1; }
+      case "$2" in figcraft|custom) complete_active_reference "$2" ;; *) printf 'Gunakan: uwf reference complete [figcraft|custom]\n' >&2; exit 1 ;; esac
+      ;;
+    *) printf 'Gunakan: uwf reference [figcraft|custom "Nama"|complete figcraft|complete custom]\n' >&2; exit 1 ;;
+  esac
 }
 
 capability_command() {

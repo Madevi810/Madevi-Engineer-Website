@@ -8,6 +8,7 @@
 - Scoped external-reference work to UI/UX Foundation by default, with FigCraft recorded only as a review-required UI/UX reference.
 - Added a full FigCraft public-feature reference catalog that maps each relevant area to original UWF planning, optional product scope, or exclusion.
 - Added active UI/UX reference status, a FigCraft analysis draft command, and a gate check for unanalyzed active references.
+- Added validated `uwf reference complete` and generic custom-reference workflow so active UI/UX references do not require manual manifest editing.
 
 ## 1.1.0 - 2026-11-02
 

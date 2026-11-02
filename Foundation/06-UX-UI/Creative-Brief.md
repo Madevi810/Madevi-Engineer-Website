@@ -12,6 +12,7 @@ This brief is optional. Developers may describe the website in their own words, 
 ## UI/UX reference choice (optional)
 
 - Active reference: none | FigCraft public repository | custom
+- Reference name and source URL:
 - Selected FigCraft catalog categories, if any:
 - Abstract lesson to consider; never a request to copy:
 - Dedicated analysis file:

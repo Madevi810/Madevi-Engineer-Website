@@ -19,3 +19,5 @@ Terminal-agent workflow: read AGENTS.md and FOUNDATION_MANIFEST.yaml, then use `
 Use `uwf template list` for original Foundation starter packs, `uwf reference` before using external references, `uwf capability` before promising a capability, and `uwf release check` before describing an implementation release as stable.
 
 When `ui_ux.active_reference` is set, read its dedicated analysis document. Do not use an `ANALYSIS_REQUIRED` reference to generate a simulation or implementation.
+
+Use `uwf reference complete figcraft` or `uwf reference complete custom` only after the analysis has a source, category, abstract lesson, original response, and developer decision.

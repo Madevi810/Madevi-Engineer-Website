@@ -58,6 +58,7 @@ gate="$(value implementation_gate)"
 foundation_status="$(value status)"
 primary="$(grep -E '^  primary:' "$manifest" | head -n 1 | sed -E 's/^  primary:[[:space:]]*//')"
 active_reference="$(grep -E '^  active_reference:' "$manifest" | head -n 1 | sed -E 's/^  active_reference:[[:space:]]*//' | sed 's/[[:space:]]*#.*$//')"
+reference_analysis_file="$(grep -E '^  reference_analysis_file:' "$manifest" | head -n 1 | sed -E 's/^  reference_analysis_file:[[:space:]]*//' | sed 's/[[:space:]]*#.*$//')"
 reference_status="$(grep -E '^  reference_status:' "$manifest" | head -n 1 | sed -E 's/^  reference_status:[[:space:]]*//' | sed 's/[[:space:]]*#.*$//')"
 
 [[ -n "$gate" ]] || error "manifest is missing implementation_gate"
@@ -67,8 +68,8 @@ reference_status="$(grep -E '^  reference_status:' "$manifest" | head -n 1 | sed
 [[ "$primary" != "[]" && -n "$primary" ]] || warning "primary objective is not recorded"
 
 if [[ -n "$active_reference" && "$active_reference" != "unset" ]]; then
-  if [[ ! -f "$root/Foundation/06-UX-UI/Reference-Analysis-FigCraft.md" && "$active_reference" == "figcraft_public_repository" ]]; then
-    warning "active FigCraft reference has no dedicated analysis file"
+  if [[ -z "$reference_analysis_file" || "$reference_analysis_file" == "unset" || ! -f "$root/$reference_analysis_file" ]]; then
+    warning "active UI/UX reference has no dedicated analysis file"
   fi
   [[ "$reference_status" != "ANALYSIS_REQUIRED" ]] || warning "active UI/UX reference still requires clean-room analysis"
 fi

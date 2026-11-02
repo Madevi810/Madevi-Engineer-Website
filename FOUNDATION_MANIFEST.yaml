@@ -26,6 +26,8 @@ change_management:
 
 ui_ux:
   active_reference: unset # unset | figcraft_public_repository | custom
+  active_reference_name: unset
+  reference_analysis_file: unset
   reference_status: OPTIONAL # OPTIONAL | ANALYSIS_REQUIRED | ANALYZED | APPROVED | REJECTED
   creative_brief_status: OPTIONAL # OPTIONAL | PROVIDED | ANALYZED | APPROVED
   simulation_status: DEFERRED # DEFERRED | PLANNED | DRAFT | REVIEW | APPROVED

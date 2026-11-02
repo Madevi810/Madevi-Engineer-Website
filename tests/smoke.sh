@@ -47,6 +47,13 @@ trial="$(mktemp -d)"
   test -f Foundation/06-UX-UI/Reference-Analysis-FigCraft.md
   "$root/scripts/uwf" status --json | grep -Fq 'figcraft_public_repository'
   "$root/scripts/uwf" validate --json | grep -Fq 'NEED_INFO'
+  sed -i 's~^- Source URL or name:.*~- Source URL or name: https://github.com/storytold/figcraft~' Foundation/06-UX-UI/Reference-Analysis-FigCraft.md
+  sed -i 's~^- Reference catalog category (if registered):.*~- Reference catalog category (if registered): responsive layout~' Foundation/06-UX-UI/Reference-Analysis-FigCraft.md
+  sed -i 's~^- General principle worth considering:.*~- General principle worth considering: test responsive hierarchy before implementation~' Foundation/06-UX-UI/Reference-Analysis-FigCraft.md
+  sed -i 's~^- New, original name and structure:.*~- New, original name and structure: UWF responsive review~' Foundation/06-UX-UI/Reference-Analysis-FigCraft.md
+  sed -i 's~^- Developer decision:.*~- Developer decision: use as inspiration~' Foundation/06-UX-UI/Reference-Analysis-FigCraft.md
+  "$root/scripts/uwf" reference complete figcraft >/dev/null
+  "$root/scripts/uwf" status --json | grep -Fq '"reference_status":"ANALYZED"'
   "$root/scripts/uwf" capability | grep -Fq 'Capability Matrix'
   "$root/scripts/uwf" release check >/dev/null
   test -f Foundation/12-Handover/Release-Readiness.md
@@ -73,5 +80,15 @@ template_trial="$(mktemp -d)"
   cd "$template_trial"
   "$root/scripts/uwf" init "Template Web" --template content-platform >/dev/null
   test -f template-web/Foundation/04-Product-Modules/Starter-Pack-content-platform.md
+)
+
+custom_reference_trial="$(mktemp -d)"
+(
+  cd "$custom_reference_trial"
+  "$root/scripts/uwf" init "Custom Reference Web" >/dev/null
+  cd custom-reference-web
+  "$root/scripts/uwf" reference custom "Public UI Reference" >/dev/null
+  test -f Foundation/06-UX-UI/Reference-Analysis-Custom-public-ui-reference.md
+  "$root/scripts/uwf" status --json | grep -Fq '"active_reference":"custom"'
 )
 printf 'Smoke tests passed.\n'

@@ -4,7 +4,7 @@ This catalog maps public FigCraft feature areas into original UWF planning work.
 
 Use it as a complete menu of reference areas. For every item selected by a developer, complete `Reference-Analysis.md`, then produce an original recommendation appropriate to the web project.
 
-Run `uwf reference figcraft` to create `Reference-Analysis-FigCraft.md` and mark the reference as `ANALYSIS_REQUIRED` in the manifest. The agent must not create a simulation or implementation from this catalog until that analysis is complete.
+Run `uwf reference figcraft` to create `Reference-Analysis-FigCraft.md` and mark the reference as `ANALYSIS_REQUIRED` in the manifest. After filling the required clean-room fields, run `uwf reference complete figcraft`. The agent must not create a simulation or implementation from this catalog until that analysis is complete.
 
 | FigCraft public feature area | What may be studied as an abstract UI/UX lesson | UWF adaptation | Classification |
 | --- | --- | --- | --- |
