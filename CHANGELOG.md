@@ -1,6 +1,6 @@
 # Changelog
 
-## 2.0.0 - Unreleased
+## 2.0.0 - 2026-11-03
 
 - Renamed the project to Madevi Engineer Website (MEW), including documentation, workspace identity, manifests, previews, policies, and machine-readable output.
 - Added `mew` as the primary command for Madevi Engineer Website workflows.
