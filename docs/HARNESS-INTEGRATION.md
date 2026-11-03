@@ -24,6 +24,17 @@ This adds only `.agents/skills/mew-website-engineer/` to that project. It does n
 
 When opening an existing project, ask the AI to use the MEW skill, inspect the project, and propose where to keep a Foundation. Creating a Foundation or altering application files remains subject to the developer's instructions and the applicable MEW gates.
 
+The installed MEW library can be read without a project workspace:
+
+```bash
+mew library map
+mew library materials
+mew library stack
+mew library path
+```
+
+The path identifies the installed general materials; it is not the project's own Foundation. If only the portable skill was copied and the CLI is unavailable, the harness can still read the references bundled with that skill.
+
 ## Hermes and Codex
 
 The `.agents/skills/` layout follows the shared project-skill convention documented by Hermes and Codex. Hermes project-skill discovery applies to Git project roots and requires the project to be explicitly trusted; consult your installed Hermes version's documentation before running its trust command. Other harnesses and versions may need a different installation or explicit loading. This repository does not change harness trust configuration.

@@ -715,6 +715,17 @@ stack_command() {
   "$MEW_HOME/scripts/stack-advisor.sh" "$action"
 }
 
+library_command() {
+  [[ $# -eq 1 ]] || { printf 'Gunakan: mew library [path|map|materials|stack]\n' >&2; exit 1; }
+  case "$1" in
+    path) printf '%s\n' "$MEW_HOME" ;;
+    map) cat "$MEW_HOME/Foundation/README.md" ;;
+    materials) cat "$MEW_HOME/Foundation/15-Engineering-Materials/Material-Catalog.md" ;;
+    stack) cat "$MEW_HOME/Foundation/07-Architecture/Stack-Catalog/web-stack-profiles.md" ;;
+    *) printf 'Gunakan: mew library [path|map|materials|stack]\n' >&2; exit 1 ;;
+  esac
+}
+
 upgrade_online() {
   [[ $# -eq 1 && "$1" == "--prepare" ]] || {
     printf 'Gunakan: mew upgrade online --prepare\n' >&2
@@ -813,6 +824,8 @@ Usage:
                               Inspect or safely dry-run a local MEW tool
   mew skill install --project DIRECTORY [--dry-run]
                               Install the portable MEW skill into an existing project
+  mew library [path|map|materials|stack]
+                              Read the installed Foundation library from any directory
   mew health check URL        Perform one authorized HTTP observation
   mew agent [status|route]    Show agent orchestration status or routing rules
   mew job [list|inspect ID|cancel ID]
@@ -865,6 +878,7 @@ case "${1:-}" in
   context) shift; show_context "$@" ;;
   review) shift; review_stage "$@" ;;
   stack) shift; stack_command "$@" ;;
+  library) shift; library_command "$@" ;;
   upgrade)
     shift
     [[ $# -gt 0 && "$1" == "online" ]] || { printf 'Gunakan: mew upgrade online --prepare\n' >&2; exit 1; }

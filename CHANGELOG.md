@@ -4,6 +4,7 @@
 
 - Add a portable MEW website-engineer skill for project-scoped AI harnesses, covering Foundation, existing projects, implementation and live operations.
 - Install the skill into new MEW workspaces; add an explicit non-overwriting installer for existing projects.
+- Expose read-only commands to locate and inspect the installed material library from existing projects.
 - Add an authorized one-shot HTTP observation script and offline local-server tests. It is not continuous monitoring or autonomous control.
 - Extend regression and CI checks for skill packaging, installation and HTTP responses.
 

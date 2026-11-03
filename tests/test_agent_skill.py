@@ -50,6 +50,8 @@ def main():
         assert not target.exists()
         run(str(CLI), "skill", "install", "--project", str(project))
         assert (target / "SKILL.md").read_text() == skill
+        assert "Material Catalog Model" in run(str(CLI), "library", "materials", cwd=project).stdout
+        assert str(ROOT) == run(str(CLI), "library", "path", cwd=project).stdout.strip()
         assert (project / "AGENTS.md").read_text() == "Existing project rules\n"
         (target / "keep.txt").write_text("keep")
         run(str(CLI), "skill", "install", "--project", str(project), ok=False)

@@ -32,4 +32,4 @@ Use these internally; ask the developer only what changes the decision.
 
 For beginners, present a small recommended option and explain why; offer alternatives and a custom choice. For experienced developers, include relevant trade-offs and evidence. Do not force real identity, payments, hosting, a domain or production data into a local prototype.
 
-For current MEW workspaces, use their `Foundation/`, `agent/`, `policies/`, `tools/` and `templates/` as the detailed source of project-specific decisions. If those files are absent, explain what is available and do not assume they exist.
+For current MEW workspaces, use their `Foundation/`, `agent/`, `policies/`, `tools/` and `templates/` as the detailed source of project-specific decisions. If the project has no MEW workspace but the MEW CLI is available, use `mew library path`, `mew library map`, `mew library materials`, `mew library stack`, and `mew stack list` to locate and inspect the installed library without changing the project. The installed library contains general materials, not the developer's project decisions. If it is unavailable, use this skill's references and explain the limitation.
