@@ -66,7 +66,9 @@ init_project() {
   done
   if [[ -z "$name" ]]; then read -r -p "Name-Project: " name; fi
   [[ -n "$name" ]] || { printf 'Name-Project wajib diisi.\n' >&2; exit 1; }
-  local slug target escaped
+  [[ ! "$name" =~ [[:cntrl:]] ]] || { printf 'Nama proyek tidak boleh berisi karakter kontrol.\n' >&2; exit 1; }
+  if [[ -n "$template_id" ]]; then starter_pack_source "$template_id" >/dev/null || return 1; fi
+  local slug target escaped yaml_name
   slug="$(slugify "$name")"
   [[ -n "$slug" ]] || { printf 'Nama proyek tidak valid.\n' >&2; exit 1; }
   target="$PWD/$slug"
@@ -75,8 +77,9 @@ init_project() {
   if [[ -n "$template_id" ]]; then
     apply_starter_pack "$target" "$template_id"
   fi
-  escaped="$(printf '%s' "$name" | sed 's/[&|]/\\&/g')"
-  sed -i "s|name: Unnamed Web Project|name: $escaped|" "$target/FOUNDATION_MANIFEST.yaml"
+  yaml_name="${name//\'/\'\'}"
+  escaped="$(printf '%s' "$yaml_name" | sed 's/[\\&|]/\\&/g')"
+  sed -i "s|^  name: Unnamed Web Project$|  name: '$escaped'|" "$target/FOUNDATION_MANIFEST.yaml"
   sed -i "s|slug: unnamed-web-project|slug: $slug|" "$target/FOUNDATION_MANIFEST.yaml"
   printf '\nWorkspace Name-Project dibuat: %s\nMasuk dengan: cd %q\nLalu jalankan: mew status\n' "$target" "$slug"
   [[ -z "$template_id" ]] || printf 'Starter pack ditambahkan: %s\n' "$template_id"
@@ -124,6 +127,13 @@ section_value() {
     active && /^[^[:space:]]/ { exit }
     active && $0 ~ "^  " key ":" {
       sub("^  " key ":[[:space:]]*", "")
+      quote = sprintf("%c", 39)
+      if (section == "project" && key == "name" && substr($0, 1, 1) == quote && substr($0, length($0), 1) == quote) {
+        $0 = substr($0, 2, length($0) - 2)
+        gsub(quote quote, quote, $0)
+        print
+        exit
+      }
       sub("[[:space:]]*#.*$", "")
       print
       exit

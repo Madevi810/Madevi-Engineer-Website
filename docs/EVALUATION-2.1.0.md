@@ -13,6 +13,7 @@
 
 - Automated tests create new and existing projects, test dry-run and collision handling, reject symlinked skill paths, and exercise HTTP checks and bounded foreground repetition against a local server with 200, 302, 503, credential rejection and connection failure cases.
 - Skill-update tests verify that a locally modified prior copy is retained in a backup and that symlinked backup directories are rejected.
+- Workspace creation tests cover project names containing YAML-special characters, JSON status round-trips, control-character rejection, and invalid templates without creating a partial workspace.
 - The smoke and safety regression suites pass with the skill integration tests.
 - Inspector tests cover mixed-framework fixtures, private values, symbolic links, depth limits, invalid and oversized manifests, and absence of project writes or executed scripts.
 - System observation tests cover real local filesystem metrics and simulated systemd success, failure, and invalid service names.

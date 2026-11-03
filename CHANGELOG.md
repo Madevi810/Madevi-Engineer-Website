@@ -2,6 +2,7 @@
 
 ## 2.1.0 - Unreleased
 
+- Preserve project names containing YAML-special characters and validate starter packs before creating a workspace.
 - Refuse updates with staged or untracked changes and restore the previous commit if validation of an update fails.
 - Distinguish an unavailable tag source from an available source with no compatible stable version.
 - Make installer and updater resolve only supported `vX.Y.Z` tags, and handle empty or unreachable tag sources explicitly.

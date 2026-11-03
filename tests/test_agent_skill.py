@@ -95,6 +95,23 @@ def main():
         run(str(CLI), "init", "New Project", cwd=temp)
         assert (temp / "new-project" / ".agents/skills/mew-website-engineer/SKILL.md").is_file()
 
+        special_name = "Toko: Kopi #1's \\ Road"
+        run(str(CLI), "init", special_name, cwd=temp)
+        special = temp / "toko-kopi-1-s-road"
+        manifest = (special / "FOUNDATION_MANIFEST.yaml").read_text()
+        assert "  name: 'Toko: Kopi #1''s \\ Road'\n" in manifest
+        assert json.loads(run(str(CLI), "status", "--json", cwd=special).stdout)["project"]["name"] == special_name
+        try:
+            import yaml
+        except ImportError:
+            pass  # PyYAML is not required by the CLI or test suite.
+        else:
+            assert yaml.safe_load(manifest)["project"]["name"] == special_name
+        run(str(CLI), "init", "Invalid Template Project", "--template", "not-a-template", cwd=temp, ok=False)
+        assert not (temp / "invalid-template-project").exists()
+        run(str(CLI), "init", "Invalid\nProject", cwd=temp, ok=False)
+        assert not (temp / "invalid-project").exists()
+
         server = ThreadingHTTPServer(("127.0.0.1", 0), Handler)
         thread = threading.Thread(target=server.serve_forever, daemon=True)
         thread.start()
