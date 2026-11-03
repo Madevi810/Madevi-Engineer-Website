@@ -17,7 +17,8 @@ for file in \
   integrations/agent-skills/mew-website-engineer/SKILL.md \
   integrations/agent-skills/mew-website-engineer/references/engineering.md \
   integrations/agent-skills/mew-website-engineer/references/live-operations.md \
-  integrations/agent-skills/mew-website-engineer/scripts/health-check.sh; do
+  integrations/agent-skills/mew-website-engineer/scripts/health-check.sh \
+  integrations/agent-skills/mew-website-engineer/scripts/watch-http.sh; do
   need "$file"
 done
 

@@ -827,6 +827,7 @@ Usage:
   mew library [path|map|materials|stack]
                               Read the installed Foundation library from any directory
   mew health check URL        Perform one authorized HTTP observation
+  mew health watch URL        Repeat HTTP observations in the foreground
   mew agent [status|route]    Show agent orchestration status or routing rules
   mew job [list|inspect ID|cancel ID]
                               Inspect or cancel a recorded local tool job
@@ -909,8 +910,13 @@ case "${1:-}" in
     ;;
   health)
     shift
-    [[ "${1:-}" == "check" && $# -eq 2 ]] || { printf 'Gunakan: mew health check URL\n' >&2; exit 1; }
-    bash "$MEW_HOME/integrations/agent-skills/mew-website-engineer/scripts/health-check.sh" "$2"
+    health_action="${1:-}"
+    shift || true
+    case "$health_action" in
+      check) [[ $# -eq 1 ]] || { printf 'Gunakan: mew health check URL\n' >&2; exit 1; }; bash "$MEW_HOME/integrations/agent-skills/mew-website-engineer/scripts/health-check.sh" "$1" ;;
+      watch) bash "$MEW_HOME/integrations/agent-skills/mew-website-engineer/scripts/watch-http.sh" "$@" ;;
+      *) printf 'Gunakan: mew health [check|watch] URL\n' >&2; exit 1 ;;
+    esac
     ;;
   agent) shift; agent_command "$@" ;;
   job) shift; job_command "$@" ;;

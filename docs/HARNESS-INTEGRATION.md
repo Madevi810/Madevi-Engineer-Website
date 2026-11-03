@@ -42,7 +42,7 @@ The `.agents/skills/` layout follows the shared project-skill convention documen
 - Hermes documentation: https://github.com/NousResearch/hermes-agent/blob/main/website/docs/user-guide/features/skills.md
 - Codex skill guidance: https://developers.openai.com/blog/skills-agents-sdk
 
-## One-shot observation, not continuous monitoring
+## HTTP observation and foreground monitoring
 
 If you own or have permission to check an HTTP endpoint:
 
@@ -52,6 +52,12 @@ mew health check https://example.com/
 
 The command makes one request, does not follow redirects, and prints a response status and duration or a network error. Any HTTP response, including an error status, is an observation, not a claim the website is healthy. Do not include credentials or sensitive query strings in command arguments; process lists or shell history may expose them.
 
-Continuous checks, traffic analysis, notifications, automated recovery and control require a real scheduler or external adapter with configured authorization. The skill alone does not enable them. A monitor on the same VPS also cannot independently alert when the entire VPS is unavailable.
+For repeated checks in the foreground, explicitly start:
+
+```bash
+mew health watch https://example.com/ --interval 60 --count 3
+```
+
+Omit `--count` to continue until stopped with Ctrl-C. The interval is 10–86400 seconds between completed checks; each line is a timestamped JSON observation. This is a foreground process: it stops when the process or hosting session stops. It does not install a daemon, send alerts, inspect traffic, restart services, or guarantee availability. A persistent runner and alerting require separate configuration and authorization. A monitor on the same VPS also cannot independently alert when the entire VPS is unavailable.
 
 The integration tests use Python 3 and its standard library; Python is not required for the skill installer or one-shot HTTP command. Runtime HTTP checks require `curl`.

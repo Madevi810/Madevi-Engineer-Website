@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Integration tests for MEW's portable skill and one-shot HTTP probe."""
 import json
+import os
 import subprocess
 import tempfile
 import threading
@@ -28,8 +29,8 @@ class Handler(BaseHTTPRequestHandler):
         pass
 
 
-def run(*args, cwd=None, ok=True):
-    result = subprocess.run(args, cwd=cwd, text=True, capture_output=True, check=False)
+def run(*args, cwd=None, ok=True, env=None):
+    result = subprocess.run(args, cwd=cwd, text=True, capture_output=True, check=False, env=env)
     assert (result.returncode == 0) == ok, (args, result.returncode, result.stdout, result.stderr)
     return result
 
@@ -37,7 +38,7 @@ def run(*args, cwd=None, ok=True):
 def main():
     skill = (PACKAGE / "SKILL.md").read_text()
     assert skill.startswith("---\nname: mew-website-engineer\ndescription: ")
-    for path in ("references/engineering.md", "references/live-operations.md", "scripts/health-check.sh"):
+    for path in ("references/engineering.md", "references/live-operations.md", "scripts/health-check.sh", "scripts/watch-http.sh"):
         assert path in skill and (PACKAGE / path).is_file()
 
     with tempfile.TemporaryDirectory(prefix="mew-skill-test-") as temp:
@@ -79,12 +80,23 @@ def main():
             assert json.loads(run(probe, base + "/redirect").stdout)["http_status"] == 302
             assert "/followed" not in Handler.hits
             run(probe, "http://user:secret@127.0.0.1/", ok=False)
+            fake_bin = temp / "fake-bin"
+            fake_bin.mkdir()
+            fake_sleep = fake_bin / "sleep"
+            fake_sleep.write_text("#!/bin/sh\nexit 0\n")
+            fake_sleep.chmod(0o755)
+            env = dict(os.environ, PATH=str(fake_bin) + os.pathsep + os.environ["PATH"])
+            events = run(str(CLI), "health", "watch", base + "/fail", "--interval", "10", "--count", "3", env=env).stdout.splitlines()
+            assert len(events) == 3 and all(json.loads(event)["result"]["http_status"] == 503 for event in events)
+            run(str(CLI), "health", "watch", base, "--interval", "1", ok=False)
         finally:
             server.shutdown()
             server.server_close()
             thread.join()
         failure = run(probe, base + "/after-shutdown", ok=False)
         assert failure.returncode == 2 and json.loads(failure.stdout)["observation"] == "network_error"
+        event = json.loads(run(str(CLI), "health", "watch", base + "/after-shutdown", "--count", "1").stdout)
+        assert event["result"]["observation"] == "network_error"
 
     print("Portable skill integration tests passed.")
 
