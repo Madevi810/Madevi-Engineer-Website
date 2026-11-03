@@ -33,10 +33,18 @@ done
 current="$(tr -d '\n' < "$root/VERSION")"
 IFS='.' read -r current_major current_minor current_patch <<<"$current"
 
+tag_list=""
+if [[ "$mode" != "edge" ]]; then
+  tag_list="$(git ls-remote --tags --refs "$repo")" || {
+    printf 'Unable to query stable tags; update was not performed.\n' >&2
+    exit 1
+  }
+fi
+
 latest_tag() {
-  git ls-remote --tags --refs "$repo" \
+  printf '%s\n' "$tag_list" \
     | awk -F/ '{print $3}' \
-    | grep -E '^v?[0-9]+\.[0-9]+\.[0-9]+$' \
+    | { grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' || true; } \
     | sed 's/^v//' \
     | sort -V \
     | tail -n 1
@@ -44,10 +52,11 @@ latest_tag() {
 
 latest_matching() {
   local pattern="$1"
-  git ls-remote --tags --refs "$repo" \
+  printf '%s\n' "$tag_list" \
     | awk -F/ '{print $3}' \
+    | { grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' || true; } \
     | sed 's/^v//' \
-    | grep -E "$pattern" \
+    | { grep -E "$pattern" || true; } \
     | sort -V \
     | tail -n 1
 }
@@ -78,18 +87,25 @@ if [[ "$check_only" == true ]]; then
   exit 0
 fi
 
-git -C "$root" diff --quiet || {
-  printf 'Refusing update because the MEW installation has local modifications.\n' >&2
+[[ -z "$(git -C "$root" status --porcelain --untracked-files=normal)" ]] || {
+  printf 'Refusing update because the MEW installation has local, staged, or untracked changes.\n' >&2
   exit 1
 }
+previous_head="$(git -C "$root" rev-parse --verify HEAD)"
 
 if [[ "$target" == "main" ]]; then
   git -C "$root" fetch --depth 1 origin main
-  git -C "$root" checkout --detach -q FETCH_HEAD
+  git -C "$root" checkout --detach --no-overwrite-ignore -q FETCH_HEAD
 else
   git -C "$root" fetch --depth 1 origin "refs/tags/v$target:refs/tags/v$target"
-  git -C "$root" checkout --detach -q "v$target"
+  git -C "$root" checkout --detach --no-overwrite-ignore -q "v$target"
 fi
 
-"$root/scripts/check-repository.sh"
+if ! "$root/scripts/check-repository.sh"; then
+  printf 'Update validation failed; restoring the previous installation.\n' >&2
+  if ! git -C "$root" checkout --detach --no-overwrite-ignore -q "$previous_head"; then
+    printf 'Automatic restoration failed; the previous commit is %s. Inspect the installation before retrying.\n' "$previous_head" >&2
+  fi
+  exit 1
+fi
 printf 'MEW update completed.\n'
