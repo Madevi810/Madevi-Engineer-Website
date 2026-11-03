@@ -79,4 +79,17 @@ test ! -e "$snapshot/Foundation/Archive"
 if "$cli" tool run web-search --dry-run >/dev/null 2>&1; then
   printf 'External search unexpectedly ran without an adapter.\n' >&2; exit 1
 fi
+
+# Stub tag discovery to test update decisions without touching a real install.
+mkdir -p "$trial/update-install/scripts" "$trial/update-install/.git" "$trial/fake-bin"
+cp "$root/scripts/update.sh" "$trial/update-install/scripts/update.sh"
+printf '2.0.1\n' >"$trial/update-install/VERSION"
+cat >"$trial/fake-bin/git" <<'EOF'
+#!/usr/bin/env bash
+[[ "$1" == "ls-remote" ]] || exit 1
+printf '1111111111111111111111111111111111111111\trefs/tags/v%s\n' "$MEW_TEST_TAG"
+EOF
+chmod +x "$trial/fake-bin/git"
+PATH="$trial/fake-bin:$PATH" MEW_TEST_TAG=2.0.0 bash "$trial/update-install/scripts/update.sh" --check | grep -q 'already current or newer'
+PATH="$trial/fake-bin:$PATH" MEW_TEST_TAG=2.0.2 bash "$trial/update-install/scripts/update.sh" --check | grep -q 'Target:  2.0.2'
 printf 'Safety regression tests passed.\n'

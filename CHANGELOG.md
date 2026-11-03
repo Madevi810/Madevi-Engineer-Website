@@ -1,11 +1,12 @@
 # Changelog
 
-## 2.0.1 - Unreleased
+## 2.0.1
 
 - Limit the automation kill switch to automation fields; external runners still require separate stopping.
 - Validate selected Foundation details, supported modes, and active reference records before implementation approval; restore the previous approval state if project activation fails.
 - Archive the previous Foundation and manifest before preparing an online upgrade, preserve the current project mode, and reopen the Foundation gate for review.
 - Make dry-run output honest about work not performed and give tool jobs unique names.
+- Prevent stable update checks from downgrading a newer installed version.
 - Add safety regression tests and clarify the boundaries of AI reasoning, adapters, and runtime capability detection.
 
 ## 2.0.0 - 2026-11-03

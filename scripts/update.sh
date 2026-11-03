@@ -2,7 +2,7 @@
 set -euo pipefail
 
 root="$(cd "$(dirname "$0")/.." && pwd)"
-repo="https://github.com/Madevi810/Madevi-Engineer-Website.git"
+repo="${MEW_REPO_URL:-https://github.com/Madevi810/Madevi-Engineer-Website.git}"
 mode="patch"
 check_only=false
 
@@ -65,9 +65,12 @@ esac
   exit 0
 }
 
-if [[ "$target" != "main" && "$target" == "$current" ]]; then
-  printf 'MEW %s is already current for the selected update channel.\n' "$current"
-  exit 0
+if [[ "$target" != "main" ]]; then
+  highest="$(printf '%s\n%s\n' "$current" "$target" | sort -V | tail -n 1)"
+  if [[ "$highest" == "$current" ]]; then
+    printf 'MEW %s is already current or newer than the selected stable channel (%s).\n' "$current" "$target"
+    exit 0
+  fi
 fi
 
 printf 'Current: %s\nTarget:  %s\nMode:    %s\n' "$current" "$target" "$mode"

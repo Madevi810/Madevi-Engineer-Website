@@ -12,6 +12,7 @@ This patch addresses defects reproduced against v2.0.0. A passing regression sui
 | Online upgrade did not preserve the full previous Foundation | Snapshot the Foundation, excluding prior archives, and the manifest; preserve existing mode and reopen the gate | Check snapshot contents and blocked gate after an approved prototype |
 | Job IDs could collide within a second | Generate unique job filenames | Run the same dry-run twice |
 | Tool dry-runs implied an inspection had happened | Explicitly state when no inspection or detection ran | Check dry-run output |
+| A stable update could select an older patch | Compare target with the installed version and refuse downgrade | Simulate older and newer patch tags |
 
 ## Limits and follow-up priorities
 
