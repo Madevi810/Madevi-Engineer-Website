@@ -13,6 +13,15 @@ for file in README.md AGENTS.md FOUNDATION_MANIFEST.yaml VERSION LICENSE CHANGEL
 done
 
 for file in \
+  scripts/install-agent-skill.sh \
+  integrations/agent-skills/mew-website-engineer/SKILL.md \
+  integrations/agent-skills/mew-website-engineer/references/engineering.md \
+  integrations/agent-skills/mew-website-engineer/references/live-operations.md \
+  integrations/agent-skills/mew-website-engineer/scripts/health-check.sh; do
+  need "$file"
+done
+
+for file in \
   Foundation/05-Features-Requirements/Feature-Gap-Audit.md \
   Foundation/06-UX-UI/Creative-Brief.md \
   Foundation/06-UX-UI/Responsive-Accessibility-Review.md \

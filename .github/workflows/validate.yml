@@ -11,5 +11,5 @@ jobs:
       - uses: actions/checkout@v4
       - name: Run shell syntax and Foundation checks
         run: |
-          bash tests/smoke.sh
+          bash evaluations/regression/run.sh
           bash scripts/check-repository.sh

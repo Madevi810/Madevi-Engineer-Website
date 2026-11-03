@@ -1,7 +1,7 @@
 # Madevi Engineer Website
 
 Current stable release: [latest published release](https://github.com/Madevi810/Madevi-Engineer-Website/releases/latest)
-Development on `main`: v2.0.1; see the release page for published versions.
+Development on `main`: v2.1.0; see the release page for published versions.
 
 Madevi Engineer Website (MEW) is an open-source engineering foundation for **web projects**. It helps an AI agent turn a developer's ordinary-language idea into a reviewed, traceable, and implementation-ready Foundation.
 
@@ -42,6 +42,7 @@ For example, a developer may say: “I want an Indonesian space article website 
 - Change Requests for forgotten features or altered goals after implementation has begun.
 - HTML/image simulation planning, responsive/accessibility review, and clean-room UI reference analysis.
 - Machine-readable status, validation, agent routing, tool, job, and evaluation output for terminal AI agents.
+- A portable website-engineer skill for compatible AI harnesses, including guidance for existing projects and authorized live website operations.
 
 ## What MEW does not promise
 
@@ -51,7 +52,7 @@ MEW supplies instructions and local workflow tools; it does not include an AI mo
 
 MEW also never treats a public repository, video, book, image, social post, or design reference as permission to copy it. It records licenses, limits, evidence, and original-use rules first.
 
-For the current patch evaluation and remaining engineering work, see [docs/EVALUATION-2.0.1.md](docs/EVALUATION-2.0.1.md).
+For the skill integration evaluation and remaining engineering work, see [docs/EVALUATION-2.1.0.md](docs/EVALUATION-2.1.0.md).
 
 ## Agent workflow
 
@@ -130,6 +131,17 @@ mew init Name-Project --template content-platform
 
 Open the generated workspace in an AI coding environment. Ask the agent to read `AGENTS.md`, `FOUNDATION_MANIFEST.yaml`, the active Foundation stage, and the current status before acting.
 
+## Use MEW with an AI harness
+
+New workspaces include the `mew-website-engineer` skill under `.agents/skills/`. To add it to a project that already exists:
+
+```bash
+mew skill install --project /path/to/project --dry-run
+mew skill install --project /path/to/project
+```
+
+Then open that project in a compatible AI harness and request the MEW skill. Hermes project-skill discovery requires a trusted Git project; discovery and access differ between harness versions. See [harness integration](docs/HARNESS-INTEGRATION.md) for details and a one-shot authorized website check. MEW does not start monitoring or grant server access by installing a skill.
+
 ## Tool runtime
 
 MEW tools are provider-neutral. Their contracts define capability, permission, input/output, dry-run behavior, logs, approval, rollback, and fallback.
@@ -146,7 +158,7 @@ mew job list
 mew evaluation run regression
 ```
 
-The default local tools analyze the workspace and create traceable planning records. External tools such as GitHub research, web search, deployment, databases, and publishing require a matching available adapter and the relevant policy/approval.
+The default tool runner mainly creates traceable dry-run planning records; it does not implement every contract. External tools such as GitHub research, web search, deployment, databases, and publishing require a matching available adapter and the relevant policy/approval.
 
 ## Key commands
 

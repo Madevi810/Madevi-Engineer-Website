@@ -9,4 +9,4 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Run validation before a maintainer creates a release
-        run: bash tests/smoke.sh
+        run: bash evaluations/regression/run.sh

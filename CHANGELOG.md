@@ -1,5 +1,12 @@
 # Changelog
 
+## 2.1.0 - Unreleased
+
+- Add a portable MEW website-engineer skill for project-scoped AI harnesses, covering Foundation, existing projects, implementation and live operations.
+- Install the skill into new MEW workspaces; add an explicit non-overwriting installer for existing projects.
+- Add an authorized one-shot HTTP observation script and offline local-server tests. It is not continuous monitoring or autonomous control.
+- Extend regression and CI checks for skill packaging, installation and HTTP responses.
+
 ## 2.0.1
 
 - Limit the automation kill switch to automation fields; external runners still require separate stopping.

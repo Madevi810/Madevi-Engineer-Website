@@ -20,6 +20,8 @@ copy_template() {
   for item in AGENTS.md FOUNDATION_MANIFEST.yaml Foundation Project-Implementasi templates docs plugins skills agent tools policies schemas evaluations README.md; do
     cp -R "$MEW_HOME/$item" "$target/"
   done
+  mkdir -p "$target/.agents/skills"
+  cp -R "$MEW_HOME/integrations/agent-skills/mew-website-engineer" "$target/.agents/skills/"
   rm -f "$target/README.md"
   cat >"$target/README.md" <<'EOF'
 # MEW Workspace
@@ -809,6 +811,9 @@ Usage:
   mew content plan --count N  Record a content target after operations preparation
   mew tool [list|inspect ID|doctor|capability|run ID --dry-run]
                               Inspect or safely dry-run a local MEW tool
+  mew skill install --project DIRECTORY [--dry-run]
+                              Install the portable MEW skill into an existing project
+  mew health check URL        Perform one authorized HTTP observation
   mew agent [status|route]    Show agent orchestration status or routing rules
   mew job [list|inspect ID|cancel ID]
                               Inspect or cancel a recorded local tool job
@@ -882,6 +887,17 @@ case "${1:-}" in
   operations) shift; operations_command "$@" ;;
   content) shift; content_command "$@" ;;
   tool) shift; tool_command "$@" ;;
+  skill)
+    shift
+    [[ "${1:-}" == "install" ]] || { printf 'Gunakan: mew skill install --project DIRECTORY [--dry-run]\n' >&2; exit 1; }
+    shift
+    bash "$MEW_HOME/scripts/install-agent-skill.sh" "$@"
+    ;;
+  health)
+    shift
+    [[ "${1:-}" == "check" && $# -eq 2 ]] || { printf 'Gunakan: mew health check URL\n' >&2; exit 1; }
+    bash "$MEW_HOME/integrations/agent-skills/mew-website-engineer/scripts/health-check.sh" "$2"
+    ;;
   agent) shift; agent_command "$@" ;;
   job) shift; job_command "$@" ;;
   evaluation) shift; evaluation_command "$@" ;;

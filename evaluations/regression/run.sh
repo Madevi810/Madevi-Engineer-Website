@@ -4,5 +4,6 @@ set -euo pipefail
 root="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 bash "$root/tests/smoke.sh"
 bash "$root/tests/regression-safety.sh"
+python3 "$root/tests/test_agent_skill.py"
 bash "$root/tools/validators/validate-tool-contracts.sh"
 printf 'MEW regression evaluation passed.\n'
