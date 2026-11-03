@@ -1,6 +1,6 @@
 # Changelog
 
-## 2.1.0 - Unreleased
+## 2.1.0 - 2026-11-04
 
 - Preserve project names containing YAML-special characters and validate starter packs before creating a workspace.
 - Refuse updates with staged or untracked changes and restore the previous commit if validation of an update fails.
