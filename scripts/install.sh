@@ -1,11 +1,10 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# UWF_* variables remain accepted only to migrate a prior installation safely.
-MEW_REPO_URL="${MEW_REPO_URL:-${UWF_REPO_URL:-https://github.com/Madevi810/Madevi-Engineer-Website.git}}"
-MEW_INSTALL_DIR="${MEW_INSTALL_DIR:-${UWF_INSTALL_DIR:-$HOME/.local/share/mew}}"
-MEW_BIN_DIR="${MEW_BIN_DIR:-${UWF_BIN_DIR:-$HOME/.local/bin}}"
-MEW_CONFIG_DIR="${MEW_CONFIG_DIR:-${UWF_CONFIG_DIR:-$HOME/.config/mew}}"
+MEW_REPO_URL="${MEW_REPO_URL:-https://github.com/Madevi810/Madevi-Engineer-Website.git}"
+MEW_INSTALL_DIR="${MEW_INSTALL_DIR:-$HOME/.local/share/mew}"
+MEW_BIN_DIR="${MEW_BIN_DIR:-$HOME/.local/bin}"
+MEW_CONFIG_DIR="${MEW_CONFIG_DIR:-$HOME/.config/mew}"
 channel="stable"
 requested_version=""
 
@@ -99,7 +98,6 @@ if [[ -e "$MEW_INSTALL_DIR" ]]; then
 fi
 mv "$temporary/source" "$MEW_INSTALL_DIR"
 ln -sfn "$MEW_INSTALL_DIR/scripts/mew" "$MEW_BIN_DIR/mew"
-ln -sfn "$MEW_INSTALL_DIR/scripts/uwf" "$MEW_BIN_DIR/uwf"
 
 cat >"$MEW_CONFIG_DIR/install.env" <<EOF
 MEW_CHANNEL=$channel
@@ -109,4 +107,3 @@ EOF
 
 printf 'MEW %s installed on channel %s.\n' "$target" "$channel"
 printf 'Ensure %s is in PATH, then run: mew\n' "$MEW_BIN_DIR"
-printf 'The former `uwf` command remains available as a compatibility alias.\n'

@@ -12,13 +12,6 @@ case "$schema" in
   *) printf 'Unsupported manifest schema: %s\n' "$schema" >&2; exit 1 ;;
 esac
 
-if grep -q '^uwf_version:' "$manifest"; then
-  backup="${manifest}.pre-mew-brand.bak"
-  [[ -e "$backup" ]] || cp "$manifest" "$backup"
-  sed -i 's/^uwf_version:/mew_version:/' "$manifest"
-  printf 'Migrated legacy manifest branding; backup: %s\n' "$backup"
-fi
-
 if ! grep -q '^agent_runtime:' "$manifest"; then
   backup="${manifest}.pre-v1.2.bak"
   [[ -e "$backup" ]] || cp "$manifest" "$backup"

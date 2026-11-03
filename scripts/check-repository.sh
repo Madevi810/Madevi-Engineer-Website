@@ -8,7 +8,7 @@ need() {
   [[ -f "$root/$1" ]] || { printf 'Missing: %s\n' "$1" >&2; failed=1; }
 }
 
-for file in README.md AGENTS.md FOUNDATION_MANIFEST.yaml VERSION LICENSE CHANGELOG.md CONTRIBUTING.md SECURITY.md CODE_OF_CONDUCT.md scripts/mew scripts/uwf; do
+for file in README.md AGENTS.md FOUNDATION_MANIFEST.yaml VERSION LICENSE CHANGELOG.md CONTRIBUTING.md SECURITY.md CODE_OF_CONDUCT.md scripts/mew; do
   need "$file"
 done
 
@@ -74,7 +74,6 @@ for file in \
   tools/README.md \
   tools/contracts/README.md \
   tools/runners/mew-tool.sh \
-  tools/runners/uwf-tool.sh \
   tools/safety/action-gate.sh \
   tools/validators/validate-tool-contracts.sh \
   policies/permissions/README.md \

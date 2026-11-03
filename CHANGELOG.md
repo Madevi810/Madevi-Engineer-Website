@@ -3,7 +3,7 @@
 ## 2.0.0 - 2026-11-03
 
 - Renamed the project to Madevi Engineer Website (MEW), including documentation, workspace identity, manifests, previews, policies, and machine-readable output.
-- Added `mew` as the primary command and retained `uwf` as a legacy compatibility alias.
+- Added `mew` as the primary command for Madevi Engineer Website workflows.
 - Updated installer, update, uninstall, and workspace migration paths for the new repository and command identity.
 
 ## 1.3.0 - 2026-11-03

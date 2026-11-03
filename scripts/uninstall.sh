@@ -11,6 +11,5 @@ install_dir="$HOME/.local/share/mew"
 bin_dir="$HOME/.local/bin"
 
 rm -f "$bin_dir/mew"
-rm -f "$bin_dir/uwf"
 rm -rf "$install_dir"
 printf 'MEW CLI removed. Project workspaces were not changed.\n'
