@@ -76,11 +76,11 @@ section_value_missing_safe() {
   ' "$source"
 }
 
-project_mode="$(value mode)"
+project_mode="$(section_value_missing_safe project mode "$manifest")"
 experience="$(value experience_level)"
 guidance="$(value guidance_mode)"
 gate="$(value implementation_gate)"
-foundation_status="$(value status)"
+foundation_status="$(section_value_missing_safe foundation status "$manifest")"
 primary="$(grep -E '^  primary:' "$manifest" | head -n 1 | sed -E 's/^  primary:[[:space:]]*//')"
 active_reference="$(grep -E '^  active_reference:' "$manifest" | head -n 1 | sed -E 's/^  active_reference:[[:space:]]*//' | sed 's/[[:space:]]*#.*$//')"
 reference_analysis_file="$(grep -E '^  reference_analysis_file:' "$manifest" | head -n 1 | sed -E 's/^  reference_analysis_file:[[:space:]]*//' | sed 's/[[:space:]]*#.*$//')"
@@ -135,7 +135,7 @@ if grep -Eq '^\|[^|]*\|[[:space:]]*CRITICAL[[:space:]]*\|.*\|[[:space:]]*OPEN[[:
   error "an open CRITICAL risk exists"
 fi
 
-if grep -Eq '^\|[^|]*\|.*\|[[:space:]]*OPEN[[:space:]]*\|[^|]*\|[[:space:]]*OPEN[[:space:]]*\|' "$root/Foundation/00-Control/Open-Questions.md"; then
+if awk -F'|' 'NF >= 7 && $6 ~ /^[[:space:]]*OPEN[[:space:]]*$/ { found=1 } END { exit !found }' "$root/Foundation/00-Control/Open-Questions.md"; then
   warning "open Foundation questions remain"
 fi
 
@@ -157,15 +157,37 @@ if [[ "$automation_enabled" == "true" ]]; then
 fi
 
 if [[ "$mode" == "--gate" ]]; then
-  [[ "$project_mode" != "unset" ]] || error "implementation gate requires a project mode"
-  [[ "$experience" != "unset" ]] || error "implementation gate requires a developer level"
-  [[ "$guidance" != "unset" ]] || error "implementation gate requires a guidance mode"
+  [[ "$project_mode" =~ ^(prototype_local|prototype_online|beta|production_online)$ ]] || error "implementation gate requires a valid project mode"
+  [[ "$experience" =~ ^(beginner|intermediate|professional)$ ]] || error "implementation gate requires a valid developer level"
+  [[ "$guidance" =~ ^(full_agent_recommendation|recommendation_with_custom_choice)$ ]] || error "implementation gate requires a valid guidance mode"
   [[ "$primary" != "[]" && -n "$primary" ]] || error "implementation gate requires a primary objective"
   [[ "$runtime_status" == "DECLARED" || "$runtime_status" == "VERIFIED" || "$runtime_status" == "LIMITED" ]] || error "implementation gate requires an agent runtime capability profile"
   [[ "$orchestration_status" == "ROUTED" || "$orchestration_status" == "READY" || "$orchestration_status" == "APPROVED" ]] || error "implementation gate requires agent orchestration to be ROUTED, READY, or APPROVED"
   [[ "$composition_status" == "READY" || "$composition_status" == "APPROVED" ]] || error "implementation gate requires Composition Manifest status READY or APPROVED"
   [[ "$foundation_status" == "READY" ]] || error "implementation gate requires foundation.status to be READY"
-  [[ "$reference_status" != "ANALYSIS_REQUIRED" ]] || error "implementation gate requires active UI/UX reference analysis"
+  composition_file="$root/Foundation/15-Engineering-Materials/Composition-Manifest.md"
+  if [[ -f "$composition_file" ]]; then
+    grep -Eq '^Status: (READY|APPROVED)[[:space:]]*$' "$composition_file" || error "Composition Manifest document must be READY or APPROVED"
+    for field in 'Primary objective' 'Target users' 'Project mode' 'Scope boundary'; do
+      grep -Eq "^- $field:[[:space:]]*[^[:space:]]" "$composition_file" || error "Composition Manifest requires $field"
+    done
+    awk -F'|' '
+      /^## Selected materials/ { active=1; next }
+      active && /^## / { exit }
+      active && NF >= 7 && $2 !~ /^[[:space:]]*(Material|-+)[[:space:]]*$/ && $2 ~ /[^[:space:]]/ && $3 ~ /[^[:space:]]/ && $4 ~ /[^[:space:]]/ { found=1 }
+      END { exit !found }
+    ' "$composition_file" || error "Composition Manifest requires at least one selected material with rationale and compatibility"
+  fi
+  if [[ -n "$active_reference" && "$active_reference" != "unset" ]]; then
+    if [[ -z "$reference_analysis_file" || "$reference_analysis_file" == "unset" || ! -f "$root/$reference_analysis_file" ]]; then
+      error "active UI/UX reference requires an analysis file"
+    else
+      for field in 'Source URL or name' 'Reference catalog category (if registered)' 'General principle worth considering' 'New, original name and structure' 'Developer decision'; do
+        awk -v label="$field" 'index($0, "- " label ":") == 1 { value=substr($0, length(label)+4); if (value ~ /[^[:space:]]/) found=1 } END { exit !found }' "$root/$reference_analysis_file" || error "reference analysis requires $field"
+      done
+    fi
+    [[ "$reference_status" == "ANALYZED" || "$reference_status" == "APPROVED" ]] || error "implementation gate requires completed active UI/UX reference analysis"
+  fi
   [[ "$critical" -eq 0 ]] || error "implementation gate cannot pass with CRITICAL risk"
 fi
 

@@ -21,9 +21,17 @@ case "$action" in
     [[ -f "$policy" ]] && printf 'Policy: %s\n' "$policy" || printf 'Policy: not prepared\n'
     ;;
   kill)
-    sed -i 's/  enabled: true/  enabled: false/' "$manifest"
-    sed -i 's/  mode: .*/  mode: manual # automation stopped by kill switch/' "$manifest"
-    printf 'Automation disabled for this workspace.\n'
+    temporary="$(mktemp "${manifest}.tmp.XXXXXX")"
+    awk '
+      /^automation:$/ { active=1; print; next }
+      active && /^[^[:space:]]/ { active=0 }
+      active && /^  enabled:/ { print "  enabled: false"; next }
+      active && /^  mode:/ { print "  mode: manual # automation stopped by kill switch"; next }
+      active && /^  kill_switch:/ { print "  kill_switch: true"; next }
+      { print }
+    ' "$manifest" >"$temporary"
+    mv "$temporary" "$manifest"
+    printf 'Automation disabled in the workspace policy; any external runner must also be stopped separately.\n'
     ;;
   *)
     printf 'Usage: automation-policy.sh [prepare|status|kill]\n' >&2

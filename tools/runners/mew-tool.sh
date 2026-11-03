@@ -22,7 +22,7 @@ record_job() {
   stamp="$(date -u +%Y%m%dT%H%M%SZ)"
   jobdir="$workspace/Foundation/00-Control/Jobs"
   mkdir -p "$jobdir"
-  job="$jobdir/JOB-$stamp-$id.md"
+  job="$(mktemp "$jobdir/JOB-$stamp-$id-XXXXXX.md")"
   cat >"$job" <<EOF
 # Tool Job JOB-$stamp-$id
 
@@ -72,8 +72,8 @@ case "$command" in
     case "$mode" in
       local_read|foundation_write)
         case "$id" in
-          capability-detector) result="runtime capabilities reported" ;;
-          workspace-inspector) result="workspace structure inspected" ;;
+          capability-detector) result="capability report dry-run prepared; no detection performed" ;;
+          workspace-inspector) result="workspace inspection dry-run prepared; no inspection performed" ;;
           manifest-engine) result="manifest compatibility dry-run prepared" ;;
           compatibility-engine) result="compatibility review dry-run prepared" ;;
           taxonomy-builder) result="taxonomy planning dry-run prepared" ;;

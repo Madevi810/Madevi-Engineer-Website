@@ -1,6 +1,6 @@
 # Foundation Manifest Schema
 
-MEW 1.x supports manifest schema version 1.
+MEW 2.x supports manifest schema version 1.
 
 The manifest is the current machine-readable source of truth for:
 

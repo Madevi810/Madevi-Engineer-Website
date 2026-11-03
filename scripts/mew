@@ -750,13 +750,28 @@ approve_implementation() {
     printf 'Implementation approval blocked. Complete the Foundation issues above first.\n' >&2
     exit 1
   }
-  local stamp
+  local stamp slug target backup
+  slug="$(slugify "$project")"
+  [[ -n "$slug" ]] || { printf 'Nama proyek tidak valid.\n' >&2; exit 1; }
+  target="Project-$slug"
+  [[ ! -e "$target" ]] || { printf 'Target sudah ada: %s\n' "$target" >&2; exit 1; }
+  backup="$(mktemp "${PWD}/.mew-approval-backup.XXXXXX")"
+  cp FOUNDATION_MANIFEST.yaml "$backup"
   stamp="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
   sed -i 's/implementation_gate: .*/implementation_gate: APPROVED/' FOUNDATION_MANIFEST.yaml
   sed -i 's/implementation_status: .*/implementation_status: APPROVED/' FOUNDATION_MANIFEST.yaml
   sed -i "s/last_developer_approval: .*/last_developer_approval: $stamp/" FOUNDATION_MANIFEST.yaml
   sed -i "s/last_updated: .*/last_updated: $stamp/" FOUNDATION_MANIFEST.yaml
-  "$MEW_HOME/scripts/create-project.sh" "$project"
+  if ! "$MEW_HOME/scripts/create-project.sh" "$project"; then
+    if [[ ! -d Project-Implementasi && -d "$target" ]]; then
+      mv "$target" Project-Implementasi || printf 'Kembalikan folder proyek secara manual: %s\n' "$target" >&2
+    fi
+    cp "$backup" FOUNDATION_MANIFEST.yaml || { printf 'Pulihkan manifest dari %s\n' "$backup" >&2; exit 1; }
+    rm -f "$backup"
+    printf 'Aktivasi gagal; status persetujuan sebelumnya dipulihkan.\n' >&2
+    exit 1
+  fi
+  rm -f "$backup"
 }
 
 show_help() {

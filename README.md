@@ -3,6 +3,8 @@
 Current stable release: [v2.0.0](https://github.com/Madevi810/Madevi-Engineer-Website/releases/tag/v2.0.0)
 Development on `main`: post-v2.0.0 maintenance and future improvements
 
+The current development patch strengthens implementation gates, migration snapshots, and automation controls. It remains under review until a new tagged release is published.
+
 Madevi Engineer Website (MEW) is an open-source engineering foundation for **web projects**. It helps an AI agent turn a developer's ordinary-language idea into a reviewed, traceable, and implementation-ready Foundation.
 
 MEW is not a website builder, design editor, chatbot replacement, or a collection of copied boilerplates. It is the operating system around an AI coding workflow: it gives the agent materials, rules, tools, evidence, quality gates, and an accountable way to work.
@@ -47,7 +49,11 @@ For example, a developer may say: “I want an Indonesian space article website 
 
 MEW does not claim every AI runtime has web search, GitHub access, a browser, image generation, cloud credentials, or publishing authority. The Runtime Profile records what is actually available. An unavailable tool must be reported, never invented.
 
+MEW supplies instructions and local workflow tools; it does not include an AI model or guarantee a particular model's reasoning. The tool runner primarily records dry-run plans. Web search, GitHub research, scheduling, content generation, and publication need an external runtime or adapter. Gate checks verify selected fields and files, but cannot determine whether a plan is substantively correct; the developer and agent must review it.
+
 MEW also never treats a public repository, video, book, image, social post, or design reference as permission to copy it. It records licenses, limits, evidence, and original-use rules first.
+
+For the current patch evaluation and remaining engineering work, see [docs/EVALUATION-2.0.1.md](docs/EVALUATION-2.0.1.md).
 
 ## Agent workflow
 

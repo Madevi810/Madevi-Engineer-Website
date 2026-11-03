@@ -110,6 +110,7 @@ trial="$(mktemp -d)"
   sed -i 's/^  status: DRAFT # DRAFT | ROUTED | NEED_INFO | READY | APPROVED/  status: ROUTED # DRAFT | ROUTED | NEED_INFO | READY | APPROVED/' FOUNDATION_MANIFEST.yaml
   sed -i 's/^  status: REVIEW # DRAFT | REVIEW | READY | APPROVED/  status: READY # DRAFT | REVIEW | READY | APPROVED/' FOUNDATION_MANIFEST.yaml
   sed -i 's/reference_status: ANALYSIS_REQUIRED/reference_status: ANALYZED/' FOUNDATION_MANIFEST.yaml
+  sed -i 's/^Status: DRAFT/Status: READY/; s/^- Primary objective:$/- Primary objective: Smoke objective/; s/^- Target users:$/- Target users: Test users/; s/^- Project mode:$/- Project mode: local prototype/; s/^- Scope boundary:$/- Scope boundary: smoke test/; s/^| | | | | | pending |$/| Static site | simple test | local | minimal | reviewed | selected |/' Foundation/15-Engineering-Materials/Composition-Manifest.md
   "$root/scripts/mew" approve implementation --project "Smoke Web" >/dev/null
   test -f Project-smoke-web/CHANGELOG.md
   test -f Project-smoke-web/docs/IMPLEMENTATION-HISTORY.md
