@@ -1,7 +1,9 @@
 # Madevi Engineer Website
 
 Current stable release: [latest published release](https://github.com/Madevi810/Madevi-Engineer-Website/releases/latest)
-Development on `main`: v2.1.0; see the release page for published versions.
+Development on `main`: maintenance and future improvements.
+
+**v2.1.0 limitations:** A complete authenticated AI harness session has not yet been verified. Continuous background monitoring, alerts, deployment and live control are not implemented. See the [evaluation](docs/EVALUATION-2.1.0.md) for tested behavior and remaining work.
 
 Madevi Engineer Website (MEW) is an open-source engineering foundation for **web projects**. It helps an AI agent turn a developer's ordinary-language idea into a reviewed, traceable, and implementation-ready Foundation.
 
