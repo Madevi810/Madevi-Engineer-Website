@@ -7,6 +7,14 @@ Run MEW without arguments for the beginner-friendly menu.
 | mew | Interactive menu |
 | mew init name | Create a workspace |
 | mew doctor | Check Linux command and PATH requirements |
+| mew skill install --project DIR [--dry-run] | Add the portable skill to an existing project without replacing an existing copy |
+| mew skill update --project DIR [--dry-run] | Explicitly update the project skill and retain the previous directory in a backup |
+| mew library path\|map\|materials\|stack | Read general MEW Foundation materials from any directory |
+| mew inspect project DIR [--json] [--max-depth N] | Produce a bounded read-only inventory; requires Python 3 |
+| mew observe system DIR [--json] | Read local disk, memory and load observations; requires Python 3 |
+| mew observe service NAME.service [--json] | Read a named local systemd service state; requires Python 3 and systemd access |
+| mew health check URL | Perform one authorized HTTP observation; requires curl |
+| mew health watch URL [--interval N] [--count N] | Repeat authorized HTTP observations in the foreground; not a persistent service |
 | mew status | Display current manifest status |
 | mew status --json | Display compact machine-readable workspace status |
 | mew next | Show the active Foundation stage and recommended next action |

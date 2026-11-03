@@ -18,6 +18,17 @@ check_command git
 check_command sed
 check_command grep
 
+if command -v python3 >/dev/null 2>&1; then
+  printf 'OK      python3: %s (project inspection and local observations)\n' "$(command -v python3)"
+else
+  printf 'OPTIONAL python3 missing: project inspection and local observations unavailable\n'
+fi
+if command -v curl >/dev/null 2>&1; then
+  printf 'OK      curl: %s (HTTP observations)\n' "$(command -v curl)"
+else
+  printf 'OPTIONAL curl missing: HTTP observations unavailable\n'
+fi
+
 if [[ -d "$HOME/.local/bin" ]]; then
   case ":$PATH:" in
     *":$HOME/.local/bin:"*) printf 'OK      PATH includes %s\n' "$HOME/.local/bin" ;;

@@ -2,6 +2,9 @@
 
 ## 2.1.0 - Unreleased
 
+- Add a bounded, read-only project inspector with JSON evidence for recognized web-project markers, dependencies, and unverified runtime areas.
+- Add one-shot local disk, memory, load and explicitly named systemd service observations; no service-control action is performed.
+- Add explicit project-skill updates that retain the previous copy as a backup.
 - Add a portable MEW website-engineer skill for project-scoped AI harnesses, covering Foundation, existing projects, implementation and live operations.
 - Install the skill into new MEW workspaces; add an explicit non-overwriting installer for existing projects.
 - Expose read-only commands to locate and inspect the installed material library from existing projects.

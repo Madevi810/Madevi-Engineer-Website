@@ -142,6 +142,26 @@ mew skill install --project /path/to/project
 
 Then open that project in a compatible AI harness and request the MEW skill. Hermes project-skill discovery requires a trusted Git project; discovery and access differ between harness versions. See [harness integration](docs/HARNESS-INTEGRATION.md) for details and a one-shot authorized website check. MEW does not start monitoring or grant server access by installing a skill.
 
+After updating MEW itself, `mew skill update --project /path/to/project` updates that project's copy and retains its previous version under `.agents/mew-backups/`. Review and reapply any project-specific customizations from the backup.
+
+To inventory a project you are authorized to inspect (requires Python 3):
+
+```bash
+mew inspect project /path/to/project
+mew inspect project /path/to/project --json
+```
+
+The inspector does not execute project code, read `.env` files, inspect live services, or write a Foundation. It reports bounded file markers and recognized framework evidence, with unverified areas identified separately.
+
+For an authorized local VPS or development machine, optional read-only snapshots are available:
+
+```bash
+mew observe system /path/to/project --json
+mew observe service nginx.service --json
+```
+
+System metrics and service state are observations, not proof of website or database health. Service observation requires an accessible local systemd instance; unavailable results are reported as such. These commands do not start, stop, or modify services.
+
 ## Tool runtime
 
 MEW tools are provider-neutral. Their contracts define capability, permission, input/output, dry-run behavior, logs, approval, rollback, and fallback.

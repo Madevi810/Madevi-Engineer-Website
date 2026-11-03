@@ -14,6 +14,8 @@ done
 
 for file in \
   scripts/install-agent-skill.sh \
+  scripts/inspect-project.py \
+  scripts/observe-system.py \
   integrations/agent-skills/mew-website-engineer/SKILL.md \
   integrations/agent-skills/mew-website-engineer/references/engineering.md \
   integrations/agent-skills/mew-website-engineer/references/live-operations.md \

@@ -822,12 +822,18 @@ Usage:
   mew content plan --count N  Record a content target after operations preparation
   mew tool [list|inspect ID|doctor|capability|run ID --dry-run]
                               Inspect or safely dry-run a local MEW tool
-  mew skill install --project DIRECTORY [--dry-run]
-                              Install the portable MEW skill into an existing project
+  mew skill [install|update] --project DIRECTORY [--dry-run]
+                              Install or safely update the project skill, retaining a backup
   mew library [path|map|materials|stack]
                               Read the installed Foundation library from any directory
   mew health check URL        Perform one authorized HTTP observation
   mew health watch URL        Repeat HTTP observations in the foreground
+  mew inspect project DIR [--json] [--max-depth N]
+                              Inspect an existing project without running its code
+  mew observe system DIR [--json]
+                              Read local disk, memory and load observations
+  mew observe service NAME.service [--json]
+                              Read an explicitly named systemd service state
   mew agent [status|route]    Show agent orchestration status or routing rules
   mew job [list|inspect ID|cancel ID]
                               Inspect or cancel a recorded local tool job
@@ -904,9 +910,10 @@ case "${1:-}" in
   tool) shift; tool_command "$@" ;;
   skill)
     shift
-    [[ "${1:-}" == "install" ]] || { printf 'Gunakan: mew skill install --project DIRECTORY [--dry-run]\n' >&2; exit 1; }
+    [[ "${1:-}" == "install" || "${1:-}" == "update" ]] || { printf 'Gunakan: mew skill [install|update] --project DIRECTORY [--dry-run]\n' >&2; exit 1; }
+    skill_action="$1"
     shift
-    bash "$MEW_HOME/scripts/install-agent-skill.sh" "$@"
+    bash "$MEW_HOME/scripts/install-agent-skill.sh" "$skill_action" "$@"
     ;;
   health)
     shift
@@ -917,6 +924,18 @@ case "${1:-}" in
       watch) bash "$MEW_HOME/integrations/agent-skills/mew-website-engineer/scripts/watch-http.sh" "$@" ;;
       *) printf 'Gunakan: mew health [check|watch] URL\n' >&2; exit 1 ;;
     esac
+    ;;
+  inspect)
+    shift
+    [[ "${1:-}" == "project" && $# -ge 2 ]] || { printf 'Gunakan: mew inspect project DIRECTORY [--json] [--max-depth N]\n' >&2; exit 1; }
+    shift
+    command -v python3 >/dev/null 2>&1 || { printf 'Project inspection requires Python 3.\n' >&2; exit 1; }
+    python3 "$MEW_HOME/scripts/inspect-project.py" "$@"
+    ;;
+  observe)
+    shift
+    command -v python3 >/dev/null 2>&1 || { printf 'Local observations require Python 3.\n' >&2; exit 1; }
+    python3 "$MEW_HOME/scripts/observe-system.py" "$@"
     ;;
   agent) shift; agent_command "$@" ;;
   job) shift; job_command "$@" ;;

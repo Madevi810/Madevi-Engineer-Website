@@ -19,6 +19,9 @@ This matrix describes the current MEW workflow honestly. It is not a promise tha
 | Controlled content automation | controlled | Separate plan, draft, implementation, and publishing gates | Publishing stays disabled until a scoped policy is approved |
 | Agent runtime disclosure | agent-assisted | A capability profile to record available tools and limits before research or writes | Availability is declared by the runtime or user; the CLI does not automatically detect external capabilities |
 | Foundation Orchestrator | controlled | Role routing, assumptions, question budget, status protocol, escalation rules, and decision trace | Reasoning quality depends on the chosen AI runtime and complete project evidence |
+| Existing project inventory | preview | Bounded read-only project markers and recognized dependency evidence | Requires Python 3; does not verify live services, security or actual compatibility |
+| Local system observation | preview | One-shot disk, memory, load and explicitly named systemd service observations | Requires Python 3 and relevant OS access; not persistent monitoring or automatic control |
+| HTTP observation | preview | One-shot and foreground repeated HTTP requests to an authorized endpoint | Requires curl; no alerting, persistent runner or proof of overall website health |
 | Tool Runtime | preview | Local tool contracts, capability report, dry-run runner, action journal, job records, and permission gate | Tools do not create external access; only local dry-runs execute by default |
 | External adapters | planned | Contracts for GitHub research, web search, deployment, and publishing | A real adapter, scope, runtime access, policy, and approval must exist before any external run |
 | Evaluation and regression | preview | Smoke checks, safety regressions, tool-contract validation, and scenario artifacts | These checks do not prove AI reasoning quality, production safety, or correctness on every platform |

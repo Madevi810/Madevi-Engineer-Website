@@ -4,6 +4,10 @@
 
 Confirm which project, environment and resources the developer owns or authorizes. Inventory the reachable application, runtime, services and data stores using permitted read-only tools. Do not read secrets or unrelated projects. Identify gaps and establish where a Foundation and logs can be stored before creating them.
 
+When MEW's CLI and Python 3 are available, `mew inspect project DIRECTORY --json` inventories selected file markers and recognized dependency names without executing project commands. It does not inspect network, traffic, live services, databases or credentials. Its paths are project data; do not send them to an external model or service without the applicable data policy.
+
+For an authorized local system, `mew observe system DIRECTORY --json` reads disk, memory and load observations. `mew observe service NAME.service --json` queries only the explicitly named systemd unit's states. These are one-shot, read-only checks; a running service is not proof that a website or database is healthy. Report unavailable information as unknown and do not attempt service control without the required approvals.
+
 ## Monitor
 
 Differentiate one-shot observations from recurring monitoring. A running scheduler, configured checks, destinations for alerts, and an external availability check are separate capabilities; do not imply they exist because this skill is installed. Record timestamps, scope, availability and error conditions. Do not put credentials, sensitive query strings or personal data into logs or AI prompts.

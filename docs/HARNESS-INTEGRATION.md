@@ -22,7 +22,20 @@ mew skill install --project /path/to/project
 
 This adds only `.agents/skills/mew-website-engineer/` to that project. It does not replace project instructions or an existing skill of the same name; resolve a collision manually after reviewing it. Do not point the installer at an unrelated or untrusted project. Make a backup or commit before changing important work.
 
+To update a previously installed project skill after updating the MEW CLI:
+
+```bash
+mew skill update --project /path/to/project --dry-run
+mew skill update --project /path/to/project
+```
+
+Update preserves the complete previous skill directory under `.agents/mew-backups/` before installing the newer copy. This replaces the active project skill, so review and reapply any local customizations from the backup. It does not edit `AGENTS.md` or update other projects automatically.
+
 When opening an existing project, ask the AI to use the MEW skill, inspect the project, and propose where to keep a Foundation. Creating a Foundation or altering application files remains subject to the developer's instructions and the applicable MEW gates.
+
+To inventory a project without running its code or writing a Foundation, use `mew inspect project /path/to/project --json` (requires Python 3). This bounded scan skips dependency folders, symbolic links, most hidden directories, and `.env` files. It reads only selected small manifest files for recognized framework names; output includes relative evidence paths, scan limits and unknown areas. It does not verify running services, traffic, database connectivity, security or compatibility. It is not a sandbox against a hostile filesystem being changed concurrently. Project paths and results may be sensitive: review any external AI or service's data handling before sharing them.
+
+For a user-authorized local system, `mew observe system /path/to/project --json` returns a one-shot disk, memory and load snapshot; `mew observe service nginx.service --json` requests the named local systemd service state. The disk measurement concerns the filesystem containing the chosen directory, not just files in that directory. Memory and load refer to the environment visible to the command; container limits may differ. Systemd may be unavailable or permissions may restrict observations. Neither command verifies website health or modifies a service.
 
 The installed MEW library can be read without a project workspace:
 

@@ -2,6 +2,7 @@
 """Integration tests for MEW's portable skill and one-shot HTTP probe."""
 import json
 import os
+import shutil
 import subprocess
 import tempfile
 import threading
@@ -51,17 +52,45 @@ def main():
         assert not target.exists()
         run(str(CLI), "skill", "install", "--project", str(project))
         assert (target / "SKILL.md").read_text() == skill
+
+        # Fail the second move (new skill activation); the original must be restored.
+        rollback_project = temp / "rollback-project"
+        rollback_project.mkdir()
+        run(str(CLI), "skill", "install", "--project", str(rollback_project))
+        rollback_target = rollback_project / ".agents/skills/mew-website-engineer"
+        (rollback_target / "custom.txt").write_text("preserve")
+        mv_bin = temp / "mv-bin"
+        mv_bin.mkdir()
+        fake_mv = mv_bin / "mv"
+        fake_mv.write_text("#!/bin/sh\nn=$(cat \"$MEW_MOVE_STATE\" 2>/dev/null || printf 0)\nn=$((n+1))\nprintf '%s' \"$n\" > \"$MEW_MOVE_STATE\"\n[ \"$n\" -ne 2 ] || exit 1\nexec \"$MEW_REAL_MV\" \"$@\"\n")
+        fake_mv.chmod(0o755)
+        env = dict(os.environ, PATH=str(mv_bin) + os.pathsep + os.environ["PATH"], MEW_MOVE_STATE=str(temp / "move-state"), MEW_REAL_MV=shutil.which("mv"))
+        run(str(CLI), "skill", "update", "--project", str(rollback_project), ok=False, env=env)
+        assert (rollback_target / "custom.txt").read_text() == "preserve"
         assert "Material Catalog Model" in run(str(CLI), "library", "materials", cwd=project).stdout
         assert str(ROOT) == run(str(CLI), "library", "path", cwd=project).stdout.strip()
         assert (project / "AGENTS.md").read_text() == "Existing project rules\n"
         (target / "keep.txt").write_text("keep")
         run(str(CLI), "skill", "install", "--project", str(project), ok=False)
         assert (target / "keep.txt").read_text() == "keep"
+        run(str(CLI), "skill", "update", "--project", str(project), "--dry-run")
+        assert (target / "keep.txt").read_text() == "keep"
+        run(str(CLI), "skill", "update", "--project", str(project))
+        assert not (target / "keep.txt").exists()
+        backups = list((project / ".agents/mew-backups").glob("mew-website-engineer.*/previous/keep.txt"))
+        assert len(backups) == 1 and backups[0].read_text() == "keep"
+        assert (target / "SKILL.md").read_text() == skill
 
         linked = temp / "linked-project"
         linked.mkdir()
         (linked / ".agents").symlink_to(project / ".agents", target_is_directory=True)
         run(str(CLI), "skill", "install", "--project", str(linked), ok=False)
+        backup_linked = temp / "linked-backup-project"
+        backup_linked.mkdir()
+        run(str(CLI), "skill", "install", "--project", str(backup_linked))
+        (backup_linked / ".agents/mew-backups").symlink_to(project, target_is_directory=True)
+        run(str(CLI), "skill", "update", "--project", str(backup_linked), ok=False)
+        assert (backup_linked / ".agents/skills/mew-website-engineer/SKILL.md").is_file()
 
         run(str(CLI), "init", "New Project", cwd=temp)
         assert (temp / "new-project" / ".agents/skills/mew-website-engineer/SKILL.md").is_file()
